@@ -23,8 +23,7 @@ class MainWindow(QMainWindow):
 
         self.snippet = CreateSnippet()
     
-    def new_snippet(self):
-        self.snippet.show()
+
 
     def create_buttons(self):
         self.test_button = QPushButton(self)
@@ -32,6 +31,16 @@ class MainWindow(QMainWindow):
         self.test_button.setFont(QFont("arial", 20, QFont.Bold))
         self.test_button.setGeometry(5, 350, 100, 40)
         self.test_button.clicked.connect(self.new_snippet)
+
+        self.snippet_button = QPushButton("Take Snippet", self)
+        self.snippet_button.setFont(QFont("arial", 35, QFont.Bold))
+        self.snippet_button.setGeometry(15, 40, 130, 60)
+        self.snippet_button.adjustSize()
+        self.snippet_button.setShortcut("S")
+        self.snippet_button.clicked.connect(self.new_snippet)
+
+    def new_snippet(self):
+        self.snippet.show()
 
     def test(self):
         pass
