@@ -78,9 +78,28 @@ class CreateSnippet(QSplashScreen):
             self.rubberband.hide()
             self.hide()
 
+            x_pos = 0
+            y_pos = 0
+            width = 0
+            height = 0
+            #Creates proper coordinates even if mouse traveled right to left or bottom to top
+            if self.end.x() - self.origin.x() > 0:
+                x_pos = self.origin.x()
+                width = self.end.x() - self.origin.x()
+            else:
+                x_pos = self.end.x()
+                width = self.origin.x() - self.end.x()
+
+            if self.end.y() - self.origin.y() > 0:
+                y_pos = self.origin.y()
+                height = self.end.y() - self.origin.y()
+            else:
+                y_pos = self.end.y()
+                height = self.origin.y() - self.end.y()
+
             #Only primary screen
             screen = QGuiApplication.primaryScreen()
-            selected_pixel_map = screen.grabWindow(0, self.origin.x(), self.origin.y(), self.end.x()-self.origin.x(), self.end.y()-self.origin.y())
+            selected_pixel_map = screen.grabWindow(0, x_pos, y_pos, width, height)
             selected_pixel_map.save("test.png", "png")
 
 
