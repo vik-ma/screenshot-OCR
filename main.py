@@ -1,3 +1,4 @@
+from re import X
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand
 from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplication
@@ -52,19 +53,69 @@ class CreateSnippet(QSplashScreen):
         self.end = QPoint(0,0)
 
         self.rubberband = QRubberBand(QRubberBand.Rectangle, self)
+        
+        #The leftmost x-value, might be negative
+        self.x_min = 0
+        #The topmost y-value, might be negative
+        self.y_min = 0
 
         self.dim_screen()
 
     def dim_screen(self):
-        #Only primary screen
-        screen_geometry = QGuiApplication.primaryScreen().geometry()
+        #This will not work for very weird multiple-monitor positions or difference in resolutions between monitors
+        screen_geometry = QGuiApplication.primaryScreen().virtualGeometry()
+        all_screens = QGuiApplication.screens()
 
-        screen_pixelmap = QPixmap(screen_geometry.width(), screen_geometry.height())
+        x_values = []
+        y_values = []
+
+        for screen in all_screens:
+            #Updates the leftmost and topmost values
+            if self.x_min > screen.geometry().left():
+                self.x_min = screen.geometry().left()
+            if self.y_min > screen.geometry().top():
+                self.y_min = screen.geometry().top()
+
+            x_values.append(screen.geometry().right())
+            y_values.append(screen.geometry().bottom())
+            
+            #Delete these later if not used
+            #if xmax < screen.geometry().right():
+            #    xmax = screen.geometry().right()+1
+            #if ymax < screen.geometry().bottom():
+            #    ymax = screen.geometry().bottom()+1
+        
+        width = 0
+        height = 0
+        if len(all_screens) % 2 == 0:
+            #If even number of monitors, multiply width by 1.5 if monitors are stacked horizontally and vice versa
+            #Normal width/height doesn't work for even amount of monitors
+            if max(x_values)-min(x_values) > max(y_values)-min(y_values):
+                #If the disparity between top and bottom x-values are greater than the y-values it means the monitors are stacked horizontally
+                width = int(screen_geometry.width()*1.5)
+                height = screen_geometry.height()
+                print("sdasd")
+            else:
+                #If the monitors are stacked vertically
+                width = screen_geometry.width()
+                height = int(screen_geometry.height()*1.5)
+                print("height")
+                print(max(x_values), min(x_values), max(x_values)-min(x_values), max(y_values)-min(y_values))
+        else:
+            #If odd number of monitors
+            width = screen_geometry.width()
+            height = screen_geometry.height()
+
+        screen_pixelmap = QPixmap(width, height)
         screen_pixelmap.fill(QColor(0,0,0))
+
+        #Always place dim/pixmap in center regardless of monitor position
+        avg_x = int(sum(x_values)/len(x_values))
+        avg_y = int(sum(y_values)/len(y_values))
+        self.move(avg_x, avg_y)
 
         self.setPixmap(screen_pixelmap)
         
-        self.setWindowState(Qt.WindowState.WindowFullScreen)
         self.setWindowOpacity(0.4)
         
     def mousePressEvent(self, event):
@@ -83,7 +134,7 @@ class CreateSnippet(QSplashScreen):
         """Upon mouse released, ask the main desktop's QScreen to capture screen on defined area."""
         if event.button() == Qt.LeftButton:
             self.end = event.pos()
-
+            print(self.origin, self.end)
             self.rubberband.hide()
             self.hide()
 
@@ -106,9 +157,10 @@ class CreateSnippet(QSplashScreen):
                 y_pos = self.end.y()
                 height = self.origin.y() - self.end.y()
 
-            #Only primary screen
             screen = QGuiApplication.primaryScreen()
-            selected_pixel_map = screen.grabWindow(0, x_pos, y_pos, width, height)
+            #Corrects grabWindow to the right coordinates if x_min or y_min are negative
+            selected_pixel_map = screen.grabWindow(0, x_pos+self.x_min, y_pos+self.y_min, width, height)
+
             selected_pixel_map.save("test.png", "png")
 
 
