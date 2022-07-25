@@ -44,12 +44,18 @@ class MainWindow(QMainWindow):
         self.snippet_primary_button.clicked.connect(lambda:self.new_snippet("primary"))
 
     def new_snippet(self, monitor):
+        """
+        Create dim Splashscreen object and show dim Splashscreen.
+
+        Also responsible for tracking mouse and capturing screenshot.
+        """
         self.snippet = CreateSnippet(monitor)
         self.snippet.show()
 
     def test(self):
         pass
 class CreateSnippet(QSplashScreen):
+    """QSplashScreen, that track mouse event for capturing screenshot."""
     def __init__(self, monitor):
         super().__init__()
         self.origin = QPoint(0,0)
@@ -62,13 +68,14 @@ class CreateSnippet(QSplashScreen):
         #The topmost y-value, might be negative
         self.y_min = 0
 
+        #'monitor' specifies which screens(s) to draw Splashscreen on
         if monitor == "all":
             self.dim_screen_all()
         elif monitor == "primary":
             self.dim_screen_primary()
 
     def dim_screen_primary(self):
-        """Dims only the primary screen."""
+        """Fill splashScreen with black color and reduce the widget opacity to create dim screen effect on only the primary screen."""
         screen_geometry = QGuiApplication.primaryScreen().geometry()
         screen_pixelmap = QPixmap(screen_geometry.width(), screen_geometry.height())
         screen_pixelmap.fill(QColor(0,0,0))
@@ -76,10 +83,13 @@ class CreateSnippet(QSplashScreen):
         self.setWindowOpacity(0.4)
 
     def dim_screen_all(self):
-        #This will not work for very weird multiple-monitor positions or difference in resolutions between monitors
+        """
+        Fill splashScreen with black color and reduce the widget opacity to create dim screen effect on all screens.
 
-        #Get the combined geometry of all monitors
-        screen_geometry = QGuiApplication.primaryScreen().virtualGeometry()
+        This will not work for very weird multiple-monitor positions or difference in resolutions between monitors.
+        """
+
+        screen_geometry = QGuiApplication.primaryScreen().virtualGeometry()     #Get the combined geometry of all monitors
         all_screens = QGuiApplication.screens()
 
         x_values = []
