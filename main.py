@@ -63,12 +63,13 @@ class CreateSnippet(QSplashScreen):
 
     def dim_screen(self):
         #This will not work for very weird multiple-monitor positions or difference in resolutions between monitors
+
+        #Get the combined geometry of all monitors
         screen_geometry = QGuiApplication.primaryScreen().virtualGeometry()
         all_screens = QGuiApplication.screens()
 
         x_values = []
         y_values = []
-
         for screen in all_screens:
             #Updates the leftmost and topmost values
             if self.x_min > screen.geometry().left():
@@ -76,6 +77,7 @@ class CreateSnippet(QSplashScreen):
             if self.y_min > screen.geometry().top():
                 self.y_min = screen.geometry().top()
 
+            #Create a list based on maximum coordinates for every monitor
             x_values.append(screen.geometry().right())
             y_values.append(screen.geometry().bottom())
             
@@ -94,15 +96,12 @@ class CreateSnippet(QSplashScreen):
                 #If the disparity between top and bottom x-values are greater than the y-values it means the monitors are stacked horizontally
                 width = int(screen_geometry.width()*1.5)
                 height = screen_geometry.height()
-                print("sdasd")
             else:
                 #If the monitors are stacked vertically
                 width = screen_geometry.width()
                 height = int(screen_geometry.height()*1.5)
-                print("height")
-                print(max(x_values), min(x_values), max(x_values)-min(x_values), max(y_values)-min(y_values))
         else:
-            #If odd number of monitors
+            #If odd number of monitors, proceed as usual
             width = screen_geometry.width()
             height = screen_geometry.height()
 
@@ -134,7 +133,7 @@ class CreateSnippet(QSplashScreen):
         """Upon mouse released, ask the main desktop's QScreen to capture screen on defined area."""
         if event.button() == Qt.LeftButton:
             self.end = event.pos()
-            print(self.origin, self.end)
+
             self.rubberband.hide()
             self.hide()
 
