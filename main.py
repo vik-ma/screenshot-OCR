@@ -1,6 +1,6 @@
 from re import X
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout
 from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplication
 from PyQt5.QtCore import QPoint, Qt, QRect, QSize
 
@@ -22,7 +22,6 @@ class MainWindow(QMainWindow):
 
         self.create_buttons()
 
-
     def create_buttons(self):
         self.test_button = QPushButton(self)
         self.test_button.setText("TEST")
@@ -30,12 +29,19 @@ class MainWindow(QMainWindow):
         self.test_button.setGeometry(5, 350, 100, 40)
         self.test_button.clicked.connect(lambda:self.new_snippet("primary"))
 
-        self.snippet_button = QPushButton("Take Snippet", self)
-        self.snippet_button.setFont(QFont("arial", 35, QFont.Bold))
-        self.snippet_button.setGeometry(15, 40, 130, 60)
-        self.snippet_button.adjustSize()
-        self.snippet_button.setShortcut("S")
-        self.snippet_button.clicked.connect(lambda:self.new_snippet("all"))
+        self.snippet_all_button = QPushButton("Take Snippet All Monitors", self)
+        self.snippet_all_button.setFont(QFont("arial", 35, QFont.Bold))
+        self.snippet_all_button.setGeometry(15, 40, 130, 60)
+        self.snippet_all_button.adjustSize()
+        self.snippet_all_button.setShortcut("S")
+        self.snippet_all_button.clicked.connect(lambda:self.new_snippet("all"))
+
+        self.snippet_primary_button = QPushButton("Take Snippet Primary Monitor", self)
+        self.snippet_primary_button.setFont(QFont("arial", 35, QFont.Bold))
+        self.snippet_primary_button.setGeometry(15, 120, 130, 60)
+        self.snippet_primary_button.adjustSize()
+        self.snippet_primary_button.setShortcut("P")
+        self.snippet_primary_button.clicked.connect(lambda:self.new_snippet("primary"))
 
     def new_snippet(self, monitor):
         self.snippet = CreateSnippet(monitor)
