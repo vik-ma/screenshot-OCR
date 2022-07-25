@@ -22,33 +22,30 @@ class MainWindow(QMainWindow):
 
         self.create_buttons()
 
-        self.snippet = CreateSnippet()
-    
-
 
     def create_buttons(self):
         self.test_button = QPushButton(self)
         self.test_button.setText("TEST")
         self.test_button.setFont(QFont("arial", 20, QFont.Bold))
         self.test_button.setGeometry(5, 350, 100, 40)
-        self.test_button.clicked.connect(self.new_snippet)
+        self.test_button.clicked.connect(lambda:self.new_snippet("primary"))
 
         self.snippet_button = QPushButton("Take Snippet", self)
         self.snippet_button.setFont(QFont("arial", 35, QFont.Bold))
         self.snippet_button.setGeometry(15, 40, 130, 60)
         self.snippet_button.adjustSize()
         self.snippet_button.setShortcut("S")
-        self.snippet_button.clicked.connect(self.new_snippet)
+        self.snippet_button.clicked.connect(lambda:self.new_snippet("all"))
 
-    def new_snippet(self):
+    def new_snippet(self, monitor):
+        self.snippet = CreateSnippet(monitor)
         self.snippet.show()
 
     def test(self):
         pass
 class CreateSnippet(QSplashScreen):
-    def __init__(self):
+    def __init__(self, monitor):
         super().__init__()
-
         self.origin = QPoint(0,0)
         self.end = QPoint(0,0)
 
@@ -59,9 +56,20 @@ class CreateSnippet(QSplashScreen):
         #The topmost y-value, might be negative
         self.y_min = 0
 
-        self.dim_screen()
+        if monitor == "all":
+            self.dim_screen_all()
+        elif monitor == "primary":
+            self.dim_screen_primary()
 
-    def dim_screen(self):
+    def dim_screen_primary(self):
+        """Dims only the primary screen."""
+        screen_geometry = QGuiApplication.primaryScreen().geometry()
+        screen_pixelmap = QPixmap(screen_geometry.width(), screen_geometry.height())
+        screen_pixelmap.fill(QColor(0,0,0))
+        self.setPixmap(screen_pixelmap)
+        self.setWindowOpacity(0.4)
+
+    def dim_screen_all(self):
         #This will not work for very weird multiple-monitor positions or difference in resolutions between monitors
 
         #Get the combined geometry of all monitors
