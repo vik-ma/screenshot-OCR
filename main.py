@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout, QLineEdit
 from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplication
 from PyQt5.QtCore import QPoint, Qt, QRect, QSize
 from PIL import Image
@@ -11,7 +11,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Screenshot OCR")
-        self.setGeometry(0, 0, 700, 400)
+        self.setGeometry(0, 0, 1200, 800)
 
         #Display window in the center of the screen
         qtRectangle = self.frameGeometry()
@@ -21,6 +21,10 @@ class MainWindow(QMainWindow):
 
         self._centralWidget = QWidget(self)
         self.setCentralWidget(self._centralWidget)
+
+        self.textbox = QLineEdit(self)
+        self.textbox.move(400,300)
+        self.textbox.resize(700,300)
 
         self.create_buttons()
 
@@ -63,8 +67,9 @@ class MainWindow(QMainWindow):
 
     def read_image(self):
         img = Image.open("test.png")
-        text = ocr.image_to_string(img)
-        print(text)
+        img_text = ocr.image_to_string(img)
+        print(img_text)
+        self.textbox.setText(img_text)
 
     def test(self):
         pass
