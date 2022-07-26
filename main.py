@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout, QLineEdit
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout, QLineEdit, QPlainTextEdit
 from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplication
 from PyQt5.QtCore import QPoint, Qt, QRect, QSize
 from PIL import Image
@@ -22,7 +22,8 @@ class MainWindow(QMainWindow):
         self._centralWidget = QWidget(self)
         self.setCentralWidget(self._centralWidget)
 
-        self.textbox = QLineEdit(self)
+        self.textbox = QPlainTextEdit(self)
+        self.textbox.setFont(QFont("verdana", 15, QFont.Bold))
         self.textbox.move(400,300)
         self.textbox.resize(700,300)
 
@@ -56,6 +57,7 @@ class MainWindow(QMainWindow):
         self.ocr_button.setShortcut("O")
         self.ocr_button.clicked.connect(self.read_image)
 
+
     def new_snippet(self, monitor):
         """
         Create dim Splashscreen object and show dim Splashscreen.
@@ -67,9 +69,8 @@ class MainWindow(QMainWindow):
 
     def read_image(self):
         img = Image.open("test.png")
-        img_text = ocr.image_to_string(img)
-        print(img_text)
-        self.textbox.setText(img_text)
+        img_text = ocr.image_to_string(img).strip()
+        self.textbox.setPlainText(img_text)
 
     def test(self):
         pass
