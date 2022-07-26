@@ -45,6 +45,13 @@ class MainWindow(QMainWindow):
         self.snippet_primary_button.setShortcut("P")
         self.snippet_primary_button.clicked.connect(lambda:self.new_snippet("primary"))
 
+        self.ocr_button = QPushButton("OCR", self)
+        self.ocr_button.setFont(QFont("arial", 35, QFont.Bold))
+        self.ocr_button.setGeometry(15, 200, 130, 60)
+        self.ocr_button.adjustSize()
+        self.ocr_button.setShortcut("O")
+        self.ocr_button.clicked.connect(self.read_image)
+
     def new_snippet(self, monitor):
         """
         Create dim Splashscreen object and show dim Splashscreen.
@@ -53,6 +60,11 @@ class MainWindow(QMainWindow):
         """
         self.snippet = CreateSnippet(monitor)
         self.snippet.show()
+
+    def read_image(self):
+        img = Image.open("test.png")
+        text = ocr.image_to_string(img)
+        print(text)
 
     def test(self):
         pass
