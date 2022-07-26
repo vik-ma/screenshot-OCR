@@ -26,6 +26,7 @@ class MainWindow(QMainWindow):
         self.textbox.setFont(QFont("verdana", 15, QFont.Bold))
         self.textbox.move(400,300)
         self.textbox.resize(700,300)
+        self.textbox.setReadOnly(True)
 
         self.create_buttons()
 
@@ -57,6 +58,17 @@ class MainWindow(QMainWindow):
         self.ocr_button.setShortcut("O")
         self.ocr_button.clicked.connect(self.read_image)
 
+        self.clear_button = QPushButton("CLEAR", self)
+        self.clear_button.setFont(QFont("arial", 35, QFont.Bold))
+        self.clear_button.setGeometry(900, 630, 130, 60)
+        self.clear_button.adjustSize()
+        self.clear_button.clicked.connect(self.clear_textbox)
+
+        self.copy_button = QPushButton("COPY", self)
+        self.copy_button.setFont(QFont("arial", 35, QFont.Bold))
+        self.copy_button.setGeometry(400, 630, 130, 60)
+        self.copy_button.adjustSize()
+        self.copy_button.clicked.connect(self.copy_textbox_contents)
 
     def new_snippet(self, monitor):
         """
@@ -71,6 +83,12 @@ class MainWindow(QMainWindow):
         img = Image.open("test.png")
         img_text = ocr.image_to_string(img).strip()
         self.textbox.setPlainText(img_text)
+
+    def clear_textbox(self):
+        self.textbox.clear()
+
+    def copy_textbox_contents(self):
+        pass
 
     def test(self):
         pass
