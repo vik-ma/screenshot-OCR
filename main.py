@@ -1,9 +1,11 @@
-from re import X
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout
 from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplication
 from PyQt5.QtCore import QPoint, Qt, QRect, QSize
+from PIL import Image
+import pytesseract as ocr
 
+ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 class MainWindow(QMainWindow):
     def __init__(self):
