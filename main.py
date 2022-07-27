@@ -31,11 +31,13 @@ class MainWindow(QMainWindow):
         self.lang_listbox = QListWidget(self)
         self.lang_listbox.move(150,200)
         self.lang_listbox.resize(100,100)
+        self.lang_listbox.itemClicked.connect(self.update_lang)
         self.add_langs()
 
         self.lang_label = QLabel(self)
         self.lang_label.move(400,250)
         self.lang_label.setFont(QFont("arial", 20, QFont.Bold))
+        self.lang_label.setText(f"Selected Language: {self.get_lang()}")
         self.lang_label.adjustSize()
 
 
@@ -93,6 +95,9 @@ class MainWindow(QMainWindow):
     def get_lang(self):
         return self.lang_listbox.currentItem().text()
 
+    def update_lang(self):
+        self.lang_label.setText(f"Selected Language: {self.get_lang()}")
+        self.lang_label.adjustSize()
 
     def new_snippet(self, monitor):
         """
