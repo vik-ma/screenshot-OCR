@@ -30,7 +30,7 @@ class MainWindow(QMainWindow):
 
         self.lang_listbox = QListWidget(self)
         self.lang_listbox.move(150,200)
-        self.lang_listbox.resize(100,100)
+        self.lang_listbox.resize(240,100)
         self.lang_listbox.itemClicked.connect(self.update_lang)
         self.add_langs()
 
@@ -40,7 +40,6 @@ class MainWindow(QMainWindow):
         self.lang_label.setText(f"Selected Language: {self.get_lang()}")
         self.lang_label.adjustSize()
 
-
         self.create_buttons()
 
     def create_buttons(self):
@@ -48,7 +47,7 @@ class MainWindow(QMainWindow):
         self.test_button.setText("TEST")
         self.test_button.setFont(QFont("arial", 20, QFont.Bold))
         self.test_button.setGeometry(5, 350, 100, 40)
-        self.test_button.clicked.connect(self.get_lang)
+        self.test_button.clicked.connect(self.test)
 
         self.snippet_all_button = QPushButton("Take Snippet All Monitors", self)
         self.snippet_all_button.setFont(QFont("arial", 35, QFont.Bold))
@@ -88,12 +87,16 @@ class MainWindow(QMainWindow):
         for index, lang in enumerate(languages):
             if lang == "eng":
                 eng_index = index
-            self.lang_listbox.insertItem(index, lang)
+            #Adds the full language from value in lang_codes_dict if key, otherwise adds the langcode's key as value in dictionary
+            self.lang_listbox.insertItem(index, lang_codes_dict.setdefault(lang, lang))
         self.lang_listbox.setCurrentRow(eng_index)
         #self.lang_listbox.insertItems(0, languages)
 
     def get_lang(self):
         return self.lang_listbox.currentItem().text()
+
+    def get_lang_index(self):
+        return self.lang_listbox.currentRow()
 
     def update_lang(self):
         self.lang_label.setText(f"Selected Language: {self.get_lang()}")
@@ -109,11 +112,9 @@ class MainWindow(QMainWindow):
         self.snippet.show()
 
     def read_image(self):
-        selected_lang = self.get_lang()
+        selected_lang = ocr.get_languages()[self.get_lang_index()]
         img = Image.open("test.png")
         img_text = ocr.image_to_string(img, lang=selected_lang).strip()
-        self.lang_label.setText(f"Selected Language: {selected_lang}")
-        self.lang_label.adjustSize()
         self.textbox.setPlainText(img_text)
 
     def clear_textbox(self):
@@ -123,7 +124,8 @@ class MainWindow(QMainWindow):
         pass
 
     def test(self):
-        print(ocr.get_languages())
+        print(self.lang_listbox.currentRow())
+
 class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
     def __init__(self, monitor, mainwindow):
@@ -155,7 +157,6 @@ class CreateSnippet(QSplashScreen):
         self.setPixmap(screen_pixelmap)
         self.mainwindow.hide()
         self.setWindowOpacity(0.4)
-
 
     def dim_screen_all(self):
         """
@@ -262,6 +263,135 @@ class CreateSnippet(QSplashScreen):
             selected_pixel_map.save("test.png", "png")
             self.mainwindow.show()
 
+#Stores the full language names as values for corresponding language code key
+lang_codes_dict = {
+    "afr": "Afrikaans",
+    "amh": "Amharic",
+    "ara": "Arabic",
+    "asm": "Assamese",
+    "aze": "Azerbaijani",
+    "aze_cyrl": "Azerbaijani - Cyrilic",
+    "bel": "Belarusian",
+    "ben": "Bengali",
+    "bod": "Tibetan",
+    "bos": "Bosnian",
+    "bre": "Breton",
+    "bul": "Bulgarian",
+    "cat": "Catalan; Valencian",
+    "ceb": "Cebuano",
+    "ces": "Czech",
+    "chi_sim": "Chinese - Simplified",
+    "chi_tra": "Chinese - Traditional",
+    "chr": "Cherokee",
+    "cos": "Corsican",
+    "cym": "Welsh",
+    "dan": "Danish",
+    "dan_frak": "Danish - Fraktur (contrib)",
+    "deu": "German",
+    "deu_frak": "German - Fraktur (contrib)",
+    "dzo": "Dzongkha",
+    "ell": "Greek, Modern (1453-)",
+    "eng": "English",
+    "enm": "English, Middle (1100-1500)",
+    "epo": "Esperanto",
+    "equ": "Math / equation detection module",
+    "est": "Estonian",
+    "eus": "Basque",
+    "fao": "Faroese",
+    "fas": "Persian",
+    "fil": "Filipino (old - Tagalog)",
+    "fin": "Finnish",
+    "fra": "French",
+    "frk": "German - Fraktur",
+    "frm": "French, Middle (ca.1400-1600)",
+    "fry": "Western Frisian",
+    "gla": "Scottish Gaelic",
+    "gle": "Irish",
+    "glg": "Galician",
+    "grc": "Greek, Ancient (to 1453) (contrib)",
+    "guj": "Gujarati",
+    "hat": "Haitian; Haitian Creole",
+    "heb": "Hebrew",
+    "hin": "Hindi",
+    "hrv": "Croatian",
+    "hun": "Hungarian",
+    "hye": "Armenian",
+    "iku": "Inuktitut",
+    "ind": "Indonesian",
+    "isl": "Icelandic",
+    "ita": "Italian",
+    "ita_old": "Italian - Old",
+    "jav": "Javanese",
+    "jpn": "Japanese",
+    "kan": "Kannada",
+    "kat": "Georgian",
+    "kat_old": "Georgian - Old",
+    "kaz": "Kazakh",
+    "khm": "Central Khmer",
+    "kir": "Kirghiz; Kyrgyz",
+    "kmr": "Kurmanji (Kurdish - Latin Script)",
+    "kor": "Korean",
+    "kor_vert": "Korean (vertical)",
+    "kur": "Kurdish (Arabic Script)",
+    "lao": "Lao",
+    "lat": "Latin",
+    "lav": "Latvian",
+    "lit": "Lithuanian",
+    "ltz": "Luxembourgish",
+    "mal": "Malayalam",
+    "mar": "Marathi",
+    "mkd": "Macedonian",
+    "mlt": "Maltese",
+    "mon": "Mongolian",
+    "mri": "Maori",
+    "msa": "Malay",
+    "mya": "Burmese",
+    "nep": "Nepali",
+    "nld": "Dutch; Flemish",
+    "nor": "Norwegian",
+    "oci": "Occitan (post 1500)",
+    "ori": "Oriya",
+    "osd": "Orientation and script detection module",
+    "pan": "Panjabi; Punjabi",
+    "pol": "Polish",
+    "por": "Portuguese",
+    "pus": "Pushto; Pashto",
+    "que": "Quechua",
+    "ron": "Romanian; Moldavian; Moldovan",
+    "rus": "Russian",
+    "san": "Sanskrit",
+    "sin": "Sinhala; Sinhalese",
+    "slk": "Slovak",
+    "slk_frak": "Slovak - Fraktur (contrib)",
+    "slv": "Slovenian",
+    "snd": "Sindhi",
+    "spa": "Spanish; Castilian",
+    "spa_old": "Spanish; Castilian - Old",
+    "sqi": "Albanian",
+    "srp": "Serbian",
+    "srp_latn": "Serbian - Latin",
+    "sun": "Sundanese",
+    "swa": "Swahili",
+    "swe": "Swedish",
+    "syr": "Syriac",
+    "tam": "Tamil",
+    "tat": "Tatar",
+    "tel": "Telugu",
+    "tgk": "Tajik",
+    "tgl": "Tagalog (new - Filipino)",
+    "tha": "Thai",
+    "tir": "Tigrinya",
+    "ton": "Tonga",
+    "tur": "Turkish",
+    "uig": "Uighur; Uyghur",
+    "ukr": "Ukrainian",
+    "urd": "Urdu",
+    "uzb": "Uzbek",
+    "uzb_cyrl": "Uzbek - Cyrilic",
+    "vie": "Vietnamese",
+    "yid": "Yiddish",
+    "yor": "Yoruba"
+}
 
 
 def main():
