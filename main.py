@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout, QLineEdit, QPlainTextEdit
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout, QLineEdit, QPlainTextEdit, QListWidget
 from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplication
 from PyQt5.QtCore import QPoint, Qt, QRect, QSize
 from PIL import Image
@@ -23,10 +23,16 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self._centralWidget)
 
         self.textbox = QPlainTextEdit(self)
-        self.textbox.setFont(QFont("verdana", 15, QFont.Bold))
+        self.textbox.setFont(QFont("verdana", 15))
         self.textbox.move(400,300)
         self.textbox.resize(700,300)
-        self.textbox.setReadOnly(True)
+        #self.textbox.setReadOnly(True)
+
+        self.lang_listbox = QListWidget(self)
+        self.lang_listbox.move(150,200)
+        self.lang_listbox.resize(100,100)
+        self.add_langs()
+
 
         self.create_buttons()
 
@@ -35,7 +41,7 @@ class MainWindow(QMainWindow):
         self.test_button.setText("TEST")
         self.test_button.setFont(QFont("arial", 20, QFont.Bold))
         self.test_button.setGeometry(5, 350, 100, 40)
-        self.test_button.clicked.connect(lambda:self.new_snippet("primary"))
+        self.test_button.clicked.connect(self.test)
 
         self.snippet_all_button = QPushButton("Take Snippet All Monitors", self)
         self.snippet_all_button.setFont(QFont("arial", 35, QFont.Bold))
@@ -70,6 +76,15 @@ class MainWindow(QMainWindow):
         self.copy_button.adjustSize()
         self.copy_button.clicked.connect(self.copy_textbox_contents)
 
+    def add_langs(self):
+        languages = ocr.get_languages()
+        for index, lang in enumerate(languages):
+            if lang == "eng":
+                eng_index = index
+            self.lang_listbox.insertItem(index, lang)
+        self.lang_listbox.setCurrentRow(eng_index)
+        #self.lang_listbox.insertItems(0, languages)
+
     def new_snippet(self, monitor):
         """
         Create dim Splashscreen object and show dim Splashscreen.
@@ -81,7 +96,7 @@ class MainWindow(QMainWindow):
 
     def read_image(self):
         img = Image.open("test.png")
-        img_text = ocr.image_to_string(img).strip()
+        img_text = ocr.image_to_string(img, lang="jpn").strip()
         self.textbox.setPlainText(img_text)
 
     def clear_textbox(self):
@@ -91,7 +106,7 @@ class MainWindow(QMainWindow):
         pass
 
     def test(self):
-        pass
+        print(ocr.get_languages())
 class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
     def __init__(self, monitor):
