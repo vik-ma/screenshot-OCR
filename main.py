@@ -33,6 +33,11 @@ class MainWindow(QMainWindow):
         self.lang_listbox.resize(100,100)
         self.add_langs()
 
+        self.lang_label = QLabel(self)
+        self.lang_label.move(400,250)
+        self.lang_label.setFont(QFont("arial", 20, QFont.Bold))
+        self.lang_label.adjustSize()
+
 
         self.create_buttons()
 
@@ -41,7 +46,7 @@ class MainWindow(QMainWindow):
         self.test_button.setText("TEST")
         self.test_button.setFont(QFont("arial", 20, QFont.Bold))
         self.test_button.setGeometry(5, 350, 100, 40)
-        self.test_button.clicked.connect(self.test)
+        self.test_button.clicked.connect(self.get_lang)
 
         self.snippet_all_button = QPushButton("Take Snippet All Monitors", self)
         self.snippet_all_button.setFont(QFont("arial", 35, QFont.Bold))
@@ -85,6 +90,11 @@ class MainWindow(QMainWindow):
         self.lang_listbox.setCurrentRow(eng_index)
         #self.lang_listbox.insertItems(0, languages)
 
+    def get_lang(self):
+        return self.lang_listbox.currentItem().text()
+        #return item
+
+
     def new_snippet(self, monitor):
         """
         Create dim Splashscreen object and show dim Splashscreen.
@@ -95,8 +105,11 @@ class MainWindow(QMainWindow):
         self.snippet.show()
 
     def read_image(self):
+        selected_lang = self.get_lang()
         img = Image.open("test.png")
-        img_text = ocr.image_to_string(img, lang="jpn").strip()
+        img_text = ocr.image_to_string(img, lang=selected_lang).strip()
+        self.lang_label.setText(f"Selected Language: {selected_lang}")
+        self.lang_label.adjustSize()
         self.textbox.setPlainText(img_text)
 
     def clear_textbox(self):
