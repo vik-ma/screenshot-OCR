@@ -92,7 +92,6 @@ class MainWindow(QMainWindow):
 
     def get_lang(self):
         return self.lang_listbox.currentItem().text()
-        #return item
 
 
     def new_snippet(self, monitor):
@@ -101,7 +100,7 @@ class MainWindow(QMainWindow):
 
         Also responsible for tracking mouse and capturing screenshot.
         """
-        self.snippet = CreateSnippet(monitor)
+        self.snippet = CreateSnippet(monitor, self)
         self.snippet.show()
 
     def read_image(self):
@@ -122,8 +121,10 @@ class MainWindow(QMainWindow):
         print(ocr.get_languages())
 class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
-    def __init__(self, monitor):
+    def __init__(self, monitor, mainwindow):
         super().__init__()
+        self.mainwindow = mainwindow
+
         self.origin = QPoint(0,0)
         self.end = QPoint(0,0)
 
@@ -142,11 +143,14 @@ class CreateSnippet(QSplashScreen):
 
     def dim_screen_primary(self):
         """Fill splashScreen with black color and reduce the widget opacity to create dim screen effect on only the primary screen."""
+
         screen_geometry = QGuiApplication.primaryScreen().geometry()
         screen_pixelmap = QPixmap(screen_geometry.width(), screen_geometry.height())
         screen_pixelmap.fill(QColor(0,0,0))
         self.setPixmap(screen_pixelmap)
+        self.mainwindow.hide()
         self.setWindowOpacity(0.4)
+
 
     def dim_screen_all(self):
         """
@@ -204,7 +208,7 @@ class CreateSnippet(QSplashScreen):
         self.move(avg_x, avg_y)
 
         self.setPixmap(screen_pixelmap)
-        
+        self.mainwindow.hide()
         self.setWindowOpacity(0.4)
         
     def mousePressEvent(self, event):
@@ -251,6 +255,7 @@ class CreateSnippet(QSplashScreen):
             selected_pixel_map = screen.grabWindow(0, x_pos+self.x_min, y_pos+self.y_min, width, height)
 
             selected_pixel_map.save("test.png", "png")
+            self.mainwindow.show()
 
 
 
