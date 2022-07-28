@@ -32,6 +32,8 @@ class MainWindow(QMainWindow):
         self.lang_listbox.move(150,200)
         self.lang_listbox.resize(240,100)
         self.lang_listbox.itemClicked.connect(self.update_lang)
+
+        self.avail_langs = {}
         self.add_langs()
 
         self.lang_label = QLabel(self)
@@ -89,8 +91,9 @@ class MainWindow(QMainWindow):
                 eng_index = index
             #Adds the full language from value in lang_codes_dict if key, otherwise adds the langcode's key as value in dictionary
             self.lang_listbox.insertItem(index, lang_codes_dict.setdefault(lang, lang))
+            self.avail_langs.setdefault(lang, lang_codes_dict[lang])
+        #Sets the English as default choice
         self.lang_listbox.setCurrentRow(eng_index)
-        #self.lang_listbox.insertItems(0, languages)
 
     def get_lang(self):
         return self.lang_listbox.currentItem().text()
@@ -124,7 +127,7 @@ class MainWindow(QMainWindow):
         pass
 
     def test(self):
-        print(self.lang_listbox.currentRow())
+        pass
 
 class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
