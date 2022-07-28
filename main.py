@@ -216,9 +216,16 @@ class CreateSnippet(QSplashScreen):
         self.setPixmap(screen_pixelmap)
         self.mainwindow.hide()
         self.setWindowOpacity(0.4)
-        
+    
+    def keyPressEvent(self, event):
+        """Interrupt snippet function when pressing escape."""
+        if event.key() == Qt.Key_Escape:
+            self.rubberband.hide()
+            self.hide()
+            self.mainwindow.show()
+
     def mousePressEvent(self, event):
-        """Show rectangle at mouse position when left-clicked"""
+        """Show rectangle at mouse position when left-clicked."""
         if event.button() == Qt.LeftButton:
             self.origin = event.pos()
 
