@@ -34,7 +34,7 @@ class MainWindow(QMainWindow):
         self.lang_listbox.itemClicked.connect(self.update_lang)
 
         self.avail_langs = {}
-        self.add_langs()
+        self.load_langs()
 
         self.lang_label = QLabel(self)
         self.lang_label.move(400,250)
@@ -84,7 +84,7 @@ class MainWindow(QMainWindow):
         self.copy_button.adjustSize()
         self.copy_button.clicked.connect(self.copy_textbox_contents)
 
-    def add_langs(self):
+    def load_langs(self):
         languages = ocr.get_languages()
         for index, lang in enumerate(languages):
             if lang == "eng":
