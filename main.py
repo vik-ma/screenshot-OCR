@@ -121,11 +121,13 @@ class MainWindow(QMainWindow):
         
         self.lang_listbox.insertItems(0, self.avail_langs_index)
         self.add_lang_listbox.insertItems(0, self.avail_langs_index)
-        #Sets the English as default choice
+        #Sets the English as default choice for main language
         for index, langs in enumerate(self.avail_langs_index):
             if langs == "English":
                 self.lang_listbox.setCurrentRow(index)
                 break
+        #Sets the first item in list as default choice for additional languages 
+        self.add_lang_listbox.setCurrentRow(0)
 
     def get_main_lang(self):
         return self.lang_listbox.currentItem().text()
@@ -150,6 +152,8 @@ class MainWindow(QMainWindow):
             self.additional_lang_set.add(new_lang)
             self.lang_param_listbox.clear()
             self.lang_param_listbox.addItems(self.additional_lang_set)
+
+
 
     def read_image(self):
         lang_param = self.avail_langs_swapped[self.get_main_lang()]
