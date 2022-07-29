@@ -138,7 +138,6 @@ class MainWindow(QMainWindow):
 
     def lang_listbox_click(self):
         self.selected_lang = self.get_main_lang()
-        self.additional_lang_set.clear()
         self.update_lang()
 
     def update_lang(self):
@@ -147,9 +146,10 @@ class MainWindow(QMainWindow):
 
     def add_lang_param(self):
         new_lang = self.avail_langs_index[self.get_additional_lang_index()]
-        self.additional_lang_set.add(new_lang)
-        self.lang_param_listbox.clear()
-        self.lang_param_listbox.addItems(self.additional_lang_set)
+        if new_lang != self.get_main_lang():
+            self.additional_lang_set.add(new_lang)
+            self.lang_param_listbox.clear()
+            self.lang_param_listbox.addItems(self.additional_lang_set)
 
     def read_image(self):
         lang_param = self.avail_langs_swapped[self.get_main_lang()]
