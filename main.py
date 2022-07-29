@@ -42,7 +42,7 @@ class MainWindow(QMainWindow):
         self.lang_label = QLabel(self)
         self.lang_label.move(400,250)
         self.lang_label.setFont(QFont("arial", 20, QFont.Bold))
-        self.lang_label.setText(f"Selected Language: {self.get_lang()}")
+        self.lang_label.setText(f"Selected Language: {self.get_main_lang()}")
         self.lang_label.adjustSize()
         
 
@@ -93,6 +93,7 @@ class MainWindow(QMainWindow):
         self.add_lang_button.setFont(QFont("Arial", 20, QFont.Bold))
         self.add_lang_button.setGeometry(80, 465, 130, 60)
         self.add_lang_button.adjustSize()
+        self.add_lang_button.clicked.connect(self.add_lang_param)
 
     def load_langs(self):
         languages = ocr.get_languages()
@@ -101,7 +102,7 @@ class MainWindow(QMainWindow):
             self.avail_langs[lang] = lang_codes_dict.setdefault(lang, lang)
             #Adds the full language name to an indexed list
             self.avail_langs_index.append(self.avail_langs[lang])
-            #self.lang_listbox.insertItem(index, lang_codes_dict.setdefault(lang, lang))
+            #self.lang_listbox.insertItem(index, lang_codes_dict.setdefault(lang, lang)) DELETE IF NOT USED LATER
         #Sorts the language names alphabetically
         self.avail_langs_index.sort(key=str.casefold)
         #Swaps the 'self.avail_langs' values with it's keys
@@ -117,14 +118,14 @@ class MainWindow(QMainWindow):
                 self.lang_listbox.setCurrentRow(index)
                 break
 
-    def get_lang(self):
+    def get_main_lang(self):
         return self.lang_listbox.currentItem().text()
 
     def get_lang_index(self):
         return self.lang_listbox.currentRow()
 
     def update_lang(self):
-        self.lang_label.setText(f"Selected Language: {self.get_lang()}")
+        self.lang_label.setText(f"Selected Language: {self.get_main_lang()}")
         self.lang_label.adjustSize()
 
     def new_snippet(self, monitor):
@@ -137,8 +138,8 @@ class MainWindow(QMainWindow):
         self.snippet.show()
 
     def read_image(self):
-        selected_lang = self.avail_langs_swapped[self.get_lang()]
-        print(self.get_lang(), selected_lang)
+        selected_lang = self.avail_langs_swapped[self.get_main_lang()]
+        print(self.get_main_lang(), selected_lang)
         img = Image.open("test.png")
         img_text = ocr.image_to_string(img, lang=selected_lang).strip()
         self.textbox.setPlainText(img_text)
@@ -148,6 +149,10 @@ class MainWindow(QMainWindow):
 
     def copy_textbox_contents(self):
         pass
+
+    def add_lang_param(self):
+        pass
+
 
     def test(self):
         print(self.avail_langs[0])
