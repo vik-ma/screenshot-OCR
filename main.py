@@ -155,17 +155,21 @@ class MainWindow(QMainWindow):
     def add_lang_param(self):
         new_lang = self.avail_langs_index[self.get_additional_lang_index()]
         if new_lang != self.get_main_lang():
+            #Doesn't add language to parameters if it is already the selected main language
             self.additional_lang_set.add(new_lang)
-            self.lang_param_listbox.clear()
-            self.lang_param_listbox.addItems(self.additional_lang_set)
+            self.update_lang_param_listbox()
 
     def remove_lang_param(self):
         row = self.lang_param_listbox.currentRow()
         if row >= 0:
+            #Does nothing if no item in listbox is currently selected
             lang = self.lang_param_listbox.currentItem().text()
             self.additional_lang_set.remove(lang)
-            self.lang_param_listbox.clear()
-            self.lang_param_listbox.addItems(self.additional_lang_set)
+            self.update_lang_param_listbox()
+
+    def update_lang_param_listbox(self):
+        self.lang_param_listbox.clear()
+        self.lang_param_listbox.addItems(self.additional_lang_set)
 
     def read_image(self):
         lang_param = self.avail_langs_swapped[self.get_main_lang()]
