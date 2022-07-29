@@ -31,10 +31,12 @@ class MainWindow(QMainWindow):
         self.lang_listbox.setGeometry(150, 200, 240, 110)
         self.lang_listbox.itemClicked.connect(self.update_lang)
 
+        self.add_lang_listbox = QListWidget(self)
+        self.add_lang_listbox.setGeometry(150, 350, 240, 110)
 
-        self.avail_langs = {}
-        self.avail_langs_swapped = {}
-        self.avail_langs_index = []
+        self.avail_langs = {}           #Dictionary of available languages in Tesseract (k = Tesseract langcode, v = Full language name)
+        self.avail_langs_swapped = {}   #Dictionary of available languages in Tesseract (k = Full language name, v = Tesseract langcode)
+        self.avail_langs_index = []     #Indexed list of alphabetically sorted available full language names
         self.load_langs()
 
         self.lang_label = QLabel(self)
@@ -43,9 +45,6 @@ class MainWindow(QMainWindow):
         self.lang_label.setText(f"Selected Language: {self.get_lang()}")
         self.lang_label.adjustSize()
         
-        self.add_lang_listbox = QListWidget(self)
-        self.add_lang_listbox.setGeometry(150, 350, 240, 110)
-        self.add_lang_listbox.insertItems(0, self.avail_langs.values())
 
 
         self.create_buttons()
@@ -98,8 +97,9 @@ class MainWindow(QMainWindow):
     def load_langs(self):
         languages = ocr.get_languages()
         for lang in languages:
-            #Adds the full language from value in lang_codes_dict if key, otherwise adds the langcode's key as value in dictionary
+            #Adds the full language name from value in lang_codes_dict if key exists, otherwise adds the langcode's key as value in new dictionary
             self.avail_langs[lang] = lang_codes_dict.setdefault(lang, lang)
+            #Adds the full language name to an indexed list
             self.avail_langs_index.append(self.avail_langs[lang])
             #self.lang_listbox.insertItem(index, lang_codes_dict.setdefault(lang, lang))
         #Sorts the language names alphabetically
@@ -110,13 +110,12 @@ class MainWindow(QMainWindow):
         #self.lang_listbox.setSortingEnabled(True) DELETE IF NOT USED LATER
         
         self.lang_listbox.insertItems(0, self.avail_langs_index)
+        self.add_lang_listbox.insertItems(0, self.avail_langs_index)
         #Sets the English as default choice
         for index, langs in enumerate(self.avail_langs_index):
             if langs == "English":
                 self.lang_listbox.setCurrentRow(index)
                 break
-        
-
 
     def get_lang(self):
         return self.lang_listbox.currentItem().text()
