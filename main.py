@@ -135,6 +135,7 @@ class MainWindow(QMainWindow):
 
     def lang_listbox_click(self):
         self.selected_lang = self.get_main_lang()
+        self.additional_lang_list.clear()
         self.update_lang()
 
     def update_lang(self):
@@ -152,8 +153,8 @@ class MainWindow(QMainWindow):
         #Checks if there are any added languages
         for lang in self.additional_lang_list:
             #Adds the language(s) to the lang parameter
-            lang_param += f"+{lang}"
-        print(self.get_main_lang(), lang_param)
+            lang_param += f"+{self.avail_langs_swapped[lang]}"
+        print(self.get_main_lang(), self.additional_lang_list, lang_param)
         img = Image.open("test.png")
         img_text = ocr.image_to_string(img, lang=lang_param).strip()
         self.textbox.setPlainText(img_text)
