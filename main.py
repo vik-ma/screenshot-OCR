@@ -41,7 +41,7 @@ class MainWindow(QMainWindow):
         self.load_langs()
 
         self.selected_lang = self.get_main_lang()
-        self.additional_lang_list = []
+        self.additional_lang_set = set()    #Set to store added language parameters
 
         self.lang_param_label = QLabel(self)
         self.lang_param_label.setText("Additional languages")
@@ -138,7 +138,7 @@ class MainWindow(QMainWindow):
 
     def lang_listbox_click(self):
         self.selected_lang = self.get_main_lang()
-        self.additional_lang_list.clear()
+        self.additional_lang_set.clear()
         self.update_lang()
 
     def update_lang(self):
@@ -147,17 +147,17 @@ class MainWindow(QMainWindow):
 
     def add_lang_param(self):
         new_lang = self.avail_langs_index[self.get_additional_lang_index()]
-        self.additional_lang_list.append(new_lang)
-        self.selected_lang = f"{self.selected_lang}+{new_lang}"
-        self.update_lang()
+        self.additional_lang_set.add(new_lang)
+        self.lang_param_listbox.clear()
+        self.lang_param_listbox.addItems(self.additional_lang_set)
 
     def read_image(self):
         lang_param = self.avail_langs_swapped[self.get_main_lang()]
         #Checks if there are any added languages
-        for lang in self.additional_lang_list:
+        for lang in self.additional_lang_set:
             #Adds the language(s) to the lang parameter
             lang_param += f"+{self.avail_langs_swapped[lang]}"
-        print(self.get_main_lang(), self.additional_lang_list, lang_param)
+        print(self.get_main_lang(), self.additional_lang_set, lang_param)
         img = Image.open("test.png")
         img_text = ocr.image_to_string(img, lang=lang_param).strip()
         self.textbox.setPlainText(img_text)
