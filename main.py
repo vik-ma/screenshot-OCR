@@ -1,4 +1,5 @@
 import sys
+from turtle import update
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout, QLineEdit, QPlainTextEdit, QListWidget
 from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplication
 from PyQt5.QtCore import QPoint, Qt, QRect, QSize
@@ -29,21 +30,26 @@ class MainWindow(QMainWindow):
 
         self.lang_listbox = QListWidget(self)
         self.lang_listbox.setGeometry(150, 200, 240, 110)
-        self.lang_listbox.itemClicked.connect(self.update_lang)
+        self.lang_listbox.itemClicked.connect(self.lang_listbox_click)
 
         self.add_lang_listbox = QListWidget(self)
         self.add_lang_listbox.setGeometry(150, 350, 240, 110)
+
 
         self.avail_langs = {}           #Dictionary of available languages in Tesseract (k = Tesseract langcode, v = Full language name)
         self.avail_langs_swapped = {}   #Dictionary of available languages in Tesseract (k = Full language name, v = Tesseract langcode)
         self.avail_langs_index = []     #Indexed list of alphabetically sorted available full language names
         self.load_langs()
 
+        self.selected_lang = self.get_main_lang()
+        self.additional_lang_list = []
+
         self.lang_label = QLabel(self)
         self.lang_label.move(400,250)
         self.lang_label.setFont(QFont("arial", 20, QFont.Bold))
-        self.lang_label.setText(f"Selected Language: {self.get_main_lang()}")
-        self.lang_label.adjustSize()
+        self.update_lang()
+        #self.lang_label.setText(f"Selected Language: {self.selected_lang}")
+        #self.lang_label.adjustSize()
         
 
 
@@ -120,14 +126,38 @@ class MainWindow(QMainWindow):
 
     def get_main_lang(self):
         return self.lang_listbox.currentItem().text()
+    
+    def get_additional_lang_index(self):
+        return self.add_lang_listbox.currentRow()
 
     def get_lang_index(self):
         return self.lang_listbox.currentRow()
 
+    def lang_listbox_click(self):
+        self.selected_lang = self.get_main_lang()
+        self.update_lang()
+
     def update_lang(self):
-        self.lang_label.setText(f"Selected Language: {self.get_main_lang()}")
+        self.lang_label.setText(f"Selected Language: {self.selected_lang}")
         self.lang_label.adjustSize()
 
+    def add_lang_param(self):
+        new_lang = self.avail_langs_index[self.get_additional_lang_index()]
+        self.additional_lang_list.append(new_lang)
+        self.selected_lang = f"{self.selected_lang}+{new_lang}"
+        self.update_lang()
+
+    def read_image(self):
+        lang_param = self.avail_langs_swapped[self.get_main_lang()]
+        #Checks if there are any added languages
+        for lang in self.additional_lang_list:
+            #Adds the language(s) to the lang parameter
+            lang_param += f"+{lang}"
+        print(self.get_main_lang(), lang_param)
+        img = Image.open("test.png")
+        img_text = ocr.image_to_string(img, lang=lang_param).strip()
+        self.textbox.setPlainText(img_text)
+        
     def new_snippet(self, monitor):
         """
         Create dim Splashscreen object and show dim Splashscreen.
@@ -137,22 +167,11 @@ class MainWindow(QMainWindow):
         self.snippet = CreateSnippet(monitor, self)
         self.snippet.show()
 
-    def read_image(self):
-        selected_lang = self.avail_langs_swapped[self.get_main_lang()]
-        print(self.get_main_lang(), selected_lang)
-        img = Image.open("test.png")
-        img_text = ocr.image_to_string(img, lang=selected_lang).strip()
-        self.textbox.setPlainText(img_text)
-
     def clear_textbox(self):
         self.textbox.clear()
 
     def copy_textbox_contents(self):
         pass
-
-    def add_lang_param(self):
-        pass
-
 
     def test(self):
         print(self.avail_langs[0])
