@@ -36,8 +36,8 @@ class MainWindow(QMainWindow):
         self.add_lang_listbox.setGeometry(150, 350, 240, 110)
 
 
-        self.avail_langs = {}           #Dictionary of available languages in Tesseract (k = Tesseract langcode, v = Full language name)
-        self.avail_langs_swapped = {}   #Dictionary of available languages in Tesseract (k = Full language name, v = Tesseract langcode)
+        self.avail_langs = {}           #Dictionary of available languages in Tesseract installation (k = Tesseract langcode, v = Full language name)
+        self.avail_langs_swapped = {}   #Dictionary of available languages in Tesseract installation (k = Full language name, v = Tesseract langcode)
         self.avail_langs_index = []     #Indexed list of alphabetically sorted available full language names
         self.load_langs()
 
@@ -48,10 +48,6 @@ class MainWindow(QMainWindow):
         self.lang_label.move(400,250)
         self.lang_label.setFont(QFont("arial", 20, QFont.Bold))
         self.update_lang()
-        #self.lang_label.setText(f"Selected Language: {self.selected_lang}")
-        #self.lang_label.adjustSize()
-        
-
 
         self.create_buttons()
 
