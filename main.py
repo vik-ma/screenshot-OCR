@@ -45,11 +45,11 @@ class MainWindow(QMainWindow):
 
         self.lang_param_label = QLabel(self)
         self.lang_param_label.setText("Additional languages")
-        self.lang_param_label.move(800, 140)
+        self.lang_param_label.move(800, 80)
         self.lang_param_label.setFont(QFont("arial", 20, QFont.Bold))
         self.lang_param_label.adjustSize()
         self.lang_param_listbox = QListWidget(self)
-        self.lang_param_listbox.setGeometry(800, 180, 240, 110)
+        self.lang_param_listbox.setGeometry(800, 120, 240, 110)
 
         self.lang_label = QLabel(self)
         self.lang_label.move(400,250)
@@ -99,10 +99,16 @@ class MainWindow(QMainWindow):
         self.copy_button.clicked.connect(self.copy_textbox_contents)
 
         self.add_lang_button = QPushButton("Add Another Language", self)
-        self.add_lang_button.setFont(QFont("Arial", 20, QFont.Bold))
+        self.add_lang_button.setFont(QFont("arial", 20, QFont.Bold))
         self.add_lang_button.setGeometry(80, 465, 130, 60)
         self.add_lang_button.adjustSize()
         self.add_lang_button.clicked.connect(self.add_lang_param)
+
+        self.remove_add_lang_button = QPushButton("Remove Additional Language", self)
+        self.remove_add_lang_button.setFont(QFont("arial", 20, QFont.Bold))
+        self.remove_add_lang_button.setGeometry(800, 240, 130, 60)
+        self.remove_add_lang_button.adjustSize()
+        self.remove_add_lang_button.clicked.connect(self.remove_lang_param)
 
     def load_langs(self):
         languages = ocr.get_languages()
@@ -153,7 +159,13 @@ class MainWindow(QMainWindow):
             self.lang_param_listbox.clear()
             self.lang_param_listbox.addItems(self.additional_lang_set)
 
-
+    def remove_lang_param(self):
+        row = self.lang_param_listbox.currentRow()
+        if row >= 0:
+            lang = self.lang_param_listbox.currentItem().text()
+            self.additional_lang_set.remove(lang)
+            self.lang_param_listbox.clear()
+            self.lang_param_listbox.addItems(self.additional_lang_set)
 
     def read_image(self):
         lang_param = self.avail_langs_swapped[self.get_main_lang()]
@@ -182,7 +194,7 @@ class MainWindow(QMainWindow):
         pass
 
     def test(self):
-        print(self.avail_langs[0])
+        self.remove_lang_param()
 
 class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
