@@ -24,16 +24,17 @@ class MainWindow(QMainWindow):
 
         self.textbox = QPlainTextEdit(self)
         self.textbox.setFont(QFont("verdana", 15))
-        self.textbox.move(400,300)
-        self.textbox.resize(700,300)
+        self.textbox.setGeometry(400, 300, 700, 300)
         #self.textbox.setReadOnly(True)
 
         self.lang_listbox = QListWidget(self)
-        self.lang_listbox.move(150,200)
-        self.lang_listbox.resize(240,100)
+        self.lang_listbox.setGeometry(150, 200, 240, 110)
         self.lang_listbox.itemClicked.connect(self.update_lang)
 
+
         self.avail_langs = {}
+        self.avail_langs_swapped = {}
+        self.avail_langs_index = []
         self.load_langs()
 
         self.lang_label = QLabel(self)
@@ -41,6 +42,11 @@ class MainWindow(QMainWindow):
         self.lang_label.setFont(QFont("arial", 20, QFont.Bold))
         self.lang_label.setText(f"Selected Language: {self.get_lang()}")
         self.lang_label.adjustSize()
+        
+        self.add_lang_listbox = QListWidget(self)
+        self.add_lang_listbox.setGeometry(150, 350, 240, 110)
+        self.add_lang_listbox.insertItems(0, self.avail_langs.values())
+
 
         self.create_buttons()
 
@@ -48,7 +54,7 @@ class MainWindow(QMainWindow):
         self.test_button = QPushButton(self)
         self.test_button.setText("TEST")
         self.test_button.setFont(QFont("arial", 20, QFont.Bold))
-        self.test_button.setGeometry(5, 350, 100, 40)
+        self.test_button.setGeometry(5, 650, 100, 40)
         self.test_button.clicked.connect(self.test)
 
         self.snippet_all_button = QPushButton("Take Snippet All Monitors", self)
@@ -84,16 +90,33 @@ class MainWindow(QMainWindow):
         self.copy_button.adjustSize()
         self.copy_button.clicked.connect(self.copy_textbox_contents)
 
+        self.add_lang_button = QPushButton("Add Another Language", self)
+        self.add_lang_button.setFont(QFont("Arial", 20, QFont.Bold))
+        self.add_lang_button.setGeometry(80, 465, 130, 60)
+        self.add_lang_button.adjustSize()
+
     def load_langs(self):
         languages = ocr.get_languages()
-        for index, lang in enumerate(languages):
-            if lang == "eng":
-                eng_index = index
+        for lang in languages:
             #Adds the full language from value in lang_codes_dict if key, otherwise adds the langcode's key as value in dictionary
-            self.lang_listbox.insertItem(index, lang_codes_dict.setdefault(lang, lang))
-            self.avail_langs.setdefault(lang, lang_codes_dict[lang])
+            self.avail_langs[lang] = lang_codes_dict.setdefault(lang, lang)
+            self.avail_langs_index.append(self.avail_langs[lang])
+            #self.lang_listbox.insertItem(index, lang_codes_dict.setdefault(lang, lang))
+        #Sorts the language names alphabetically
+        self.avail_langs_index.sort(key=str.casefold)
+        #Swaps the 'self.avail_langs' values with it's keys
+        self.avail_langs_swapped = dict([(value, key) for key, value in self.avail_langs.items()])
+
+        #self.lang_listbox.setSortingEnabled(True) DELETE IF NOT USED LATER
+        
+        self.lang_listbox.insertItems(0, self.avail_langs_index)
         #Sets the English as default choice
-        self.lang_listbox.setCurrentRow(eng_index)
+        for index, langs in enumerate(self.avail_langs_index):
+            if langs == "English":
+                self.lang_listbox.setCurrentRow(index)
+                break
+        
+
 
     def get_lang(self):
         return self.lang_listbox.currentItem().text()
@@ -115,7 +138,8 @@ class MainWindow(QMainWindow):
         self.snippet.show()
 
     def read_image(self):
-        selected_lang = ocr.get_languages()[self.get_lang_index()]
+        selected_lang = self.avail_langs_swapped[self.get_lang()]
+        print(self.get_lang(), selected_lang)
         img = Image.open("test.png")
         img_text = ocr.image_to_string(img, lang=selected_lang).strip()
         self.textbox.setPlainText(img_text)
@@ -127,7 +151,7 @@ class MainWindow(QMainWindow):
         pass
 
     def test(self):
-        pass
+        print(self.avail_langs[0])
 
 class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
@@ -145,7 +169,7 @@ class CreateSnippet(QSplashScreen):
         #The topmost y-value, might be negative
         self.y_min = 0
 
-        #'monitor' specifies which screens(s) to draw Splashscreen on
+        #Variable 'monitor' specifies which screens(s) to draw Splashscreen on
         if monitor == "all":
             self.dim_screen_all()
         elif monitor == "primary":
