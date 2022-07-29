@@ -1,5 +1,4 @@
 import sys
-from turtle import update
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout, QLineEdit, QPlainTextEdit, QListWidget
 from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplication
 from PyQt5.QtCore import QPoint, Qt, QRect, QSize
@@ -43,6 +42,14 @@ class MainWindow(QMainWindow):
 
         self.selected_lang = self.get_main_lang()
         self.additional_lang_list = []
+
+        self.lang_param_label = QLabel(self)
+        self.lang_param_label.setText("Additional languages")
+        self.lang_param_label.move(800, 140)
+        self.lang_param_label.setFont(QFont("arial", 20, QFont.Bold))
+        self.lang_param_label.adjustSize()
+        self.lang_param_listbox = QListWidget(self)
+        self.lang_param_listbox.setGeometry(800, 180, 240, 110)
 
         self.lang_label = QLabel(self)
         self.lang_label.move(400,250)
