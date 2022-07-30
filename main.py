@@ -1,12 +1,11 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout, QLineEdit, QPlainTextEdit, QListWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout, QLineEdit, QPlainTextEdit, QListWidget, QMessageBox, QErrorMessage
 from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplication
 from PyQt5.QtCore import QPoint, Qt, QRect, QSize
 from PIL import Image
 import pytesseract as ocr
 
-ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-
+#ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -474,13 +473,20 @@ lang_codes_dict = {
     "yor": "Yoruba"
 }
 
+#class StartUpError
 
 def main():
     """Main function."""
-    app = QApplication([])
-    mw = MainWindow()
-    mw.show()
-    sys.exit(app.exec_())
+    try:
+        app = QApplication([])
+        mw = MainWindow()
+        mw.show()
+    except:
+        error_dialog = QErrorMessage()
+        error_dialog.setWindowTitle("Error")
+        error_dialog.showMessage("No Tesseract installation found!")
+    finally:
+        sys.exit(app.exec_())
 
 if __name__ == "__main__":
     main()
