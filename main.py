@@ -5,6 +5,7 @@ from PyQt5.QtCore import QPoint, Qt, QRect, QSize
 from PIL import Image
 import pytesseract as ocr
 
+ocr.pytesseract.tesseract_cmd = r""
 #ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -480,13 +481,23 @@ class ErrorWindow(QWidget):
 
         if self.error_msg == QMessageBox.Yes:
             self.set_tesseract_path()
-        sys.exit()
+        else:
+            sys.exit()
 
     def set_tesseract_path(self):
-        file , check = QFileDialog.getOpenFileName(None, "Select File",
-                                               "", "Executable file (*.exe);;All Files (*)")
+        file, check = QFileDialog.getOpenFileName(None, "Select File",
+                                                  "C:/", "Executable file (*.exe);;All Files (*)")
         if check:
-            print(file)
+            ocr.pytesseract.tesseract_cmd = file
+            try:
+                mw = MainWindow()
+                mw.show()
+            except:
+                print("ADD ERROR MSG HERE")
+                sys.exit()
+        else:
+            sys.exit()
+        
 
 
 def main():
