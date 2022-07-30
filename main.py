@@ -5,7 +5,7 @@ from PyQt5.QtCore import QPoint, Qt, QRect, QSize
 from PIL import Image
 import pytesseract as ocr
 
-ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+#ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -476,10 +476,17 @@ lang_codes_dict = {
 class ErrorWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.error_msg = QMessageBox().question(self, "Error", "asd", QMessageBox().Yes | QMessageBox().No)
+        self.error_msg = QMessageBox().question(self, "Error", "Tesseract installation not found!\nManually add path?", QMessageBox().Yes | QMessageBox().No)
 
+        if self.error_msg == QMessageBox.Yes:
+            self.set_tesseract_path()
         sys.exit()
 
+    def set_tesseract_path(self):
+        file , check = QFileDialog.getOpenFileName(None, "Select File",
+                                               "", "Executable file (*.exe);;All Files (*)")
+        if check:
+            print(file)
 
 
 def main():
