@@ -477,9 +477,15 @@ lang_codes_dict = {
 class ErrorWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.error_msg = QMessageBox().question(self, "Error", "Tesseract installation not found!\nManually add path?", QMessageBox().Yes | QMessageBox().No)
+        self.no_inst_error_msg = QMessageBox().question(self, "TesseractOCR Not Found", "Tesseract installation not found!\n\nManually add path?", QMessageBox().Yes | QMessageBox().No)
+        
+        self.file_error_msg = QMessageBox()
+        self.file_error_msg.setIcon(QMessageBox.Critical)
+        self.file_error_msg.setText("Couldn't open Tesseract!")
+        self.file_error_msg.setInformativeText("The file you selected was not a TesseractOCR executable file.")
+        self.file_error_msg.setWindowTitle("Invalid File")
 
-        if self.error_msg == QMessageBox.Yes:
+        if self.no_inst_error_msg == QMessageBox.Yes:
             self.set_tesseract_path()
         else:
             sys.exit()
@@ -493,8 +499,7 @@ class ErrorWindow(QWidget):
                 mw = MainWindow()
                 mw.show()
             except:
-                print("ADD ERROR MSG HERE")
-                sys.exit()
+                sys.exit(self.file_error_msg.exec_())
         else:
             sys.exit()
         
