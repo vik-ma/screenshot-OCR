@@ -5,8 +5,8 @@ from PyQt5.QtCore import QPoint, Qt, QRect, QSize
 from PIL import Image
 import pytesseract as ocr
 
-ocr.pytesseract.tesseract_cmd = r""
-#ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+#ocr.pytesseract.tesseract_cmd = r""
+ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -477,8 +477,9 @@ lang_codes_dict = {
 class ErrorWindow(QWidget):
     def __init__(self):
         super().__init__()
+        #Error message if no installation of Tesseract is found in set path
         self.no_inst_error_msg = QMessageBox().question(self, "TesseractOCR Not Found", "Tesseract installation not found!\n\nManually add path?", QMessageBox().Yes | QMessageBox().No)
-        
+        #Error message if file user selected is not a valid tesseract.exe
         self.file_error_msg = QMessageBox()
         self.file_error_msg.setIcon(QMessageBox.Critical)
         self.file_error_msg.setText("Couldn't open Tesseract!")
@@ -486,8 +487,10 @@ class ErrorWindow(QWidget):
         self.file_error_msg.setWindowTitle("Invalid File")
 
         if self.no_inst_error_msg == QMessageBox.Yes:
+            #Make user set path to tesseract.exe themself
             self.set_tesseract_path()
         else:
+            #Close application if user selects no
             sys.exit()
 
     def set_tesseract_path(self):
@@ -496,11 +499,14 @@ class ErrorWindow(QWidget):
         if check:
             ocr.pytesseract.tesseract_cmd = file
             try:
+                #If selected file is valid
                 mw = MainWindow()
                 mw.show()
             except:
+                #Display error message and then close  application
                 sys.exit(self.file_error_msg.exec_())
         else:
+            #Close application if user cancels filedialog
             sys.exit()
         
 
