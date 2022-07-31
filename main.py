@@ -4,6 +4,25 @@ from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplic
 from PyQt5.QtCore import QPoint, Qt, QRect, QSize
 from PIL import Image
 import pytesseract as ocr
+from configparser import ConfigParser
+import pathlib
+
+
+
+
+config = ConfigParser(default_section=None)
+has_config = pathlib.Path("config.ini").exists()
+
+if has_config:
+    config.read("config.ini")
+else:
+    #Add defaults
+    pass
+
+def write_config():
+    """Write changed values to config.ini."""
+    with open("config.ini", "w") as configfile:
+        config.write(configfile)
 
 #ocr.pytesseract.tesseract_cmd = r""
 ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -198,7 +217,7 @@ class MainWindow(QMainWindow):
         pass
 
     def test(self):
-        self.remove_lang_param()
+        print(config.get("USERCONFIG", "test"))
 
 class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
