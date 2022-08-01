@@ -8,13 +8,14 @@ from configparser import ConfigParser
 import pathlib
 
 
-
+ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 config = ConfigParser(default_section=None)
 has_config = pathlib.Path("config.ini").exists()
 
 if has_config:
     config.read("config.ini")
+    ocr.pytesseract.tesseract_cmd = config.get("USERCONFIG", "tesseract_path")
 else:
     #Add defaults
     pass
@@ -24,8 +25,6 @@ def write_config():
     with open("config.ini", "w") as configfile:
         config.write(configfile)
 
-#ocr.pytesseract.tesseract_cmd = r""
-ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -217,7 +216,8 @@ class MainWindow(QMainWindow):
         pass
 
     def test(self):
-        print(config.get("USERCONFIG", "test"))
+        config.set("USERCONFIG", "tesseract_path", r"C:\Program Files\Tesseract-OCR\tesseract.exe")
+        write_config()
 
 class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
@@ -517,6 +517,8 @@ class ErrorWindow(QWidget):
                                                   "C:/", "Executable file (*.exe);;All Files (*)")
         if check:
             ocr.pytesseract.tesseract_cmd = file
+            config.set("USERCONFIG", "tesseract_path", file)
+            write_config()
             try:
                 #If selected file is valid
                 mw = MainWindow()
