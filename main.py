@@ -15,18 +15,24 @@ default_lang_main = "English"
 config = ConfigParser(default_section=None)
 has_config = pathlib.Path("config.ini").exists()
 
+def write_config():
+    """Write changed values to config.ini."""
+    with open("config.ini", "w") as configfile:
+        config.write(configfile)
+
 if has_config:
     config.read("config.ini")
     ocr.pytesseract.tesseract_cmd = config.get("USERCONFIG", "tesseract_path")
     default_lang_main = config.get("USERCONFIG", "default_lang_main")
 else:
-    #Add defaults
-    pass
-
-def write_config():
-    """Write changed values to config.ini."""
-    with open("config.ini", "w") as configfile:
-        config.write(configfile)
+    #Creates default config.ini if it doesn't exist
+    config.add_section("DEFAULT")
+    config.add_section("USERCONFIG")
+    for section in config.sections():
+        config.set(section, "tesseract_path", str(ocr.pytesseract.tesseract_cmd))
+        config.set(section, "default_lang_main", str(default_lang_main))
+    config.add_section("SAVED_LANG_COMBOS")
+    write_config()
 
 class MainWindow(QMainWindow):
     def __init__(self):
