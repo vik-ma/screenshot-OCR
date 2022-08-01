@@ -54,6 +54,8 @@ class MainWindow(QMainWindow):
         self.textbox.setGeometry(400, 300, 700, 300)
         #self.textbox.setReadOnly(True)
 
+        self.saved_lang_combos = []
+
         self.lang_listbox = QListWidget(self)
         self.lang_listbox.setGeometry(150, 200, 240, 110)
         self.lang_listbox.itemClicked.connect(self.lang_listbox_click)
@@ -234,8 +236,23 @@ class MainWindow(QMainWindow):
         config.set("USERCONFIG", "default_lang_main", self.selected_lang)
         write_config()
 
+    def save_lang_combo(self):
+        if len(self.additional_lang_set) > 0:
+            lang_combo = []
+            lang_combo.append(self.get_main_lang())
+            
+            lang_param = [lang for lang in self.additional_lang_set]
+            lang_combo.append(lang_param)
+            index = len(self.saved_lang_combos)
+            self.saved_lang_combos.append(lang_combo)
+            config.set("SAVED_LANG_COMBOS", str(index), str(lang_combo))
+            write_config()
+        else:
+            #add msgbox
+            pass
+
     def test(self):
-        self.set_default_lang_main()
+        self.save_lang_combo()
 
 class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
