@@ -10,12 +10,15 @@ import pathlib
 
 ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
+default_lang_main = "English"
+
 config = ConfigParser(default_section=None)
 has_config = pathlib.Path("config.ini").exists()
 
 if has_config:
     config.read("config.ini")
     ocr.pytesseract.tesseract_cmd = config.get("USERCONFIG", "tesseract_path")
+    default_lang_main = config.get("USERCONFIG", "default_lang_main")
 else:
     #Add defaults
     pass
@@ -147,7 +150,7 @@ class MainWindow(QMainWindow):
         self.add_lang_listbox.insertItems(0, self.avail_langs_index)
         #Sets the English as default choice for main language
         for index, langs in enumerate(self.avail_langs_index):
-            if langs == "English":
+            if langs == default_lang_main:
                 self.lang_listbox.setCurrentRow(index)
                 break
         #Sets the first item in list as default choice for additional languages 
@@ -215,9 +218,12 @@ class MainWindow(QMainWindow):
     def copy_textbox_contents(self):
         pass
 
-    def test(self):
-        config.set("USERCONFIG", "tesseract_path", r"C:\Program Files\Tesseract-OCR\tesseract.exe")
+    def set_default_lang_main(self):
+        config.set("USERCONFIG", "default_lang_main", self.selected_lang)
         write_config()
+
+    def test(self):
+        self.set_default_lang_main()
 
 class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
