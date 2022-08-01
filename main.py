@@ -55,6 +55,7 @@ class MainWindow(QMainWindow):
         #self.textbox.setReadOnly(True)
 
         self.saved_lang_combos = []
+        self.load_lang_combos()
 
         self.lang_listbox = QListWidget(self)
         self.lang_listbox.setGeometry(150, 200, 240, 110)
@@ -144,6 +145,10 @@ class MainWindow(QMainWindow):
         self.set_default_lang_button.setGeometry(600, 10, 130, 60)
         self.set_default_lang_button.adjustSize()
         self.set_default_lang_button.clicked.connect(self.set_default_lang_main)
+
+    def load_lang_combos(self):
+        for item in config.items("SAVED_LANG_COMBOS"):
+            self.saved_lang_combos.append(item[1])
 
     def load_langs(self):
         languages = ocr.get_languages()
