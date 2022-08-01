@@ -131,6 +131,12 @@ class MainWindow(QMainWindow):
         self.remove_add_lang_button.adjustSize()
         self.remove_add_lang_button.clicked.connect(self.remove_lang_param)
 
+        self.set_default_lang_button = QPushButton("Set selected language as default", self)
+        self.set_default_lang_button.setFont(QFont("arial", 20, QFont.Bold))
+        self.set_default_lang_button.setGeometry(600, 10, 130, 60)
+        self.set_default_lang_button.adjustSize()
+        self.set_default_lang_button.clicked.connect(self.set_default_lang_main)
+
     def load_langs(self):
         languages = ocr.get_languages()
         for lang in languages:
