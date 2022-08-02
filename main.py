@@ -242,6 +242,16 @@ class MainWindow(QMainWindow):
             lang_param += f"+{self.avail_langs_swapped[lang]}"
         return lang_param
     
+    def set_lang_combo(self):
+        if len(self.saved_lang_combos_menu) > 0:
+            langs = self.saved_lang_combos_menu.currentText().split("+")
+            self.selected_lang = self.avail_langs[langs[0]]
+            for lang in langs[1::]:
+                self.additional_lang_set.add(self.avail_langs[lang])
+            self.update_lang()
+            self.update_lang_param_listbox()
+
+
     def save_lang_combo(self):
         if len(self.additional_lang_set) > 0:
             lang_combo = self.get_lang_combo()
@@ -283,7 +293,7 @@ class MainWindow(QMainWindow):
         pass
 
     def test(self):
-        self.save_lang_combo()
+        self.set_lang_combo()
 
 class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
