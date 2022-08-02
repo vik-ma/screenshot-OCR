@@ -153,6 +153,12 @@ class MainWindow(QMainWindow):
         self.set_default_lang_button.adjustSize()
         self.set_default_lang_button.clicked.connect(self.set_default_lang_main)
 
+        self.remove_lang_combo_button = QPushButton("Remove Language Combo", self)
+        self.remove_lang_combo_button.setFont(QFont("arial", 20, QFont.Bold))
+        self.remove_lang_combo_button.setGeometry(20, 570, 130, 60)
+        self.remove_lang_combo_button.adjustSize()
+        self.remove_lang_combo_button.clicked.connect(self.remove_lang_combo)
+
     def load_lang_combos(self):
         for item in config['SAVED_LANG_COMBOS']:
             self.saved_lang_combos_menu.addItem(item)
@@ -225,6 +231,14 @@ class MainWindow(QMainWindow):
             #Adds the language(s) to the lang parameter
             lang_param += f"+{self.avail_langs_swapped[lang]}"
         return lang_param
+    
+
+    def remove_lang_combo(self):
+        option = self.saved_lang_combos_menu.currentText()
+        config.remove_option("SAVED_LANG_COMBOS", option)
+        write_config()
+        self.saved_lang_combos_menu.clear()
+        self.load_lang_combos()
 
     def read_image(self):
         lang_param = self.get_lang_combo()
@@ -262,13 +276,13 @@ class MainWindow(QMainWindow):
             lang_combo = self.get_lang_combo()
             config.set("SAVED_LANG_COMBOS", str(lang_combo))
             write_config()
+            self.saved_lang_combos_menu.clear()
+            self.load_lang_combos()
         else:
             #add msgbox
             pass
 
     def test(self):
-        config.set("SAVED_LANG_COMBOS", "asdasffsafsfaafsfsf")
-        write_config()
         self.save_lang_combo()
 
 class CreateSnippet(QSplashScreen):
