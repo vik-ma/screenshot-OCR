@@ -54,10 +54,10 @@ class MainWindow(QMainWindow):
         #self.textbox.setReadOnly(True)
         
         self.saved_lang_combos_menu = QComboBox(self)
-        #self.saved_lang_combos_menu.move(20, 520)
         self.saved_lang_combos_menu.setGeometry(20, 520, 300, 35)
         self.saved_lang_combos_menu.setFont(QFont("verdana", 15))
-        #self.saved_lang_combos_menu.adjustSize()
+        self.saved_lang_combos_menu.activated.connect(self.set_lang_combo)
+
 
 
 
@@ -171,11 +171,11 @@ class MainWindow(QMainWindow):
         self.set_lang_combo_button.adjustSize()
         self.set_lang_combo_button.clicked.connect(self.set_lang_combo)
 
-        self.set_lang_combo_default_button = QPushButton("Set Language Combo As Default", self)
-        self.set_lang_combo_default_button.setFont(QFont("arial", 20, QFont.Bold))
-        self.set_lang_combo_default_button.setGeometry(20, 680, 130, 60)
-        self.set_lang_combo_default_button.adjustSize()
-        self.set_lang_combo_default_button.clicked.connect(self.set_lang_combo_default)
+        self.save_lang_combo_default_button = QPushButton("Set Language Combo As Default", self)
+        self.save_lang_combo_default_button.setFont(QFont("arial", 20, QFont.Bold))
+        self.save_lang_combo_default_button.setGeometry(20, 680, 130, 60)
+        self.save_lang_combo_default_button.adjustSize()
+        self.save_lang_combo_default_button.clicked.connect(self.save_lang_combo_default)
 
     def load_lang_combos(self):
         for item in config['SAVED_LANG_COMBOS']:
@@ -203,8 +203,9 @@ class MainWindow(QMainWindow):
             lang_combo = config.get("USERCONFIG", "default_lang_combo").split("+")
             main_lang = self.avail_langs[lang_combo[0]]
             self.saved_lang_combos_menu.setCurrentText(config.get("USERCONFIG", "default_lang_combo"))
+            #self.saved_lang_combos_menu.setCurrentText("eng+ara+asm")
             self.set_lang_combo()
-            
+
         for index, langs in enumerate(self.avail_langs_index):
             if langs == main_lang:
                 self.lang_listbox.setCurrentRow(index)
@@ -227,6 +228,8 @@ class MainWindow(QMainWindow):
 
     def set_default_lang_main(self):
         config.set("USERCONFIG", "default_lang_main", self.selected_lang)
+        config.set("USERCONFIG", "default_is_combo", str(False))
+        config.set("USERCONFIG", "default_lang_combo", "")
         write_config()
 
     def update_lang(self):
@@ -253,7 +256,7 @@ class MainWindow(QMainWindow):
         self.lang_param_listbox.addItems(self.additional_lang_set)
 
     def get_lang_combo(self):
-        lang_param = self.avail_langs_swapped[self.get_main_lang()]
+        lang_param = self.avail_langs_swapped[self.selected_lang]
         #Checks if there are any added languages
         for lang in self.additional_lang_set:
             #Adds the language(s) to the lang parameter
@@ -264,6 +267,7 @@ class MainWindow(QMainWindow):
         if len(self.saved_lang_combos_menu) > 0:
             langs = self.saved_lang_combos_menu.currentText().split("+")
             self.selected_lang = self.avail_langs[langs[0]]
+            self.additional_lang_set.clear()
             for lang in langs[1::]:
                 self.additional_lang_set.add(self.avail_langs[lang])
             self.update_lang()
@@ -272,7 +276,7 @@ class MainWindow(QMainWindow):
     def save_lang_combo(self):
         if len(self.additional_lang_set) > 0:
             lang_combo = self.get_lang_combo()
-            config.set("SAVED_LANG_COMBOS", str(lang_combo))
+            config.set("SAVED_LANG_COMBOS", lang_combo)
             write_config()
             self.saved_lang_combos_menu.clear()
             self.load_lang_combos()
@@ -283,9 +287,17 @@ class MainWindow(QMainWindow):
         write_config()
         self.saved_lang_combos_menu.clear()
         self.load_lang_combos()
+        if len(self.saved_lang_combos_menu) == 0:
+            self.set_default_lang_main()
+            self.additional_lang_set.clear()
 
-    def set_lang_combo_default(self):
-        pass
+    def save_lang_combo_default(self):
+        if len(self.additional_lang_set) > 0:
+            self.save_lang_combo()
+            lang_combo = self.get_lang_combo()
+            config.set("USERCONFIG", "default_lang_combo", lang_combo)
+            config.set("USERCONFIG", "default_is_combo", str(True))
+            write_config()
 
     def read_image(self):
         lang_param = self.get_lang_combo()
