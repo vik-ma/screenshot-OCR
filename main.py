@@ -153,9 +153,15 @@ class MainWindow(QMainWindow):
         self.set_default_lang_button.adjustSize()
         self.set_default_lang_button.clicked.connect(self.set_default_lang_main)
 
+        self.save_lang_combo_button = QPushButton("Save Language Combo", self)
+        self.save_lang_combo_button.setFont(QFont("arial", 20, QFont.Bold))
+        self.save_lang_combo_button.setGeometry(20, 560, 130, 60)
+        self.save_lang_combo_button.adjustSize()
+        self.save_lang_combo_button.clicked.connect(self.save_lang_combo)
+
         self.remove_lang_combo_button = QPushButton("Remove Language Combo", self)
         self.remove_lang_combo_button.setFont(QFont("arial", 20, QFont.Bold))
-        self.remove_lang_combo_button.setGeometry(20, 570, 130, 60)
+        self.remove_lang_combo_button.setGeometry(20, 600, 130, 60)
         self.remove_lang_combo_button.adjustSize()
         self.remove_lang_combo_button.clicked.connect(self.remove_lang_combo)
 
