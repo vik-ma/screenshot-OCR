@@ -10,8 +10,6 @@ import pathlib
 
 ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
-default_lang_main = "English"
-
 config = ConfigParser(default_section=None, dict_type=dict, allow_no_value=True)
 has_config = pathlib.Path("config.ini").exists()
 
@@ -23,14 +21,15 @@ def write_config():
 if has_config:
     config.read("config.ini")
     ocr.pytesseract.tesseract_cmd = config.get("USERCONFIG", "tesseract_path")
-    default_lang_main = config.get("USERCONFIG", "default_lang_main")
 else:
     #Creates default config.ini if it doesn't exist
     config.add_section("DEFAULT")
     config.add_section("USERCONFIG")
     for section in config.sections():
         config.set(section, "tesseract_path", str(ocr.pytesseract.tesseract_cmd))
-        config.set(section, "default_lang_main", str(default_lang_main))
+        config.set(section, "default_lang_main", "English")
+        config.set(section, "default_is_combo", str(False))
+        config.set(section, "default_lang_combo", "")
     config.add_section("SAVED_LANG_COMBOS")
     write_config()
 
@@ -200,7 +199,7 @@ class MainWindow(QMainWindow):
         self.add_lang_listbox.insertItems(0, self.avail_langs_index)
         #Sets the English as default choice for main language
         for index, langs in enumerate(self.avail_langs_index):
-            if langs == default_lang_main:
+            if langs == config.get("USERCONFIG", "default_lang_main"):
                 self.lang_listbox.setCurrentRow(index)
                 break
         #Sets the first item in list as default choice for additional languages 
