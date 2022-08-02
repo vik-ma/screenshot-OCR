@@ -171,6 +171,12 @@ class MainWindow(QMainWindow):
         self.set_lang_combo_button.adjustSize()
         self.set_lang_combo_button.clicked.connect(self.set_lang_combo)
 
+        self.set_lang_combo_default_button = QPushButton("Set Language Combo As Default", self)
+        self.set_lang_combo_default_button.setFont(QFont("arial", 20, QFont.Bold))
+        self.set_lang_combo_default_button.setGeometry(20, 680, 130, 60)
+        self.set_lang_combo_default_button.adjustSize()
+        self.set_lang_combo_default_button.clicked.connect(self.set_lang_combo_default)
+
     def load_lang_combos(self):
         for item in config['SAVED_LANG_COMBOS']:
             self.saved_lang_combos_menu.addItem(item)
@@ -264,9 +270,6 @@ class MainWindow(QMainWindow):
             write_config()
             self.saved_lang_combos_menu.clear()
             self.load_lang_combos()
-        else:
-            #add msgbox
-            pass
 
     def remove_lang_combo(self):
         option = self.saved_lang_combos_menu.currentText()
@@ -274,6 +277,9 @@ class MainWindow(QMainWindow):
         write_config()
         self.saved_lang_combos_menu.clear()
         self.load_lang_combos()
+
+    def set_lang_combo_default(self):
+        pass
 
     def read_image(self):
         lang_param = self.get_lang_combo()
