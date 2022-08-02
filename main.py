@@ -99,7 +99,7 @@ class MainWindow(QMainWindow):
         self.test_button = QPushButton(self)
         self.test_button.setText("TEST")
         self.test_button.setFont(QFont("arial", 20, QFont.Bold))
-        self.test_button.setGeometry(5, 650, 100, 40)
+        self.test_button.setGeometry(5, 750, 100, 40)
         self.test_button.clicked.connect(self.test)
 
         self.snippet_all_button = QPushButton("Take Snippet All Monitors", self)
@@ -164,6 +164,12 @@ class MainWindow(QMainWindow):
         self.remove_lang_combo_button.setGeometry(20, 600, 130, 60)
         self.remove_lang_combo_button.adjustSize()
         self.remove_lang_combo_button.clicked.connect(self.remove_lang_combo)
+
+        self.set_lang_combo_button = QPushButton("Set Language Combo", self)
+        self.set_lang_combo_button.setFont(QFont("arial", 20, QFont.Bold))
+        self.set_lang_combo_button.setGeometry(20, 640, 130, 60)
+        self.set_lang_combo_button.adjustSize()
+        self.set_lang_combo_button.clicked.connect(self.set_lang_combo)
 
     def load_lang_combos(self):
         for item in config['SAVED_LANG_COMBOS']:
@@ -250,7 +256,6 @@ class MainWindow(QMainWindow):
                 self.additional_lang_set.add(self.avail_langs[lang])
             self.update_lang()
             self.update_lang_param_listbox()
-
 
     def save_lang_combo(self):
         if len(self.additional_lang_set) > 0:
