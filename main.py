@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout, QLineEdit, QPlainTextEdit, QListWidget, QMessageBox, QErrorMessage, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout, QLineEdit, QPlainTextEdit, QListWidget, QMessageBox, QErrorMessage, QFileDialog, QComboBox
 from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplication
 from PyQt5.QtCore import QPoint, Qt, QRect, QSize
 from PIL import Image
@@ -12,7 +12,7 @@ ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 default_lang_main = "English"
 
-config = ConfigParser(default_section=None)
+config = ConfigParser(default_section=None, dict_type=dict, allow_no_value=True)
 has_config = pathlib.Path("config.ini").exists()
 
 def write_config():
@@ -53,8 +53,13 @@ class MainWindow(QMainWindow):
         self.textbox.setFont(QFont("verdana", 15))
         self.textbox.setGeometry(400, 300, 700, 300)
         #self.textbox.setReadOnly(True)
+        
+        self.saved_lang_combos_menu = QComboBox(self)
+        #self.saved_lang_combos_menu.move(20, 520)
+        self.saved_lang_combos_menu.setGeometry(20, 520, 300, 35)
+        self.saved_lang_combos_menu.setFont(QFont("verdana", 15))
+        #self.saved_lang_combos_menu.adjustSize()
 
-        self.saved_lang_combos = []
         self.load_lang_combos()
 
         self.lang_listbox = QListWidget(self)
@@ -63,6 +68,7 @@ class MainWindow(QMainWindow):
 
         self.add_lang_listbox = QListWidget(self)
         self.add_lang_listbox.setGeometry(150, 350, 240, 110)
+
 
 
         self.avail_langs = {}           #Dictionary of available languages in Tesseract installation (k = Tesseract langcode, v = Full language name)
@@ -85,6 +91,7 @@ class MainWindow(QMainWindow):
         self.lang_label.move(400,250)
         self.lang_label.setFont(QFont("arial", 20, QFont.Bold))
         self.update_lang()
+
 
         self.create_buttons()
 
@@ -147,8 +154,8 @@ class MainWindow(QMainWindow):
         self.set_default_lang_button.clicked.connect(self.set_default_lang_main)
 
     def load_lang_combos(self):
-        for item in config.items("SAVED_LANG_COMBOS"):
-            self.saved_lang_combos.append(item[1])
+        for item in config['SAVED_LANG_COMBOS']:
+            self.saved_lang_combos_menu.addItem(item)
 
     def load_langs(self):
         languages = ocr.get_languages()
@@ -211,13 +218,17 @@ class MainWindow(QMainWindow):
         self.lang_param_listbox.clear()
         self.lang_param_listbox.addItems(self.additional_lang_set)
 
-    def read_image(self):
+    def get_lang_combo(self):
         lang_param = self.avail_langs_swapped[self.get_main_lang()]
         #Checks if there are any added languages
         for lang in self.additional_lang_set:
             #Adds the language(s) to the lang parameter
             lang_param += f"+{self.avail_langs_swapped[lang]}"
-        print(self.get_main_lang(), self.additional_lang_set, lang_param)
+        return lang_param
+
+    def read_image(self):
+        lang_param = self.get_lang_combo()
+        print(lang_param)
         img = Image.open("test.png")
         img_text = ocr.image_to_string(img, lang=lang_param).strip()
         self.textbox.setPlainText(img_text)
@@ -243,20 +254,21 @@ class MainWindow(QMainWindow):
 
     def save_lang_combo(self):
         if len(self.additional_lang_set) > 0:
-            lang_combo = []
-            lang_combo.append(self.get_main_lang())
+            #lang_combo = []
+            #lang_combo.append(self.get_main_lang())
             
-            lang_param = [lang for lang in self.additional_lang_set]
-            lang_combo.append(lang_param)
-            index = len(self.saved_lang_combos)
-            self.saved_lang_combos.append(lang_combo)
-            config.set("SAVED_LANG_COMBOS", str(index), str(lang_combo))
+            #lang_param = [lang for lang in self.additional_lang_set]
+            #lang_combo.append(lang_param)
+            lang_combo = self.get_lang_combo()
+            config.set("SAVED_LANG_COMBOS", str(lang_combo))
             write_config()
         else:
             #add msgbox
             pass
 
     def test(self):
+        config.set("SAVED_LANG_COMBOS", "asdasffsafsfaafsfsf")
+        write_config()
         self.save_lang_combo()
 
 class CreateSnippet(QSplashScreen):
