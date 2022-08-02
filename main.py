@@ -207,6 +207,10 @@ class MainWindow(QMainWindow):
         self.selected_lang = self.get_main_lang()
         self.update_lang()
 
+    def set_default_lang_main(self):
+        config.set("USERCONFIG", "default_lang_main", self.selected_lang)
+        write_config()
+
     def update_lang(self):
         self.lang_label.setText(f"Selected Language: {self.selected_lang}")
         self.lang_label.adjustSize()
@@ -238,6 +242,16 @@ class MainWindow(QMainWindow):
             lang_param += f"+{self.avail_langs_swapped[lang]}"
         return lang_param
     
+    def save_lang_combo(self):
+        if len(self.additional_lang_set) > 0:
+            lang_combo = self.get_lang_combo()
+            config.set("SAVED_LANG_COMBOS", str(lang_combo))
+            write_config()
+            self.saved_lang_combos_menu.clear()
+            self.load_lang_combos()
+        else:
+            #add msgbox
+            pass
 
     def remove_lang_combo(self):
         option = self.saved_lang_combos_menu.currentText()
@@ -267,26 +281,6 @@ class MainWindow(QMainWindow):
 
     def copy_textbox_contents(self):
         pass
-
-    def set_default_lang_main(self):
-        config.set("USERCONFIG", "default_lang_main", self.selected_lang)
-        write_config()
-
-    def save_lang_combo(self):
-        if len(self.additional_lang_set) > 0:
-            #lang_combo = []
-            #lang_combo.append(self.get_main_lang())
-            
-            #lang_param = [lang for lang in self.additional_lang_set]
-            #lang_combo.append(lang_param)
-            lang_combo = self.get_lang_combo()
-            config.set("SAVED_LANG_COMBOS", str(lang_combo))
-            write_config()
-            self.saved_lang_combos_menu.clear()
-            self.load_lang_combos()
-        else:
-            #add msgbox
-            pass
 
     def test(self):
         self.save_lang_combo()
