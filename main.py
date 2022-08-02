@@ -59,7 +59,7 @@ class MainWindow(QMainWindow):
         self.saved_lang_combos_menu.setFont(QFont("verdana", 15))
         #self.saved_lang_combos_menu.adjustSize()
 
-        self.load_lang_combos()
+
 
         self.lang_listbox = QListWidget(self)
         self.lang_listbox.setGeometry(150, 200, 240, 110)
@@ -68,29 +68,30 @@ class MainWindow(QMainWindow):
         self.add_lang_listbox = QListWidget(self)
         self.add_lang_listbox.setGeometry(150, 350, 240, 110)
 
+        self.lang_label = QLabel(self)
+        self.lang_label.move(400,250)
+        self.lang_label.setFont(QFont("arial", 20, QFont.Bold))
 
+        self.lang_param_listbox = QListWidget(self)
+        self.lang_param_listbox.setGeometry(800, 120, 240, 110)
+
+        self.additional_lang_set = set()    #Set to store added language parameters
 
         self.avail_langs = {}           #Dictionary of available languages in Tesseract installation (k = Tesseract langcode, v = Full language name)
         self.avail_langs_swapped = {}   #Dictionary of available languages in Tesseract installation (k = Full language name, v = Tesseract langcode)
         self.avail_langs_index = []     #Indexed list of alphabetically sorted available full language names
+        self.load_lang_combos()
         self.load_langs()
 
         self.selected_lang = self.get_main_lang()
-        self.additional_lang_set = set()    #Set to store added language parameters
 
         self.lang_param_label = QLabel(self)
         self.lang_param_label.setText("Additional languages")
         self.lang_param_label.move(800, 80)
         self.lang_param_label.setFont(QFont("arial", 20, QFont.Bold))
         self.lang_param_label.adjustSize()
-        self.lang_param_listbox = QListWidget(self)
-        self.lang_param_listbox.setGeometry(800, 120, 240, 110)
 
-        self.lang_label = QLabel(self)
-        self.lang_label.move(400,250)
-        self.lang_label.setFont(QFont("arial", 20, QFont.Bold))
         self.update_lang()
-
 
         self.create_buttons()
 
@@ -192,14 +193,20 @@ class MainWindow(QMainWindow):
         self.avail_langs_index.sort(key=str.casefold)
         #Swaps the 'self.avail_langs' values with it's keys
         self.avail_langs_swapped = dict([(value, key) for key, value in self.avail_langs.items()])
-
-        #self.lang_listbox.setSortingEnabled(True) DELETE IF NOT USED LATER
         
         self.lang_listbox.insertItems(0, self.avail_langs_index)
         self.add_lang_listbox.insertItems(0, self.avail_langs_index)
-        #Sets the English as default choice for main language
+
+        if config.getboolean("USERCONFIG", "default_is_combo") is False:
+            main_lang = config.get("USERCONFIG", "default_lang_main")
+        else:
+            lang_combo = config.get("USERCONFIG", "default_lang_combo").split("+")
+            main_lang = self.avail_langs[lang_combo[0]]
+            self.saved_lang_combos_menu.setCurrentText(config.get("USERCONFIG", "default_lang_combo"))
+            self.set_lang_combo()
+            
         for index, langs in enumerate(self.avail_langs_index):
-            if langs == config.get("USERCONFIG", "default_lang_main"):
+            if langs == main_lang:
                 self.lang_listbox.setCurrentRow(index)
                 break
         #Sets the first item in list as default choice for additional languages 
@@ -621,11 +628,11 @@ class ErrorWindow(QWidget):
 def main():
     """Main function."""
     app = QApplication([])
-    try:
-        mw = MainWindow()
-        mw.show()
-    except:
-        ew = ErrorWindow()
+    #try:
+    mw = MainWindow()
+    mw.show()
+    #except:
+    #    ew = ErrorWindow()
 
     sys.exit(app.exec_())
 
