@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout, QLineEdit, QPlainTextEdit, QListWidget, QMessageBox, QErrorMessage, QFileDialog, QComboBox
-from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplication
+from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplication, QClipboard
 from PyQt5.QtCore import QPoint, Qt, QRect, QSize
 from PIL import Image
 import pytesseract as ocr
@@ -319,10 +319,11 @@ class MainWindow(QMainWindow):
         self.textbox.clear()
 
     def copy_textbox_contents(self):
-        pass
+        clipboard = QApplication.clipboard()
+        clipboard.setText(self.textbox.toPlainText())
 
     def test(self):
-        self.set_lang_combo()
+        self.copy_textbox_contents()
 
 class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
