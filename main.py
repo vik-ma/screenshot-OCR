@@ -119,7 +119,7 @@ class MainWindow(QMainWindow):
         self.ocr_button.setGeometry(15, 200, 130, 60)
         self.ocr_button.adjustSize()
         #self.ocr_button.setShortcut("O")
-        self.ocr_button.clicked.connect(self.read_image)
+        self.ocr_button.clicked.connect(self.ocr_image)
 
         self.clear_button = QPushButton("CLEAR", self)
         self.clear_button.setFont(QFont("arial", 35, QFont.Bold))
@@ -296,11 +296,14 @@ class MainWindow(QMainWindow):
             config.set("USERCONFIG", "default_is_combo", str(True))
             write_config()
 
-    def read_image(self):
+
+
+    def ocr_image(self, image):
         lang_param = self.get_lang_combo()
         print(lang_param)
-        img = Image.open("test.png")
-        img_text = ocr.image_to_string(img, lang=lang_param).strip()
+        #img = Image.open("test.png")
+
+        img_text = ocr.image_to_string(image, lang=lang_param).strip()
         self.textbox.setPlainText(img_text)
         
     def new_snippet(self, monitor):
@@ -372,8 +375,9 @@ class MainWindow(QMainWindow):
         screenshot.save(buffer, "PNG")
         newimg = Image.open(io.BytesIO(buffer.data()))
         buffer.close()
-        img_text = ocr.image_to_string(newimg, lang="eng")
-        self.textbox.setPlainText(img_text)
+        self.ocr_image(newimg)
+        #img_text = ocr.image_to_string(newimg, lang="eng")
+        #self.textbox.setPlainText(img_text)
 
 
 
