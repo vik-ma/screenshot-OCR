@@ -1,11 +1,12 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout, QLineEdit, QPlainTextEdit, QListWidget, QMessageBox, QErrorMessage, QFileDialog, QComboBox
-from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplication, QClipboard
-from PyQt5.QtCore import QPoint, Qt, QRect, QSize
+from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplication, QClipboard, QImage
+from PyQt5.QtCore import QPoint, Qt, QRect, QSize, QBuffer
 from PIL import Image
 import pytesseract as ocr
 from configparser import ConfigParser
 import pathlib
+import io
 
 
 ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -363,6 +364,19 @@ class MainWindow(QMainWindow):
     def test(self):
         self.restore_default_config()
 
+    def read_image_buffer(self, pixmap):
+        screenshot = QImage()
+        screenshot = pixmap.toImage()
+        buffer = QBuffer()
+        buffer.open(QBuffer.ReadWrite)
+        screenshot.save(buffer, "PNG")
+        newimg = Image.open(io.BytesIO(buffer.data()))
+        buffer.close()
+        img_text = ocr.image_to_string(newimg, lang="eng")
+        self.textbox.setPlainText(img_text)
+
+
+
 class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
     def __init__(self, monitor, mainwindow):
@@ -503,8 +517,9 @@ class CreateSnippet(QSplashScreen):
             screen = QGuiApplication.primaryScreen()
             #Corrects grabWindow to the right coordinates if x_min or y_min are negative
             selected_pixel_map = screen.grabWindow(0, x_pos+self.x_min, y_pos+self.y_min, width, height)
-
-            selected_pixel_map.save("test.png", "png")
+            self.mainwindow.read_image_buffer(selected_pixel_map)
+            
+            #selected_pixel_map.save("test.png", "png")
             self.mainwindow.show()
 
 #Stores the full language names as values for corresponding language code key
