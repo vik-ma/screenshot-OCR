@@ -186,6 +186,12 @@ class MainWindow(QMainWindow):
         self.restore_default_cfg_button.setGeometry(750, 750, 130, 60)
         self.restore_default_cfg_button.adjustSize()
         self.restore_default_cfg_button.clicked.connect(self.restore_default_config)
+        
+        self.read_image_file_button = QPushButton("Read Image From File", self)
+        self.read_image_file_button.setFont(QFont("arial", 20, QFont.Bold))
+        self.read_image_file_button.setGeometry(150, 750, 130, 60)
+        self.read_image_file_button.adjustSize()
+        self.read_image_file_button.clicked.connect(self.read_image_file)
 
     def load_lang_combos(self):
         for item in config['SAVED_LANG_COMBOS']:
