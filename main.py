@@ -319,9 +319,10 @@ class MainWindow(QMainWindow):
         self.textbox.clear()
 
     def copy_textbox_contents(self):
-        clipboard = QApplication.clipboard()
-        clipboard.setText(self.textbox.toPlainText())
-
+        if self.textbox.toPlainText() != "":
+            clipboard = QApplication.clipboard()
+            clipboard.setText(self.textbox.toPlainText())
+        
     def test(self):
         self.copy_textbox_contents()
 
