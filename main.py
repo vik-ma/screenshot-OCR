@@ -8,7 +8,7 @@ from configparser import ConfigParser
 import pathlib
 import io
 
-
+DESKTOP = pathlib.Path.home() / 'Desktop'
 ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 config = ConfigParser(default_section=None, dict_type=dict, allow_no_value=True)
@@ -31,6 +31,10 @@ else:
         config.set(section, "default_lang_main", "English")
         config.set(section, "default_is_combo", str(False))
         config.set(section, "default_lang_combo", "")
+        config.set(section, "lastdir", str(DESKTOP))
+        config.set(section, "autosavefile", str(False))
+        config.set(section, "autosavetxt", str(False))
+        config.set(section, "autocopy", str(False))
     config.add_section("SAVED_LANG_COMBOS")
     write_config()
 
@@ -313,10 +317,13 @@ class MainWindow(QMainWindow):
         self.ocr_image(newimg)
 
     def read_image_file(self):
-        lastdir = "add"
+        lastdir = config.get("USERCONFIG", "lastdir")
         file, check = QFileDialog.getOpenFileName(None, "Select File",
-                                                  "", "All Files (*)")
+                                                  lastdir, "All Files (*)")
         if check:
+            get_dir = file.rsplit("/",1)[0]
+            config.set("USERCONFIG", "lastdir", get_dir)
+            write_config()
             try:
                 img = Image.open(file)
                 self.ocr_image(img)
