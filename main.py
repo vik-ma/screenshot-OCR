@@ -51,15 +51,12 @@ class MainWindow(QMainWindow):
         self.textbox = QPlainTextEdit(self)
         self.textbox.setFont(QFont("verdana", 15))
         self.textbox.setGeometry(400, 300, 700, 300)
-        #self.textbox.setReadOnly(True)
+        self.textbox.setReadOnly(True)
         
         self.saved_lang_combos_menu = QComboBox(self)
         self.saved_lang_combos_menu.setGeometry(20, 520, 300, 35)
         self.saved_lang_combos_menu.setFont(QFont("verdana", 15))
         self.saved_lang_combos_menu.activated.connect(self.set_lang_combo)
-
-
-
 
         self.lang_listbox = QListWidget(self)
         self.lang_listbox.setGeometry(150, 200, 240, 110)
@@ -176,6 +173,12 @@ class MainWindow(QMainWindow):
         self.save_lang_combo_default_button.setGeometry(20, 680, 130, 60)
         self.save_lang_combo_default_button.adjustSize()
         self.save_lang_combo_default_button.clicked.connect(self.save_lang_combo_default)
+
+        self.edit_textbox_button = QPushButton("EDIT", self)
+        self.edit_textbox_button.setFont(QFont("arial", 35, QFont.Bold))
+        self.edit_textbox_button.setGeometry(550, 630, 130, 60)
+        self.edit_textbox_button.adjustSize()
+        self.edit_textbox_button.clicked.connect(self.set_textbox_readonly)
 
     def load_lang_combos(self):
         for item in config['SAVED_LANG_COMBOS']:
@@ -323,8 +326,14 @@ class MainWindow(QMainWindow):
             clipboard = QApplication.clipboard()
             clipboard.setText(self.textbox.toPlainText())
         
+    def set_textbox_readonly(self):
+        if self.textbox.isReadOnly() is True:
+            self.textbox.setReadOnly(False)
+        else:
+            self.textbox.setReadOnly(True)
+
     def test(self):
-        self.copy_textbox_contents()
+        self.set_textbox_readonly()
 
 class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
