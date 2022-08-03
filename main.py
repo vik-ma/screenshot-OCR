@@ -338,6 +338,8 @@ class MainWindow(QMainWindow):
         else:
             self.textbox.setReadOnly(True)
 
+
+
     def restore_default_config(self):
         """Overwrite [USERCONFIG] with [DEFAULT] in config.ini if user selects "Yes"."""
         self.confirmbox = QMessageBox().question(self, "Restore Default Configuration", "Are you sure you want to restore default configuration?\nThis can not be undone.", QMessageBox().Yes | QMessageBox().No)
@@ -346,6 +348,11 @@ class MainWindow(QMainWindow):
             for k, v in default_config:
                 config.set("USERCONFIG", k, v)
             write_config()
+            self.load_langs()
+            self.selected_lang = self.get_main_lang()
+            self.update_lang()
+            self.additional_lang_set.clear()
+            self.update_lang_param_listbox()
 
     def test(self):
         self.restore_default_config()
