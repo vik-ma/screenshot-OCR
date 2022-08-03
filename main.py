@@ -296,13 +296,35 @@ class MainWindow(QMainWindow):
             config.set("USERCONFIG", "default_is_combo", str(True))
             write_config()
 
+    def read_image_buffer(self, pixmap):
+        screenshot = QImage()
+        screenshot = pixmap.toImage()
+        buffer = QBuffer()
+        buffer.open(QBuffer.ReadWrite)
+        screenshot.save(buffer, "PNG")
+        newimg = Image.open(io.BytesIO(buffer.data()))
+        buffer.close()
+        self.ocr_image(newimg)
 
+    def read_image_file(self):
+        lastdir = "add"
+        file, check = QFileDialog.getOpenFileName(None, "Select File",
+                                                  "", "All Files (*)")
+        if check:
+            try:
+                img = Image.open(file)
+                self.ocr_image(img)
+            except:
+                error_msg = QMessageBox()
+                error_msg.setIcon(QMessageBox.Critical)
+                error_msg.setText("Error reading file!")
+                error_msg.setInformativeText("The selected file is not a valid image file.")
+                error_msg.setWindowTitle("Error")
+                error_msg.exec_()
 
     def ocr_image(self, image):
         lang_param = self.get_lang_combo()
         print(lang_param)
-        #img = Image.open("test.png")
-
         img_text = ocr.image_to_string(image, lang=lang_param).strip()
         self.textbox.setPlainText(img_text)
         
@@ -365,19 +387,9 @@ class MainWindow(QMainWindow):
             self.reset_gui()
 
     def test(self):
-        self.restore_default_config()
+        self.read_image_file()
 
-    def read_image_buffer(self, pixmap):
-        screenshot = QImage()
-        screenshot = pixmap.toImage()
-        buffer = QBuffer()
-        buffer.open(QBuffer.ReadWrite)
-        screenshot.save(buffer, "PNG")
-        newimg = Image.open(io.BytesIO(buffer.data()))
-        buffer.close()
-        self.ocr_image(newimg)
-        #img_text = ocr.image_to_string(newimg, lang="eng")
-        #self.textbox.setPlainText(img_text)
+
 
 
 
@@ -677,7 +689,7 @@ class ErrorWindow(QWidget):
 
     def set_tesseract_path(self):
         file, check = QFileDialog.getOpenFileName(None, "Select File",
-                                                  "C:/", "Executable file (*.exe);;All Files (*)")
+                                                  "C:/", "Executable files (*.exe);;All Files (*)")
         if check:
             ocr.pytesseract.tesseract_cmd = file
             config.set("USERCONFIG", "tesseract_path", file)
