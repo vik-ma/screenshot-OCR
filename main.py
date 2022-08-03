@@ -282,7 +282,7 @@ class MainWindow(QMainWindow):
         write_config()
         self.saved_lang_combos_menu.clear()
         self.load_lang_combos()
-        if len(self.saved_lang_combos_menu) == 0:
+        if len(self.saved_lang_combos_menu) == 0 and config.getboolean("USERCONFIG", "default_is_combo") is True:
             self.set_default_lang_main()
             self.additional_lang_set.clear()
         self.reset_gui()
@@ -327,14 +327,15 @@ class MainWindow(QMainWindow):
 
     def update_all_lang_selection(self):
         if config.getboolean("USERCONFIG", "default_is_combo") is False:
+            #If user has only set one language as default
             main_lang = config.get("USERCONFIG", "default_lang_main")
         else:
+            #If user has set a language combination as default
             lang_combo = config.get("USERCONFIG", "default_lang_combo").split("+")
             main_lang = self.avail_langs[lang_combo[0]]
             self.saved_lang_combos_menu.setCurrentText(config.get("USERCONFIG", "default_lang_combo"))
-            #self.saved_lang_combos_menu.setCurrentText("eng+ara+asm")
             self.set_lang_combo()
-
+        #Sets the default language as the current choice for main language
         for index, langs in enumerate(self.avail_langs_index):
             if langs == main_lang:
                 self.lang_listbox.setCurrentRow(index)
