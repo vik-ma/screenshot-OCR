@@ -180,6 +180,12 @@ class MainWindow(QMainWindow):
         self.edit_textbox_button.adjustSize()
         self.edit_textbox_button.clicked.connect(self.set_textbox_readonly)
 
+        self.restore_default_cfg_button = QPushButton("Restore Default Configuration", self)
+        self.restore_default_cfg_button.setFont(QFont("arial", 20, QFont.Bold))
+        self.restore_default_cfg_button.setGeometry(750, 750, 130, 60)
+        self.restore_default_cfg_button.adjustSize()
+        self.restore_default_cfg_button.clicked.connect(self.restore_default_config)
+
     def load_lang_combos(self):
         for item in config['SAVED_LANG_COMBOS']:
             self.saved_lang_combos_menu.addItem(item)
@@ -332,8 +338,17 @@ class MainWindow(QMainWindow):
         else:
             self.textbox.setReadOnly(True)
 
+    def restore_default_config(self):
+        """Overwrite [USERCONFIG] with [DEFAULT] in config.ini if user selects "Yes"."""
+        self.confirmbox = QMessageBox().question(self, "Restore Default Configuration", "Are you sure you want to restore default configuration?\nThis can not be undone.", QMessageBox().Yes | QMessageBox().No)
+        if self.confirmbox == QMessageBox.Yes:
+            default_config = config.items("DEFAULT")
+            for k, v in default_config:
+                config.set("USERCONFIG", k, v)
+            write_config()
+
     def test(self):
-        self.set_textbox_readonly()
+        self.restore_default_config()
 
 class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
