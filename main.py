@@ -7,6 +7,7 @@ import pytesseract as ocr
 from configparser import ConfigParser
 import pathlib
 import io
+from datetime import datetime
 
 DESKTOP = pathlib.Path.home() / 'Desktop'
 ocr.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -18,6 +19,11 @@ def write_config():
     """Write changed values to config.ini."""
     with open("config.ini", "w") as configfile:
         config.write(configfile)
+
+def get_time_string():
+    date_string = datetime.now().strftime("SSOCR-%Y%m%d-%H%M%S-%f")
+    return date_string
+
 
 if has_config:
     config.read("config.ini")
@@ -382,7 +388,11 @@ class MainWindow(QMainWindow):
         print(lang_param)
         img_text = ocr.image_to_string(image, lang=lang_param).strip()
         self.textbox.setPlainText(img_text)
-        
+
+
+
+    
+
     def new_snippet(self, monitor):
         """
         Create dim Splashscreen object and show dim Splashscreen.
@@ -443,7 +453,7 @@ class MainWindow(QMainWindow):
 
 
     def test(self):
-        print(self.auto_save_txt)
+        print(f"{get_time_string()}.png")
 
 
 
