@@ -388,9 +388,12 @@ class MainWindow(QMainWindow):
         print(lang_param)
         img_text = ocr.image_to_string(image, lang=lang_param).strip()
         self.textbox.setPlainText(img_text)
-
-
-
+    """
+    DELETE IF NOT USED
+    def save_image(self, image):
+        date_string = get_time_string()
+        image.save(f"{date_string}.png", "png")
+    """
     
 
     def new_snippet(self, monitor):
@@ -601,7 +604,10 @@ class CreateSnippet(QSplashScreen):
             selected_pixel_map = screen.grabWindow(0, x_pos+self.x_min, y_pos+self.y_min, width, height)
             self.mainwindow.read_image_buffer(selected_pixel_map)
             
-            #selected_pixel_map.save("test.png", "png")
+            if self.mainwindow.auto_save_img:
+                date_string = get_time_string()
+                selected_pixel_map.save(f"{date_string}.png", "png")
+
             self.mainwindow.show()
 
 #Stores the full language names as values for corresponding language code key
