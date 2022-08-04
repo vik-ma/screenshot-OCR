@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout, QLineEdit, QPlainTextEdit, QListWidget, QMessageBox, QErrorMessage, QFileDialog, QComboBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout, QLineEdit, QPlainTextEdit, QListWidget, QMessageBox, QErrorMessage, QFileDialog, QComboBox, QStatusBar, QCheckBox
 from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplication, QClipboard, QImage
 from PyQt5.QtCore import QPoint, Qt, QRect, QSize, QBuffer
 from PIL import Image
@@ -96,6 +96,8 @@ class MainWindow(QMainWindow):
         self.update_lang()
 
         self.create_buttons()
+    
+        self.create_checkboxes()
 
     def create_buttons(self):
         self.test_button = QPushButton(self)
@@ -196,6 +198,19 @@ class MainWindow(QMainWindow):
         self.read_image_file_button.setGeometry(150, 750, 130, 60)
         self.read_image_file_button.adjustSize()
         self.read_image_file_button.clicked.connect(self.read_image_file)
+
+    def create_checkboxes(self):
+        self.save_txt_checkbox = QCheckBox("Save output as .txt", self)
+        self.save_txt_checkbox.move(500, 700)
+        self.save_txt_checkbox.adjustSize()
+
+        self.save_img_checkbox = QCheckBox("Save snippet as .png", self)
+        self.save_img_checkbox.move(500, 720)
+        self.save_img_checkbox.adjustSize()
+
+        self.auto_copy_checkbox = QCheckBox("Automatically copy output to clipboard", self)
+        self.auto_copy_checkbox.move(500, 740)
+        self.auto_copy_checkbox.adjustSize()
 
     def load_lang_combos(self):
         for item in config['SAVED_LANG_COMBOS']:
