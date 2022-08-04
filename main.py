@@ -24,7 +24,6 @@ def get_time_string():
     date_string = datetime.now().strftime("SSOCR-%Y%m%d-%H%M%S-%f")
     return date_string
 
-
 if has_config:
     config.read("config.ini")
     ocr.pytesseract.tesseract_cmd = config.get("USERCONFIG", "tesseract_path")
@@ -207,6 +206,12 @@ class MainWindow(QMainWindow):
         self.read_image_file_button.setGeometry(150, 750, 130, 60)
         self.read_image_file_button.adjustSize()
         self.read_image_file_button.clicked.connect(self.read_image_file)
+
+        self.save_txt_button = QPushButton("Save output to txt file", self)
+        self.save_txt_button.setFont(QFont("arial", 20, QFont.Bold))
+        self.save_txt_button.setGeometry(750, 700 , 130, 60)
+        self.save_txt_button.adjustSize()
+        self.save_txt_button.clicked.connect(lambda:self.save_txt_file(self.textbox.toPlainText()))
 
     def create_checkboxes(self):
         self.save_txt_checkbox = QCheckBox("Save output as .txt", self)
@@ -395,8 +400,9 @@ class MainWindow(QMainWindow):
 
     def save_txt_file(self, output):
         date_string = get_time_string()
-        with open(f"{date_string}.txt", "w", encoding="utf-8") as file:
-            file.write(output)
+        if output != "":
+            with open(f"{date_string}.txt", "w", encoding="utf-8") as file:
+                file.write(output)
 
     """
     DELETE IF NOT USED
