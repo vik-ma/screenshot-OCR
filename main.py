@@ -97,6 +97,9 @@ class MainWindow(QMainWindow):
 
         self.create_buttons()
     
+        self.auto_save_txt = config.getboolean("USERCONFIG", "autosavetxt")
+        self.auto_save_img = config.getboolean("USERCONFIG", "autosaveimg")
+        self.auto_copy_output = config.getboolean("USERCONFIG", "autocopy")
         self.create_checkboxes()
 
     def create_buttons(self):
@@ -203,19 +206,24 @@ class MainWindow(QMainWindow):
         self.save_txt_checkbox = QCheckBox("Save output as .txt", self)
         self.save_txt_checkbox.move(500, 700)
         self.save_txt_checkbox.adjustSize()
-        self.save_txt_checkbox.setChecked(config.getboolean("USERCONFIG", "autosavetxt"))
+        self.save_txt_checkbox.setChecked(self.auto_save_txt)
+        self.save_txt_checkbox.stateChanged.connect(self.save_txt_clicked)
 
         self.save_img_checkbox = QCheckBox("Save snippet as .png", self)
         self.save_img_checkbox.move(500, 720)
         self.save_img_checkbox.adjustSize()
-        self.save_img_checkbox.setChecked(config.getboolean("USERCONFIG", "autosaveimg"))
+        self.save_img_checkbox.setChecked(self.auto_save_img)
 
         self.auto_copy_checkbox = QCheckBox("Automatically copy output to clipboard", self)
         self.auto_copy_checkbox.move(500, 740)
         self.auto_copy_checkbox.adjustSize()
-        self.auto_copy_checkbox.setChecked(config.getboolean("USERCONFIG", "autocopy"))
+        self.auto_copy_checkbox.setChecked(self.auto_copy_output)
 
-
+    def save_txt_clicked(self):
+        state = self.save_txt_checkbox.isChecked()
+        self.auto_save_txt = state
+        config.set("USERCONFIG", "autosavetxt", str(state))
+        write_config()
 
     def load_lang_combos(self):
         for item in config['SAVED_LANG_COMBOS']:
@@ -421,7 +429,7 @@ class MainWindow(QMainWindow):
 
 
     def test(self):
-        self.read_image_file()
+        print(self.auto_save_txt)
 
 
 
