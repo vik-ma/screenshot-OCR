@@ -213,16 +213,30 @@ class MainWindow(QMainWindow):
         self.save_img_checkbox.move(500, 720)
         self.save_img_checkbox.adjustSize()
         self.save_img_checkbox.setChecked(self.auto_save_img)
+        self.save_img_checkbox.stateChanged.connect(self.save_img_clicked)
 
         self.auto_copy_checkbox = QCheckBox("Automatically copy output to clipboard", self)
         self.auto_copy_checkbox.move(500, 740)
         self.auto_copy_checkbox.adjustSize()
         self.auto_copy_checkbox.setChecked(self.auto_copy_output)
+        self.auto_copy_checkbox.stateChanged.connect(self.auto_copy_clicked)
 
     def save_txt_clicked(self):
         state = self.save_txt_checkbox.isChecked()
         self.auto_save_txt = state
         config.set("USERCONFIG", "autosavetxt", str(state))
+        write_config()
+
+    def save_img_clicked(self):
+        state = self.save_img_checkbox.isChecked()
+        self.auto_save_img = state
+        config.set("USERCONFIG", "autosaveimg", str(state))
+        write_config()
+    
+    def auto_copy_clicked(self):
+        state = self.auto_copy_checkbox.isChecked()
+        self.auto_copy_output = state
+        config.set("USERCONFIG", "autocopy", str(state))
         write_config()
 
     def load_lang_combos(self):
