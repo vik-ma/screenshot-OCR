@@ -32,8 +32,8 @@ else:
         config.set(section, "default_is_combo", str(False))
         config.set(section, "default_lang_combo", "")
         config.set(section, "lastdir", str(DESKTOP))
-        config.set(section, "autosavefile", str(False))
         config.set(section, "autosavetxt", str(False))
+        config.set(section, "autosaveimg", str(False))
         config.set(section, "autocopy", str(False))
     config.add_section("SAVED_LANG_COMBOS")
     write_config()
@@ -203,14 +203,19 @@ class MainWindow(QMainWindow):
         self.save_txt_checkbox = QCheckBox("Save output as .txt", self)
         self.save_txt_checkbox.move(500, 700)
         self.save_txt_checkbox.adjustSize()
+        self.save_txt_checkbox.setChecked(config.getboolean("USERCONFIG", "autosavetxt"))
 
         self.save_img_checkbox = QCheckBox("Save snippet as .png", self)
         self.save_img_checkbox.move(500, 720)
         self.save_img_checkbox.adjustSize()
+        self.save_img_checkbox.setChecked(config.getboolean("USERCONFIG", "autosaveimg"))
 
         self.auto_copy_checkbox = QCheckBox("Automatically copy output to clipboard", self)
         self.auto_copy_checkbox.move(500, 740)
         self.auto_copy_checkbox.adjustSize()
+        self.auto_copy_checkbox.setChecked(config.getboolean("USERCONFIG", "autocopy"))
+
+
 
     def load_lang_combos(self):
         for item in config['SAVED_LANG_COMBOS']:
@@ -413,6 +418,7 @@ class MainWindow(QMainWindow):
                 config.set("USERCONFIG", k, v)
             write_config()
             self.reset_gui()
+
 
     def test(self):
         self.read_image_file()
