@@ -388,13 +388,16 @@ class MainWindow(QMainWindow):
         print(lang_param)
         img_text = ocr.image_to_string(image, lang=lang_param).strip()
         self.textbox.setPlainText(img_text)
+        if self.auto_copy_output:
+            self.copy_textbox_contents()
+            
     """
     DELETE IF NOT USED
     def save_image(self, image):
         date_string = get_time_string()
         image.save(f"{date_string}.png", "png")
     """
-    
+     
 
     def new_snippet(self, monitor):
         """
