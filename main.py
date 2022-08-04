@@ -390,7 +390,14 @@ class MainWindow(QMainWindow):
         self.textbox.setPlainText(img_text)
         if self.auto_copy_output:
             self.copy_textbox_contents()
-            
+        if self.auto_save_txt:
+            self.save_txt_file(img_text)
+
+    def save_txt_file(self, output):
+        date_string = get_time_string()
+        with open(f"{date_string}.txt", "w", encoding="utf-8") as file:
+            file.write(output)
+
     """
     DELETE IF NOT USED
     def save_image(self, image):
