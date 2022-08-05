@@ -261,7 +261,6 @@ class MainWindow(QMainWindow):
             self.avail_langs[lang] = lang_codes_dict.setdefault(lang, lang)
             #Adds the full language name to an indexed list
             self.avail_langs_index.append(self.avail_langs[lang])
-            #self.lang_listbox.insertItem(index, lang_codes_dict.setdefault(lang, lang)) DELETE IF NOT USED LATER
         #Sorts the language names alphabetically
         self.avail_langs_index.sort(key=str.casefold)
         #Swaps the 'self.avail_langs' values with it's keys
@@ -404,14 +403,6 @@ class MainWindow(QMainWindow):
             with open(f"{date_string}.txt", "w", encoding="utf-8") as file:
                 file.write(output)
 
-    """
-    DELETE IF NOT USED
-    def save_image(self, image):
-        date_string = get_time_string()
-        image.save(f"{date_string}.png", "png")
-    """
-     
-
     def new_snippet(self, monitor):
         """
         Create dim Splashscreen object and show dim Splashscreen.
@@ -532,12 +523,6 @@ class CreateSnippet(QSplashScreen):
             #Create a list based on maximum coordinates for every monitor
             x_values.append(screen.geometry().right())
             y_values.append(screen.geometry().bottom())
-            
-            #Delete these later if not used
-            #if xmax < screen.geometry().right():
-            #    xmax = screen.geometry().right()+1
-            #if ymax < screen.geometry().bottom():
-            #    ymax = screen.geometry().bottom()+1
         
         width = 0
         height = 0
