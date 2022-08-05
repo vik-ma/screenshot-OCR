@@ -783,11 +783,11 @@ class ErrorWindow(QWidget):
 def main():
     """Main function."""
     app = QApplication([])
-    #try:
-    mw = MainWindow()
-    mw.show()
-    #except:
-    #    ew = ErrorWindow()
+    try:
+        mw = MainWindow()
+        mw.show()
+    except:
+        ew = ErrorWindow()
 
     sys.exit(app.exec_())
 
