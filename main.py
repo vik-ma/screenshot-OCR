@@ -227,6 +227,19 @@ class MainWindow(QMainWindow):
         self.set_path_img_button.adjustSize()
         self.set_path_img_button.clicked.connect(lambda:self.set_save_folder("saveimgpath"))
 
+        self.reset_path_img_button = QPushButton("Reset text path", self)
+        self.reset_path_img_button.setFont(QFont("arial", 16, QFont.Bold))
+        self.reset_path_img_button.setGeometry(5, 400, 130, 60)
+        self.reset_path_img_button.adjustSize()
+        self.reset_path_img_button.clicked.connect(lambda:self.reset_save_folder("savetxtpath"))
+
+        self.reset_path_txt_button = QPushButton("Reset image path", self)
+        self.reset_path_txt_button.setFont(QFont("arial", 16, QFont.Bold))
+        self.reset_path_txt_button.setGeometry(5, 430, 130, 60)
+        self.reset_path_txt_button.adjustSize()
+        self.reset_path_txt_button.clicked.connect(lambda:self.reset_save_folder("saveimgpath"))
+
+
     def create_checkboxes(self):
         self.save_txt_checkbox = QCheckBox("Save output as .txt", self)
         self.save_txt_checkbox.move(500, 700)
@@ -431,6 +444,10 @@ class MainWindow(QMainWindow):
         if folder != "":
             config.set("USERCONFIG", cfg_var, folder)
             write_config()
+    
+    def reset_save_folder(self, cfg_var):
+        config.set("USERCONFIG", cfg_var, "")
+        write_config()
 
     def new_snippet(self, monitor):
         """
@@ -492,10 +509,7 @@ class MainWindow(QMainWindow):
 
 
     def test(self):
-        self.set_save_folder("savetxtpath")
-        #date = get_time_string()
-        #path = config.get("USERCONFIG", "savetxtpath")
-        #print(f"{path}{date}.png")
+        self.reset_save_folder("savetxtpath")
 
 
 class CreateSnippet(QSplashScreen):
