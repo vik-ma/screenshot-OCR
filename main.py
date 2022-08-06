@@ -139,7 +139,7 @@ class MainWindow(QMainWindow):
 
         self.clear_button = QPushButton("CLEAR", self)
         self.clear_button.setFont(QFont("arial", 35, QFont.Bold))
-        self.clear_button.setGeometry(900, 630, 130, 60)
+        self.clear_button.setGeometry(1000, 630, 130, 60)
         self.clear_button.adjustSize()
         self.clear_button.clicked.connect(self.clear_textbox)
 
@@ -214,6 +214,16 @@ class MainWindow(QMainWindow):
         self.save_txt_button.setGeometry(750, 700 , 130, 60)
         self.save_txt_button.adjustSize()
         self.save_txt_button.clicked.connect(lambda:self.save_txt_file(self.textbox.toPlainText()))
+        
+        self.set_path_txt_button = QPushButton("Save text files to specific folder", self)
+        self.set_path_txt_button.setFont(QFont("arial", 16, QFont.Bold))
+        self.set_path_txt_button.setGeometry(670, 620, 130, 60)
+        self.set_path_txt_button.adjustSize()
+
+        self.set_path_img_button = QPushButton("Save images to specific folder", self)
+        self.set_path_img_button.setFont(QFont("arial", 16, QFont.Bold))
+        self.set_path_img_button.setGeometry(670, 660, 130, 60)
+        self.set_path_img_button.adjustSize()
 
     def create_checkboxes(self):
         self.save_txt_checkbox = QCheckBox("Save output as .txt", self)
@@ -465,7 +475,9 @@ class MainWindow(QMainWindow):
 
 
     def test(self):
-        print(f"{get_time_string()}.png")
+        date = get_time_string()
+        path = config.get("USERCONFIG", "savetxtpath")
+        print(f"{path}{date}.png")
 
 
 
