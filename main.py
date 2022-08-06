@@ -102,6 +102,10 @@ class MainWindow(QMainWindow):
 
         self.update_lang()
 
+        self.read_langs_label = QLabel(self)
+        self.read_langs_label.move(5, 5)
+        self.read_langs_label.setFont(QFont("arial", 20, QFont.Bold))
+
         self.create_buttons()
     
         self.auto_save_txt = config.getboolean("USERCONFIG", "autosavetxt")
@@ -425,6 +429,20 @@ class MainWindow(QMainWindow):
             self.copy_textbox_contents()
         if self.auto_save_txt:
             self.save_txt_file(img_text)
+        self.print_read_langs()
+
+    def print_read_langs(self):
+        #List read languages by their full name
+        #langs = self.selected_lang
+        #for lang in self.additional_lang_set:
+        #    langs += f", {lang}"
+        #self.read_langs_label.setText(f"Read Languages: {langs}")
+        
+        #List read language parameters by the parameter code
+        langs = self.get_lang_combo()
+        self.read_langs_label.setText(f"Language Parameters: {langs}")
+        self.read_langs_label.adjustSize()
+
 
     def save_txt_file(self, output):
         date_string = get_time_string()
