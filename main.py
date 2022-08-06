@@ -413,9 +413,17 @@ class MainWindow(QMainWindow):
 
     def save_txt_file(self, output):
         date_string = get_time_string()
+        save_path = self.get_save_folder("savetxtpath")
+        full_path = f"{save_path}{date_string}.txt"
         if output != "":
-            with open(f"{date_string}.txt", "w", encoding="utf-8") as file:
+            with open(full_path, "w", encoding="utf-8") as file:
                 file.write(output)
+
+    def get_save_folder(self, cfg_var):
+        save_path = config.get("USERCONFIG", cfg_var)
+        if save_path != "":
+            save_path = save_path+"/"
+        return save_path
 
     def set_save_folder(self, cfg_var):
         folder = QFileDialog.getExistingDirectory(None, "Select Folder")
@@ -488,9 +496,6 @@ class MainWindow(QMainWindow):
         #date = get_time_string()
         #path = config.get("USERCONFIG", "savetxtpath")
         #print(f"{path}{date}.png")
-
-
-
 
 
 class CreateSnippet(QSplashScreen):
@@ -631,7 +636,9 @@ class CreateSnippet(QSplashScreen):
             
             if self.mainwindow.auto_save_img:
                 date_string = get_time_string()
-                selected_pixel_map.save(f"{date_string}.png", "png")
+                save_path = self.mainwindow.get_save_folder("saveimgpath")
+                full_path = f"{save_path}{date_string}.png"
+                selected_pixel_map.save(full_path, "png")
 
             self.mainwindow.show()
 
