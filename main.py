@@ -219,11 +219,13 @@ class MainWindow(QMainWindow):
         self.set_path_txt_button.setFont(QFont("arial", 16, QFont.Bold))
         self.set_path_txt_button.setGeometry(670, 620, 130, 60)
         self.set_path_txt_button.adjustSize()
+        self.set_path_txt_button.clicked.connect(lambda:self.set_save_folder("savetxtpath"))
 
         self.set_path_img_button = QPushButton("Save images to specific folder", self)
         self.set_path_img_button.setFont(QFont("arial", 16, QFont.Bold))
         self.set_path_img_button.setGeometry(670, 660, 130, 60)
         self.set_path_img_button.adjustSize()
+        self.set_path_img_button.clicked.connect(lambda:self.set_save_folder("saveimgpath"))
 
     def create_checkboxes(self):
         self.save_txt_checkbox = QCheckBox("Save output as .txt", self)
@@ -415,6 +417,13 @@ class MainWindow(QMainWindow):
             with open(f"{date_string}.txt", "w", encoding="utf-8") as file:
                 file.write(output)
 
+    def set_save_folder(self, cfg_var):
+        folder = QFileDialog.getExistingDirectory(None, "Select Folder")
+
+        if folder != "":
+            config.set("USERCONFIG", cfg_var, folder)
+            write_config()
+
     def new_snippet(self, monitor):
         """
         Create dim Splashscreen object and show dim Splashscreen.
@@ -475,9 +484,10 @@ class MainWindow(QMainWindow):
 
 
     def test(self):
-        date = get_time_string()
-        path = config.get("USERCONFIG", "savetxtpath")
-        print(f"{path}{date}.png")
+        self.set_save_folder("savetxtpath")
+        #date = get_time_string()
+        #path = config.get("USERCONFIG", "savetxtpath")
+        #print(f"{path}{date}.png")
 
 
 
