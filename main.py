@@ -40,6 +40,8 @@ else:
         config.set(section, "autosavetxt", str(False))
         config.set(section, "autosaveimg", str(False))
         config.set(section, "autocopy", str(False))
+        config.set(section, "savetxtpath", "")
+        config.set(section, "saveimgpath", "")
     config.add_section("SAVED_LANG_COMBOS")
     write_config()
 
