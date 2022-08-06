@@ -365,6 +365,8 @@ class MainWindow(QMainWindow):
             write_config()
             self.saved_lang_combos_menu.clear()
             self.load_lang_combos()
+            #Automatically selects the newly added language combo (Last index in list)
+            self.saved_lang_combos_menu.setCurrentIndex(self.saved_lang_combos_menu.count()-1)
 
     def remove_lang_combo(self):
         option = self.saved_lang_combos_menu.currentText()
