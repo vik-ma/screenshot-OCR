@@ -73,11 +73,11 @@ class MainWindow(QMainWindow):
         
         self.lang_combos_label = QLabel("Saved Language Combos", self)
         self.lang_combos_label.setFont(self.medium_button_font)
-        self.lang_combos_label.move(845, 220)
+        self.lang_combos_label.move(845, 240)
         self.lang_combos_label.adjustSize()
 
         self.saved_lang_combos_menu = QComboBox(self)
-        self.saved_lang_combos_menu.setGeometry(845, 240, 200, 30)
+        self.saved_lang_combos_menu.setGeometry(845, 260, 200, 30)
         self.saved_lang_combos_menu.setFont(self.dropdown_font)
         self.saved_lang_combos_menu.activated.connect(self.set_lang_combo)
 
@@ -194,19 +194,19 @@ class MainWindow(QMainWindow):
 
         self.save_lang_combo_button = QPushButton("Save Language Combo", self)
         self.save_lang_combo_button.setFont(self.medium_button_font)
-        self.save_lang_combo_button.setGeometry(845, 180, 130, 60)
+        self.save_lang_combo_button.setGeometry(845, 200, 130, 60)
         self.save_lang_combo_button.adjustSize()
         self.save_lang_combo_button.clicked.connect(self.save_lang_combo)
 
         self.remove_lang_combo_button = QPushButton("Delete Language Combo", self)
         self.remove_lang_combo_button.setFont(self.medium_button_font)
-        self.remove_lang_combo_button.setGeometry(845, 305, 130, 60)
+        self.remove_lang_combo_button.setGeometry(845, 325, 130, 60)
         self.remove_lang_combo_button.adjustSize()
         self.remove_lang_combo_button.clicked.connect(self.remove_lang_combo)
 
         self.save_lang_combo_default_button = QPushButton("Set Combo As Default", self)
         self.save_lang_combo_default_button.setFont(self.medium_button_font)
-        self.save_lang_combo_default_button.setGeometry(845, 275, 130, 60)
+        self.save_lang_combo_default_button.setGeometry(845, 295, 130, 60)
         self.save_lang_combo_default_button.adjustSize()
         self.save_lang_combo_default_button.clicked.connect(self.save_lang_combo_default)
 
