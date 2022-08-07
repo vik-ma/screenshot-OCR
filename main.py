@@ -61,9 +61,10 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self._centralWidget)
 
         self.textbox_font = QFont("verdana", 15)
-        self.big_button_font = QFont("arial", 35, QFont.Bold)
-        self.medium_button_font = QFont("arial", 20, QFont.Bold)
-        self.small_button_font = QFont("arial", 16, QFont.Bold)
+        self.dropdown_font = QFont("arial", 14, QFont.Bold)
+        self.big_button_font = QFont("arial", 20, QFont.Bold)
+        self.medium_button_font = QFont("arial", 16, QFont.Bold)
+        self.small_button_font = QFont("arial", 12, QFont.Bold)
 
         self.textbox = QPlainTextEdit(self)
         self.textbox.setFont(self.textbox_font)
@@ -71,8 +72,8 @@ class MainWindow(QMainWindow):
         self.textbox.setReadOnly(True)
         
         self.saved_lang_combos_menu = QComboBox(self)
-        self.saved_lang_combos_menu.setGeometry(20, 520, 300, 35)
-        self.saved_lang_combos_menu.setFont(self.textbox_font)
+        self.saved_lang_combos_menu.setGeometry(20, 520, 200, 30)
+        self.saved_lang_combos_menu.setFont(self.dropdown_font)
         self.saved_lang_combos_menu.activated.connect(self.set_lang_combo)
 
         self.lang_listbox = QListWidget(self)
