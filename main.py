@@ -118,19 +118,16 @@ class MainWindow(QMainWindow):
         self.auto_save_img = config.getboolean("USERCONFIG", "autosaveimg")
         self.auto_copy_output = config.getboolean("USERCONFIG", "autocopy")
 
-        self.save_path_txt = config.get("USERCONFIG", "savetxtpath")
-        self.save_path_img = config.get("USERCONFIG", "saveimgpath")
-
         self.save_txt_folder_label = QLabel(self)
         self.save_txt_folder_label.setFont(self.small_button_font)
         self.save_txt_folder_label.move(10, 305)
-        self.save_txt_folder_label.setText(self.save_path_txt)
+        self.save_txt_folder_label.setText(config.get("USERCONFIG", "savetxtpath"))
         self.save_txt_folder_label.adjustSize()
 
         self.save_img_folder_label = QLabel(self)
         self.save_img_folder_label.setFont(self.small_button_font)
         self.save_img_folder_label.move(10, 375)
-        self.save_img_folder_label.setText(self.save_path_img)
+        self.save_img_folder_label.setText(config.get("USERCONFIG", "saveimgpath"))
         self.save_img_folder_label.adjustSize()
 
         self.create_checkboxes()
@@ -487,17 +484,11 @@ class MainWindow(QMainWindow):
 
     def update_save_folder(self, cfg_var, value):
         if cfg_var == "savetxtpath":
-            if value != "":
-                self.save_txt_folder_label.setText(value)
-                self.save_txt_folder_label.adjustSize()
-            else:
-                self.save_txt_folder_label.clear()
+            self.save_txt_folder_label.setText(value)
+            self.save_txt_folder_label.adjustSize()
         elif cfg_var == "saveimgpath":
-            if value != "":
-                self.save_img_folder_label.setText(value)
-                self.save_img_folder_label.adjustSize()
-            else:
-                self.save_img_folder_label.clear()
+            self.save_img_folder_label.setText(value)
+            self.save_img_folder_label.adjustSize()
 
     def new_snippet(self, monitor):
         """
