@@ -49,7 +49,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Screenshot OCR")
-        self.setGeometry(0, 0, 1200, 800)
+        self.setGeometry(0, 0, 1070, 470)
 
         #Display window in the center of the screen
         qtRectangle = self.frameGeometry()
