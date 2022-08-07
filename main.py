@@ -117,6 +117,22 @@ class MainWindow(QMainWindow):
         self.auto_save_txt = config.getboolean("USERCONFIG", "autosavetxt")
         self.auto_save_img = config.getboolean("USERCONFIG", "autosaveimg")
         self.auto_copy_output = config.getboolean("USERCONFIG", "autocopy")
+
+        self.save_path_txt = config.get("USERCONFIG", "savetxtpath")
+        self.save_path_img = config.get("USERCONFIG", "saveimgpath")
+
+        self.save_txt_folder_label = QLabel(self)
+        self.save_txt_folder_label.setFont(self.small_button_font)
+        self.save_txt_folder_label.move(10, 305)
+        self.save_txt_folder_label.setText(self.save_path_txt)
+        self.save_txt_folder_label.adjustSize()
+
+        self.save_img_folder_label = QLabel(self)
+        self.save_img_folder_label.setFont(self.small_button_font)
+        self.save_img_folder_label.move(10, 375)
+        self.save_img_folder_label.setText(self.save_path_img)
+        self.save_img_folder_label.adjustSize()
+
         self.create_checkboxes()
 
     def create_buttons(self):
@@ -442,7 +458,6 @@ class MainWindow(QMainWindow):
         self.read_langs_label.setText(f"Language Parameters: {langs}")
         self.read_langs_label.adjustSize()
 
-
     def save_txt_file(self, output):
         date_string = get_time_string()
         save_path = self.get_save_folder("savetxtpath")
@@ -463,10 +478,26 @@ class MainWindow(QMainWindow):
         if folder != "":
             config.set("USERCONFIG", cfg_var, folder)
             write_config()
+            self.update_save_folder(cfg_var, folder)
     
     def reset_save_folder(self, cfg_var):
         config.set("USERCONFIG", cfg_var, "")
         write_config()
+        self.update_save_folder(cfg_var, "")
+
+    def update_save_folder(self, cfg_var, value):
+        if cfg_var == "savetxtpath":
+            if value != "":
+                self.save_txt_folder_label.setText(value)
+                self.save_txt_folder_label.adjustSize()
+            else:
+                self.save_txt_folder_label.clear()
+        elif cfg_var == "saveimgpath":
+            if value != "":
+                self.save_img_folder_label.setText(value)
+                self.save_img_folder_label.adjustSize()
+            else:
+                self.save_img_folder_label.clear()
 
     def new_snippet(self, monitor):
         """
