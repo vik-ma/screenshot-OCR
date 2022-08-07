@@ -71,21 +71,36 @@ class MainWindow(QMainWindow):
         self.textbox.setGeometry(320, 200, 500, 200)
         self.textbox.setReadOnly(True)
         
+        self.lang_combos_label = QLabel("Saved Language Combos", self)
+        self.lang_combos_label.setFont(self.medium_button_font)
+        self.lang_combos_label.move(845, 220)
+        self.lang_combos_label.adjustSize()
+
         self.saved_lang_combos_menu = QComboBox(self)
-        self.saved_lang_combos_menu.setGeometry(830, 230, 200, 30)
+        self.saved_lang_combos_menu.setGeometry(845, 240, 200, 30)
         self.saved_lang_combos_menu.setFont(self.dropdown_font)
         self.saved_lang_combos_menu.activated.connect(self.set_lang_combo)
+
+        self.lang_title_label = QLabel("Available Languages", self)
+        self.lang_title_label.move(320, 10)
+        self.lang_title_label.setFont(self.medium_button_font)
+        self.lang_title_label.adjustSize()
 
         self.lang_listbox = QListWidget(self)
         self.lang_listbox.setGeometry(320, 30, 240, 110)
         self.lang_listbox.itemClicked.connect(self.lang_listbox_click)
 
+        self.add_lang_label = QLabel("Available Languages (Extra)", self)
+        self.add_lang_label.move(820, 10)
+        self.add_lang_label.setFont(self.medium_button_font)
+        self.add_lang_label.adjustSize()
+
         self.add_lang_listbox = QListWidget(self)
         self.add_lang_listbox.setGeometry(820, 30, 240, 110)
 
-        self.lang_label = QLabel(self)
-        self.lang_label.move(320, 175)
-        self.lang_label.setFont(self.medium_button_font)
+        self.main_lang_label = QLabel(self)
+        self.main_lang_label.move(320, 175)
+        self.main_lang_label.setFont(self.medium_button_font)
 
         self.lang_param_listbox = QListWidget(self)
         self.lang_param_listbox.setGeometry(570, 30, 240, 110)
@@ -100,8 +115,7 @@ class MainWindow(QMainWindow):
 
         self.selected_lang = self.get_main_lang()
 
-        self.lang_param_label = QLabel(self)
-        self.lang_param_label.setText("Additional languages")
+        self.lang_param_label = QLabel("Additional Languages", self)
         self.lang_param_label.move(570, 10)
         self.lang_param_label.setFont(self.medium_button_font)
         self.lang_param_label.adjustSize()
@@ -136,7 +150,7 @@ class MainWindow(QMainWindow):
         self.test_button = QPushButton(self)
         self.test_button.setText("TEST")
         self.test_button.setFont(self.medium_button_font)
-        self.test_button.setGeometry(850, 400, 100, 40)
+        self.test_button.setGeometry(845, 400, 100, 40)
         self.test_button.clicked.connect(self.test)
 
         self.snippet_all_button = QPushButton("Take Snippet", self)
@@ -160,7 +174,7 @@ class MainWindow(QMainWindow):
         #self.read_image_file_button.setShortcut("F")
         self.read_image_file_button.clicked.connect(self.read_image_file)
 
-        self.set_default_lang_button = QPushButton("Set language as default", self)
+        self.set_default_lang_button = QPushButton("Set Language As Default", self)
         self.set_default_lang_button.setFont(self.medium_button_font)
         self.set_default_lang_button.setGeometry(320, 145, 130, 60)
         self.set_default_lang_button.adjustSize()
@@ -180,19 +194,19 @@ class MainWindow(QMainWindow):
 
         self.save_lang_combo_button = QPushButton("Save Language Combo", self)
         self.save_lang_combo_button.setFont(self.medium_button_font)
-        self.save_lang_combo_button.setGeometry(830, 300, 130, 60)
+        self.save_lang_combo_button.setGeometry(845, 180, 130, 60)
         self.save_lang_combo_button.adjustSize()
         self.save_lang_combo_button.clicked.connect(self.save_lang_combo)
 
-        self.remove_lang_combo_button = QPushButton("Remove Language Combo", self)
+        self.remove_lang_combo_button = QPushButton("Delete Language Combo", self)
         self.remove_lang_combo_button.setFont(self.medium_button_font)
-        self.remove_lang_combo_button.setGeometry(830, 330, 130, 60)
+        self.remove_lang_combo_button.setGeometry(845, 305, 130, 60)
         self.remove_lang_combo_button.adjustSize()
         self.remove_lang_combo_button.clicked.connect(self.remove_lang_combo)
 
         self.save_lang_combo_default_button = QPushButton("Set Combo As Default", self)
         self.save_lang_combo_default_button.setFont(self.medium_button_font)
-        self.save_lang_combo_default_button.setGeometry(830, 270, 130, 60)
+        self.save_lang_combo_default_button.setGeometry(845, 275, 130, 60)
         self.save_lang_combo_default_button.adjustSize()
         self.save_lang_combo_default_button.clicked.connect(self.save_lang_combo_default)
 
@@ -249,7 +263,6 @@ class MainWindow(QMainWindow):
         self.reset_path_txt_button.setGeometry(240, 350, 130, 60)
         self.reset_path_txt_button.adjustSize()
         self.reset_path_txt_button.clicked.connect(lambda:self.reset_save_folder("saveimgpath"))
-
 
     def create_checkboxes(self):
         self.save_txt_checkbox = QCheckBox("Save output as .txt", self)
@@ -329,8 +342,8 @@ class MainWindow(QMainWindow):
         write_config()
 
     def update_lang(self):
-        self.lang_label.setText(f"Selected Language: {self.selected_lang}")
-        self.lang_label.adjustSize()
+        self.main_lang_label.setText(f"Selected Language: {self.selected_lang}")
+        self.main_lang_label.adjustSize()
 
     def add_lang_param(self):
         new_lang = self.avail_langs_index[self.get_additional_lang_index()]
