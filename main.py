@@ -40,7 +40,7 @@ else:
         config.set(section, "autosavetxt", str(False))
         config.set(section, "autosaveimg", str(False))
         config.set(section, "autocopy", str(False))
-        config.set(section, "enable_shortcuts", str(True))
+        config.set(section, "disable_shortcuts", str(False))
         config.set(section, "savetxtpath", "")
         config.set(section, "saveimgpath", "")
     config.add_section("SAVED_LANG_COMBOS")
@@ -132,7 +132,7 @@ class MainWindow(QMainWindow):
         self.auto_save_txt = config.getboolean("USERCONFIG", "autosavetxt")
         self.auto_save_img = config.getboolean("USERCONFIG", "autosaveimg")
         self.auto_copy_output = config.getboolean("USERCONFIG", "autocopy")
-        self.enable_shortcuts = config.getboolean("USERCONFIG", "enable_shortcuts")
+        self.disable_shortcuts = config.getboolean("USERCONFIG", "disable_shortcuts")
 
         self.save_txt_folder_label = QLabel(self)
         self.save_txt_folder_label.setFont(self.small_button_font)
@@ -284,6 +284,12 @@ class MainWindow(QMainWindow):
         self.auto_copy_checkbox.adjustSize()
         self.auto_copy_checkbox.setChecked(self.auto_copy_output)
         self.auto_copy_checkbox.stateChanged.connect(self.auto_copy_clicked)
+
+        self.disable_shortcuts_checkbox = QCheckBox("Disable keyboard shortcuts", self)
+        self.disable_shortcuts_checkbox.move(10, 420)
+        self.disable_shortcuts_checkbox.adjustSize()
+        self.disable_shortcuts_checkbox.setChecked(self.disable_shortcuts)
+        self.disable_shortcuts_checkbox.stateChanged.connect(disable_shortcuts_clicked)
 
     def save_txt_clicked(self):
         state = self.save_txt_checkbox.isChecked()
