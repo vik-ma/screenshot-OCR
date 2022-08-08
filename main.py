@@ -61,6 +61,11 @@ class MainWindow(QMainWindow):
         self._centralWidget = QWidget(self)
         self.setCentralWidget(self._centralWidget)
 
+        #Settings section y position
+        self.s_s_y_pos = 260
+        #Settings section y offset
+        self.s_s_y_offset = 20
+
         self.textbox_font = QFont("verdana", 10)
         self.dropdown_font = QFont("arial", 14, QFont.Bold)
         self.big_button_font = QFont("arial", 20, QFont.Bold)
@@ -82,29 +87,24 @@ class MainWindow(QMainWindow):
         self.saved_lang_combos_menu.setFont(self.dropdown_font)
         self.saved_lang_combos_menu.activated.connect(self.set_lang_combo)
 
-        self.lang_title_label = QLabel("Available Languages", self)
+        self.lang_title_label = QLabel("Language", self)
         self.lang_title_label.move(320, 10)
         self.lang_title_label.setFont(self.medium_button_font)
         self.lang_title_label.adjustSize()
 
         self.lang_listbox = QListWidget(self)
-        self.lang_listbox.setGeometry(320, 30, 240, 110)
+        self.lang_listbox.setGeometry(320, 30, 140, 110)
         self.lang_listbox.itemClicked.connect(self.lang_listbox_click)
 
-        self.add_lang_label = QLabel("Available Languages (Extra)", self)
-        self.add_lang_label.move(820, 10)
-        self.add_lang_label.setFont(self.medium_button_font)
-        self.add_lang_label.adjustSize()
-
         self.add_lang_listbox = QListWidget(self)
-        self.add_lang_listbox.setGeometry(820, 30, 240, 110)
+        self.add_lang_listbox.setGeometry(820, 30, 140, 110)
 
         self.main_lang_label = QLabel(self)
         self.main_lang_label.move(320, 175)
         self.main_lang_label.setFont(self.medium_button_font)
 
         self.lang_param_listbox = QListWidget(self)
-        self.lang_param_listbox.setGeometry(570, 30, 240, 110)
+        self.lang_param_listbox.setGeometry(570, 30, 140, 110)
 
         self.additional_lang_set = set()    #Set to store added language parameters
 
@@ -136,13 +136,13 @@ class MainWindow(QMainWindow):
 
         self.save_txt_folder_label = QLabel(self)
         self.save_txt_folder_label.setFont(self.small_button_font)
-        self.save_txt_folder_label.move(10, 305)
+        self.save_txt_folder_label.move(10, self.s_s_y_pos+self.s_s_y_offset*2+4)
         self.save_txt_folder_label.setText(config.get("USERCONFIG", "savetxtpath"))
         self.save_txt_folder_label.adjustSize()
 
         self.save_img_folder_label = QLabel(self)
         self.save_img_folder_label.setFont(self.small_button_font)
-        self.save_img_folder_label.move(10, 375)
+        self.save_img_folder_label.move(10, self.s_s_y_pos+self.s_s_y_offset*5+4)
         self.save_img_folder_label.setText(config.get("USERCONFIG", "saveimgpath"))
         self.save_img_folder_label.adjustSize()
 
@@ -236,55 +236,55 @@ class MainWindow(QMainWindow):
         
         self.restore_default_cfg_button = QPushButton("Restore Default Configuration", self)
         self.restore_default_cfg_button.setFont(self.medium_button_font)
-        self.restore_default_cfg_button.setGeometry(10, 440, 130, 60)
+        self.restore_default_cfg_button.setGeometry(10, self.s_s_y_pos+self.s_s_y_offset*8, 130, 60)
         self.restore_default_cfg_button.adjustSize()
         self.restore_default_cfg_button.clicked.connect(self.restore_default_config)
 
         self.set_path_txt_button = QPushButton("Save text files to specific folder", self)
         self.set_path_txt_button.setFont(self.small_button_font)
-        self.set_path_txt_button.setGeometry(10, 280, 130, 60)
+        self.set_path_txt_button.setGeometry(10, self.s_s_y_pos+self.s_s_y_offset*1, 130, 60)
         self.set_path_txt_button.adjustSize()
         self.set_path_txt_button.clicked.connect(lambda:self.set_save_folder("savetxtpath"))
 
         self.set_path_img_button = QPushButton("Save images to specific folder", self)
         self.set_path_img_button.setFont(self.small_button_font)
-        self.set_path_img_button.setGeometry(10, 350, 130, 60)
+        self.set_path_img_button.setGeometry(10, self.s_s_y_pos+self.s_s_y_offset*4, 130, 60)
         self.set_path_img_button.adjustSize()
         self.set_path_img_button.clicked.connect(lambda:self.set_save_folder("saveimgpath"))
 
-        self.reset_path_img_button = QPushButton("Reset", self)
-        self.reset_path_img_button.setFont(self.small_button_font)
-        self.reset_path_img_button.setGeometry(240, 280, 130, 60)
-        self.reset_path_img_button.adjustSize()
-        self.reset_path_img_button.clicked.connect(lambda:self.reset_save_folder("savetxtpath"))
-
-        self.reset_path_txt_button = QPushButton("Reset", self)
+        self.reset_path_txt_button = QPushButton("Reset T", self)
         self.reset_path_txt_button.setFont(self.small_button_font)
-        self.reset_path_txt_button.setGeometry(240, 350, 130, 60)
+        self.reset_path_txt_button.setGeometry(240, self.s_s_y_pos+self.s_s_y_offset*1, 130, 60)
         self.reset_path_txt_button.adjustSize()
-        self.reset_path_txt_button.clicked.connect(lambda:self.reset_save_folder("saveimgpath"))
+        self.reset_path_txt_button.clicked.connect(lambda:self.reset_save_folder("savetxtpath"))
+
+        self.reset_path_img_button = QPushButton("Reset I", self)
+        self.reset_path_img_button.setFont(self.small_button_font)
+        self.reset_path_img_button.setGeometry(240, self.s_s_y_pos+self.s_s_y_offset*4, 130, 60)
+        self.reset_path_img_button.adjustSize()
+        self.reset_path_img_button.clicked.connect(lambda:self.reset_save_folder("saveimgpath"))
 
     def create_checkboxes(self):
         self.save_txt_checkbox = QCheckBox("Save output as .txt", self)
-        self.save_txt_checkbox.move(10, 260)
+        self.save_txt_checkbox.move(10, self.s_s_y_pos)
         self.save_txt_checkbox.adjustSize()
         self.save_txt_checkbox.setChecked(self.auto_save_txt)
         self.save_txt_checkbox.stateChanged.connect(self.save_txt_clicked)
 
         self.save_img_checkbox = QCheckBox("Save snippet as .png", self)
-        self.save_img_checkbox.move(10, 330)
+        self.save_img_checkbox.move(10, self.s_s_y_pos+self.s_s_y_offset*3)
         self.save_img_checkbox.adjustSize()
         self.save_img_checkbox.setChecked(self.auto_save_img)
         self.save_img_checkbox.stateChanged.connect(self.save_img_clicked)
 
         self.auto_copy_checkbox = QCheckBox("Automatically copy output to clipboard", self)
-        self.auto_copy_checkbox.move(10, 400)
+        self.auto_copy_checkbox.move(10, self.s_s_y_pos+self.s_s_y_offset*6)
         self.auto_copy_checkbox.adjustSize()
         self.auto_copy_checkbox.setChecked(self.auto_copy_output)
         self.auto_copy_checkbox.stateChanged.connect(self.auto_copy_clicked)
 
         self.disable_shortcuts_checkbox = QCheckBox("Disable keyboard shortcuts", self)
-        self.disable_shortcuts_checkbox.move(10, 420)
+        self.disable_shortcuts_checkbox.move(10, self.s_s_y_pos+self.s_s_y_offset*7)
         self.disable_shortcuts_checkbox.adjustSize()
         self.disable_shortcuts_checkbox.setChecked(self.disable_shortcuts)
         self.disable_shortcuts_checkbox.stateChanged.connect(self.disable_shortcuts_clicked)
