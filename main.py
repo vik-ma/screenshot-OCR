@@ -289,7 +289,7 @@ class MainWindow(QMainWindow):
         self.disable_shortcuts_checkbox.move(10, 420)
         self.disable_shortcuts_checkbox.adjustSize()
         self.disable_shortcuts_checkbox.setChecked(self.disable_shortcuts)
-        self.disable_shortcuts_checkbox.stateChanged.connect(disable_shortcuts_clicked)
+        self.disable_shortcuts_checkbox.stateChanged.connect(self.disable_shortcuts_clicked)
 
     def save_txt_clicked(self):
         state = self.save_txt_checkbox.isChecked()
@@ -307,6 +307,12 @@ class MainWindow(QMainWindow):
         state = self.auto_copy_checkbox.isChecked()
         self.auto_copy_output = state
         config.set("USERCONFIG", "autocopy", str(state))
+        write_config()
+
+    def disable_shortcuts_clicked(self):
+        state = self.disable_shortcuts_checkbox.isChecked()
+        self.disable_shortcuts = state
+        config.set("USERCONFIG", "disable_shortcuts", str(state))
         write_config()
 
     def load_lang_combos(self):
