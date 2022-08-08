@@ -50,7 +50,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Screenshot OCR")
-        self.setGeometry(0, 0, 835, 470)
+        self.setGeometry(0, 0, 830, 470)
 
         #Display window in the center of the screen
         qtRectangle = self.frameGeometry()
@@ -97,14 +97,14 @@ class MainWindow(QMainWindow):
         self.lang_listbox.itemClicked.connect(self.lang_listbox_click)
 
         self.add_lang_listbox = QListWidget(self)
-        self.add_lang_listbox.setGeometry(480, 30, 140, 110)
+        self.add_lang_listbox.setGeometry(476, 31, 140, 110)
 
         self.main_lang_label = QLabel(self)
-        self.main_lang_label.move(320, 175)
+        self.main_lang_label.move(320, 177)
         self.main_lang_label.setFont(self.medium_button_font)
 
         self.lang_param_listbox = QListWidget(self)
-        self.lang_param_listbox.setGeometry(320, 30, 140, 110)
+        self.lang_param_listbox.setGeometry(320, 31, 140, 110)
 
         self.additional_lang_set = set()    #Set to store added language parameters
 
@@ -124,7 +124,7 @@ class MainWindow(QMainWindow):
         self.update_lang()
 
         self.read_langs_label = QLabel(self)
-        self.read_langs_label.move(320, 400)
+        self.read_langs_label.move(320, 402)
         self.read_langs_label.setFont(self.medium_button_font)
         
         self.create_buttons()
@@ -194,7 +194,7 @@ class MainWindow(QMainWindow):
 
         self.save_lang_combo_button = QPushButton("Save Language Combo", self)
         self.save_lang_combo_button.setFont(self.medium_button_font)
-        self.save_lang_combo_button.setGeometry(625, 30, 130, 60)
+        self.save_lang_combo_button.setGeometry(625, 31, 130, 60)
         self.save_lang_combo_button.adjustSize()
         self.save_lang_combo_button.clicked.connect(self.save_lang_combo)
 
@@ -212,25 +212,25 @@ class MainWindow(QMainWindow):
 
         self.copy_button = QPushButton("Copy", self)
         self.copy_button.setFont(self.big_button_font)
-        self.copy_button.setGeometry(320, 420, 130, 60)
+        self.copy_button.setGeometry(320, 423, 130, 60)
         self.copy_button.adjustSize()
         self.copy_button.clicked.connect(self.copy_textbox_contents)
 
         self.edit_textbox_button = QPushButton("Edit", self)
         self.edit_textbox_button.setFont(self.big_button_font)
-        self.edit_textbox_button.setGeometry(400, 420, 130, 60)
+        self.edit_textbox_button.setGeometry(400, 423, 130, 60)
         self.edit_textbox_button.adjustSize()
         self.edit_textbox_button.clicked.connect(self.set_textbox_readonly)
 
         self.clear_button = QPushButton("Clear", self)
         self.clear_button.setFont(self.big_button_font)
-        self.clear_button.setGeometry(480, 420, 130, 60)
+        self.clear_button.setGeometry(480, 423, 130, 60)
         self.clear_button.adjustSize()
         self.clear_button.clicked.connect(self.clear_textbox)
         
         self.save_txt_button = QPushButton("Save Output", self)
         self.save_txt_button.setFont(self.big_button_font)
-        self.save_txt_button.setGeometry(650, 420, 130, 60)
+        self.save_txt_button.setGeometry(650, 423, 130, 60)
         self.save_txt_button.adjustSize()
         self.save_txt_button.clicked.connect(lambda:self.save_txt_file(self.textbox.toPlainText()))
         
