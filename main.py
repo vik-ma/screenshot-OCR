@@ -40,6 +40,7 @@ else:
         config.set(section, "autosavetxt", str(False))
         config.set(section, "autosaveimg", str(False))
         config.set(section, "autocopy", str(False))
+        config.set(section, "enable_shortcuts", str(True))
         config.set(section, "savetxtpath", "")
         config.set(section, "saveimgpath", "")
     config.add_section("SAVED_LANG_COMBOS")
@@ -131,6 +132,7 @@ class MainWindow(QMainWindow):
         self.auto_save_txt = config.getboolean("USERCONFIG", "autosavetxt")
         self.auto_save_img = config.getboolean("USERCONFIG", "autosaveimg")
         self.auto_copy_output = config.getboolean("USERCONFIG", "autocopy")
+        self.enable_shortcuts = config.getboolean("USERCONFIG", "enable_shortcuts")
 
         self.save_txt_folder_label = QLabel(self)
         self.save_txt_folder_label.setFont(self.small_button_font)
