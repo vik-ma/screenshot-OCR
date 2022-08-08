@@ -893,14 +893,22 @@ class ErrorWindow(QWidget):
                 #If selected file is valid
                 mw = MainWindow()
                 mw.show()
-            except:
+            except ocr.TesseractNotFoundError:
                 #Display error message and then close  application
                 sys.exit(self.file_error_msg.exec_())
+            except Exception as e:
+                unexpected_error(str(e))
         else:
             #Close application if user cancels filedialog
             sys.exit()
         
-
+def unexpected_error(exception):
+    unexpected_error_msg = QMessageBox()
+    unexpected_error_msg.setIcon(QMessageBox.Critical)
+    unexpected_error_msg.setText("Unexpected Error!")
+    unexpected_error_msg.setInformativeText(exception)
+    unexpected_error_msg.setWindowTitle("Error")
+    sys.exit(unexpected_error_msg.exec_())
 
 def main():
     """Main function."""
@@ -908,10 +916,10 @@ def main():
     try:
         mw = MainWindow()
         mw.show()
+    except ocr.TesseractNotFoundError:
+        ErrorWindow()
     except Exception as e:
-        print(e) 
-        ew = ErrorWindow()
-
+        unexpected_error(str(e))
     sys.exit(app.exec_())
 
 
