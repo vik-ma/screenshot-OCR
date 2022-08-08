@@ -147,6 +147,7 @@ class MainWindow(QMainWindow):
         self.save_img_folder_label.adjustSize()
 
         self.create_checkboxes()
+        self.set_shortcuts()
 
     def create_buttons(self):
         self.test_button = QPushButton(self)
@@ -159,21 +160,18 @@ class MainWindow(QMainWindow):
         self.snippet_all_button.setFont(self.big_button_font)
         self.snippet_all_button.setGeometry(10, 10, 130, 60)
         self.snippet_all_button.adjustSize()
-        #self.snippet_all_button.setShortcut("S")
         self.snippet_all_button.clicked.connect(lambda:self.new_snippet("all"))
 
         self.snippet_primary_button = QPushButton("Take Snippet Primary", self)
         self.snippet_primary_button.setFont(self.big_button_font)
         self.snippet_primary_button.setGeometry(10, 50, 130, 60)
         self.snippet_primary_button.adjustSize()
-        #self.snippet_primary_button.setShortcut("P")
         self.snippet_primary_button.clicked.connect(lambda:self.new_snippet("primary"))
         
         self.read_image_file_button = QPushButton("Read File", self)
         self.read_image_file_button.setFont(self.big_button_font)
         self.read_image_file_button.setGeometry(10, 90, 130, 60)
         self.read_image_file_button.adjustSize()
-        #self.read_image_file_button.setShortcut("F")
         self.read_image_file_button.clicked.connect(self.read_image_file)
 
         self.set_default_lang_button = QPushButton("Set Language As Default", self)
@@ -291,6 +289,16 @@ class MainWindow(QMainWindow):
         self.disable_shortcuts_checkbox.setChecked(self.disable_shortcuts)
         self.disable_shortcuts_checkbox.stateChanged.connect(self.disable_shortcuts_clicked)
 
+    def set_shortcuts(self):
+        if self.disable_shortcuts:
+            self.snippet_all_button.setShortcut("")
+            self.snippet_primary_button.setShortcut("")
+            self.read_image_file_button.setShortcut("")
+        else:
+            self.snippet_all_button.setShortcut("S")
+            self.snippet_primary_button.setShortcut("P")
+            self.read_image_file_button.setShortcut("F")
+
     def save_txt_clicked(self):
         state = self.save_txt_checkbox.isChecked()
         self.auto_save_txt = state
@@ -314,6 +322,7 @@ class MainWindow(QMainWindow):
         self.disable_shortcuts = state
         config.set("USERCONFIG", "disable_shortcuts", str(state))
         write_config()
+        self.set_shortcuts()
 
     def load_lang_combos(self):
         for item in config['SAVED_LANG_COMBOS']:
@@ -577,7 +586,7 @@ class MainWindow(QMainWindow):
 
 
     def test(self):
-        self.print_read_langs()
+        self.set_shortcuts()
 
 
 class CreateSnippet(QSplashScreen):
