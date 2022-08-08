@@ -50,7 +50,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Screenshot OCR")
-        self.setGeometry(0, 0, 1070, 470)
+        self.setGeometry(0, 0, 835, 470)
 
         #Display window in the center of the screen
         qtRectangle = self.frameGeometry()
@@ -62,12 +62,12 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self._centralWidget)
 
         #Settings section y position
-        self.s_s_y_pos = 260
+        self.s_s_y_pos = 270
         #Settings section y offset
-        self.s_s_y_offset = 20
+        self.s_s_y_offset = 21
 
         self.textbox_font = QFont("verdana", 10)
-        self.dropdown_font = QFont("arial", 14, QFont.Bold)
+        self.dropdown_font = QFont("arial", 13, QFont.Bold)
         self.big_button_font = QFont("arial", 20, QFont.Bold)
         self.medium_button_font = QFont("arial", 12, QFont.Bold)
         self.small_button_font = QFont("arial", 10, QFont.Bold)
@@ -79,32 +79,32 @@ class MainWindow(QMainWindow):
         
         self.lang_combos_label = QLabel("Saved Language Combos", self)
         self.lang_combos_label.setFont(self.medium_button_font)
-        self.lang_combos_label.move(845, 240)
+        self.lang_combos_label.move(625, 65)
         self.lang_combos_label.adjustSize()
 
         self.saved_lang_combos_menu = QComboBox(self)
-        self.saved_lang_combos_menu.setGeometry(845, 260, 200, 30)
+        self.saved_lang_combos_menu.setGeometry(625, 85, 190, 25)
         self.saved_lang_combos_menu.setFont(self.dropdown_font)
         self.saved_lang_combos_menu.activated.connect(self.set_lang_combo)
 
         self.lang_title_label = QLabel("Language", self)
-        self.lang_title_label.move(320, 10)
+        self.lang_title_label.move(10, 128)
         self.lang_title_label.setFont(self.medium_button_font)
         self.lang_title_label.adjustSize()
 
         self.lang_listbox = QListWidget(self)
-        self.lang_listbox.setGeometry(320, 30, 140, 110)
+        self.lang_listbox.setGeometry(10, 150, 140, 110)
         self.lang_listbox.itemClicked.connect(self.lang_listbox_click)
 
         self.add_lang_listbox = QListWidget(self)
-        self.add_lang_listbox.setGeometry(820, 30, 140, 110)
+        self.add_lang_listbox.setGeometry(480, 30, 140, 110)
 
         self.main_lang_label = QLabel(self)
         self.main_lang_label.move(320, 175)
         self.main_lang_label.setFont(self.medium_button_font)
 
         self.lang_param_listbox = QListWidget(self)
-        self.lang_param_listbox.setGeometry(570, 30, 140, 110)
+        self.lang_param_listbox.setGeometry(320, 30, 140, 110)
 
         self.additional_lang_set = set()    #Set to store added language parameters
 
@@ -117,7 +117,7 @@ class MainWindow(QMainWindow):
         self.selected_lang = self.get_main_lang()
 
         self.lang_param_label = QLabel("Additional Languages", self)
-        self.lang_param_label.move(570, 10)
+        self.lang_param_label.move(320, 10)
         self.lang_param_label.setFont(self.medium_button_font)
         self.lang_param_label.adjustSize()
 
@@ -136,13 +136,13 @@ class MainWindow(QMainWindow):
 
         self.save_txt_folder_label = QLabel(self)
         self.save_txt_folder_label.setFont(self.small_button_font)
-        self.save_txt_folder_label.move(10, self.s_s_y_pos+self.s_s_y_offset*2+4)
+        self.save_txt_folder_label.move(10, self.s_s_y_pos+self.s_s_y_offset*2+3)
         self.save_txt_folder_label.setText(config.get("USERCONFIG", "savetxtpath"))
         self.save_txt_folder_label.adjustSize()
 
         self.save_img_folder_label = QLabel(self)
         self.save_img_folder_label.setFont(self.small_button_font)
-        self.save_img_folder_label.move(10, self.s_s_y_pos+self.s_s_y_offset*5+4)
+        self.save_img_folder_label.move(10, self.s_s_y_pos+self.s_s_y_offset*5+3)
         self.save_img_folder_label.setText(config.get("USERCONFIG", "saveimgpath"))
         self.save_img_folder_label.adjustSize()
 
@@ -153,62 +153,62 @@ class MainWindow(QMainWindow):
         self.test_button = QPushButton(self)
         self.test_button.setText("TEST")
         self.test_button.setFont(self.medium_button_font)
-        self.test_button.setGeometry(845, 400, 100, 40)
+        self.test_button.setGeometry(170, 200, 100, 40)
         self.test_button.clicked.connect(self.test)
 
         self.snippet_all_button = QPushButton("Take Snippet", self)
         self.snippet_all_button.setFont(self.big_button_font)
-        self.snippet_all_button.setGeometry(10, 10, 130, 60)
+        self.snippet_all_button.setGeometry(10, 5, 130, 60)
         self.snippet_all_button.adjustSize()
         self.snippet_all_button.clicked.connect(lambda:self.new_snippet("all"))
 
         self.snippet_primary_button = QPushButton("Take Snippet Primary", self)
         self.snippet_primary_button.setFont(self.big_button_font)
-        self.snippet_primary_button.setGeometry(10, 50, 130, 60)
+        self.snippet_primary_button.setGeometry(10, 45, 130, 60)
         self.snippet_primary_button.adjustSize()
         self.snippet_primary_button.clicked.connect(lambda:self.new_snippet("primary"))
         
         self.read_image_file_button = QPushButton("Read File", self)
         self.read_image_file_button.setFont(self.big_button_font)
-        self.read_image_file_button.setGeometry(10, 90, 130, 60)
+        self.read_image_file_button.setGeometry(10, 85, 130, 60)
         self.read_image_file_button.adjustSize()
         self.read_image_file_button.clicked.connect(self.read_image_file)
 
-        self.set_default_lang_button = QPushButton("Set Language As Default", self)
+        self.set_default_lang_button = QPushButton("Set Default", self)
         self.set_default_lang_button.setFont(self.medium_button_font)
-        self.set_default_lang_button.setGeometry(320, 145, 130, 60)
+        self.set_default_lang_button.setGeometry(160, 150, 130, 60)
         self.set_default_lang_button.adjustSize()
         self.set_default_lang_button.clicked.connect(self.set_default_lang_main)
 
         self.add_lang_button = QPushButton("Add Language", self)
         self.add_lang_button.setFont(self.medium_button_font)
-        self.add_lang_button.setGeometry(820, 145, 130, 60)
+        self.add_lang_button.setGeometry(480, 145, 130, 60)
         self.add_lang_button.adjustSize()
         self.add_lang_button.clicked.connect(self.add_lang_param)
 
         self.remove_add_lang_button = QPushButton("Remove Language", self)
         self.remove_add_lang_button.setFont(self.medium_button_font)
-        self.remove_add_lang_button.setGeometry(570, 145, 130, 60)
+        self.remove_add_lang_button.setGeometry(320, 145, 130, 60)
         self.remove_add_lang_button.adjustSize()
         self.remove_add_lang_button.clicked.connect(self.remove_lang_param)
 
         self.save_lang_combo_button = QPushButton("Save Language Combo", self)
         self.save_lang_combo_button.setFont(self.medium_button_font)
-        self.save_lang_combo_button.setGeometry(845, 200, 130, 60)
+        self.save_lang_combo_button.setGeometry(625, 30, 130, 60)
         self.save_lang_combo_button.adjustSize()
         self.save_lang_combo_button.clicked.connect(self.save_lang_combo)
 
-        self.remove_lang_combo_button = QPushButton("Delete Language Combo", self)
-        self.remove_lang_combo_button.setFont(self.medium_button_font)
-        self.remove_lang_combo_button.setGeometry(845, 325, 130, 60)
-        self.remove_lang_combo_button.adjustSize()
-        self.remove_lang_combo_button.clicked.connect(self.remove_lang_combo)
-
         self.save_lang_combo_default_button = QPushButton("Set Combo As Default", self)
         self.save_lang_combo_default_button.setFont(self.medium_button_font)
-        self.save_lang_combo_default_button.setGeometry(845, 295, 130, 60)
+        self.save_lang_combo_default_button.setGeometry(625, 120, 130, 60)
         self.save_lang_combo_default_button.adjustSize()
         self.save_lang_combo_default_button.clicked.connect(self.save_lang_combo_default)
+
+        self.remove_lang_combo_button = QPushButton("Delete Language Combo", self)
+        self.remove_lang_combo_button.setFont(self.medium_button_font)
+        self.remove_lang_combo_button.setGeometry(625, 150, 130, 60)
+        self.remove_lang_combo_button.adjustSize()
+        self.remove_lang_combo_button.clicked.connect(self.remove_lang_combo)
 
         self.copy_button = QPushButton("Copy", self)
         self.copy_button.setFont(self.big_button_font)
@@ -236,31 +236,31 @@ class MainWindow(QMainWindow):
         
         self.restore_default_cfg_button = QPushButton("Restore Default Configuration", self)
         self.restore_default_cfg_button.setFont(self.medium_button_font)
-        self.restore_default_cfg_button.setGeometry(10, self.s_s_y_pos+self.s_s_y_offset*8, 130, 60)
+        self.restore_default_cfg_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*8, 130, 60)
         self.restore_default_cfg_button.adjustSize()
         self.restore_default_cfg_button.clicked.connect(self.restore_default_config)
 
         self.set_path_txt_button = QPushButton("Save text files to specific folder", self)
         self.set_path_txt_button.setFont(self.small_button_font)
-        self.set_path_txt_button.setGeometry(10, self.s_s_y_pos+self.s_s_y_offset*1, 130, 60)
+        self.set_path_txt_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*1-2, 130, 60)
         self.set_path_txt_button.adjustSize()
         self.set_path_txt_button.clicked.connect(lambda:self.set_save_folder("savetxtpath"))
 
         self.set_path_img_button = QPushButton("Save images to specific folder", self)
         self.set_path_img_button.setFont(self.small_button_font)
-        self.set_path_img_button.setGeometry(10, self.s_s_y_pos+self.s_s_y_offset*4, 130, 60)
+        self.set_path_img_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*4-2, 130, 60)
         self.set_path_img_button.adjustSize()
         self.set_path_img_button.clicked.connect(lambda:self.set_save_folder("saveimgpath"))
 
         self.reset_path_txt_button = QPushButton("Reset T", self)
         self.reset_path_txt_button.setFont(self.small_button_font)
-        self.reset_path_txt_button.setGeometry(240, self.s_s_y_pos+self.s_s_y_offset*1, 130, 60)
+        self.reset_path_txt_button.setGeometry(235, self.s_s_y_pos+self.s_s_y_offset*1-2, 130, 60)
         self.reset_path_txt_button.adjustSize()
         self.reset_path_txt_button.clicked.connect(lambda:self.reset_save_folder("savetxtpath"))
 
         self.reset_path_img_button = QPushButton("Reset I", self)
         self.reset_path_img_button.setFont(self.small_button_font)
-        self.reset_path_img_button.setGeometry(240, self.s_s_y_pos+self.s_s_y_offset*4, 130, 60)
+        self.reset_path_img_button.setGeometry(235, self.s_s_y_pos+self.s_s_y_offset*4-2, 130, 60)
         self.reset_path_img_button.adjustSize()
         self.reset_path_img_button.clicked.connect(lambda:self.reset_save_folder("saveimgpath"))
 
