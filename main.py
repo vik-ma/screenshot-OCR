@@ -238,7 +238,7 @@ class MainWindow(QMainWindow):
         
         self.restore_default_cfg_button = QPushButton("Restore Default Configuration", self)
         self.restore_default_cfg_button.setFont(self.medium_button_font)
-        self.restore_default_cfg_button.setGeometry(10, 430, 130, 60)
+        self.restore_default_cfg_button.setGeometry(10, 440, 130, 60)
         self.restore_default_cfg_button.adjustSize()
         self.restore_default_cfg_button.clicked.connect(self.restore_default_config)
 
