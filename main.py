@@ -88,12 +88,12 @@ class MainWindow(QMainWindow):
         self.saved_lang_combos_menu.activated.connect(self.set_lang_combo)
 
         self.lang_title_label = QLabel("Language", self)
-        self.lang_title_label.move(10, 128)
+        self.lang_title_label.move(175, 10)
         self.lang_title_label.setFont(self.medium_button_font)
         self.lang_title_label.adjustSize()
 
         self.lang_listbox = QListWidget(self)
-        self.lang_listbox.setGeometry(10, 150, 140, 110)
+        self.lang_listbox.setGeometry(175, 31, 140, 110)
         self.lang_listbox.itemClicked.connect(self.lang_listbox_click)
 
         self.add_lang_listbox = QListWidget(self)
@@ -161,13 +161,13 @@ class MainWindow(QMainWindow):
         self.test_button.setGeometry(170, 200, 100, 40)
         self.test_button.clicked.connect(self.test)
 
-        self.snippet_all_button = QPushButton("Take Snippet", self)
+        self.snippet_all_button = QPushButton("Snippet", self)
         self.snippet_all_button.setFont(self.big_button_font)
         self.snippet_all_button.setGeometry(10, 5, 130, 60)
         self.snippet_all_button.adjustSize()
         self.snippet_all_button.clicked.connect(lambda:self.new_snippet("all"))
 
-        self.snippet_primary_button = QPushButton("Take Snippet Primary", self)
+        self.snippet_primary_button = QPushButton("Primary", self)
         self.snippet_primary_button.setFont(self.big_button_font)
         self.snippet_primary_button.setGeometry(10, 45, 130, 60)
         self.snippet_primary_button.adjustSize()
@@ -181,7 +181,7 @@ class MainWindow(QMainWindow):
 
         self.set_default_lang_button = QPushButton("Set Default", self)
         self.set_default_lang_button.setFont(self.medium_button_font)
-        self.set_default_lang_button.setGeometry(160, 150, 130, 60)
+        self.set_default_lang_button.setGeometry(175, 145, 130, 60)
         self.set_default_lang_button.adjustSize()
         self.set_default_lang_button.clicked.connect(self.set_default_lang_main)
 
@@ -257,15 +257,15 @@ class MainWindow(QMainWindow):
         self.set_path_img_button.adjustSize()
         self.set_path_img_button.clicked.connect(lambda:self.set_save_folder("saveimgpath"))
 
-        self.reset_path_txt_button = QPushButton("Reset T", self)
+        self.reset_path_txt_button = QPushButton("Reset", self)
         self.reset_path_txt_button.setFont(self.small_button_font)
-        self.reset_path_txt_button.setGeometry(235, self.s_s_y_pos+self.s_s_y_offset*1-2, 130, 60)
+        self.reset_path_txt_button.setGeometry(240, self.s_s_y_pos+self.s_s_y_offset*1-2, 130, 60)
         self.reset_path_txt_button.adjustSize()
         self.reset_path_txt_button.clicked.connect(lambda:self.reset_save_folder("savetxtpath"))
 
-        self.reset_path_img_button = QPushButton("Reset I", self)
+        self.reset_path_img_button = QPushButton("Reset", self)
         self.reset_path_img_button.setFont(self.small_button_font)
-        self.reset_path_img_button.setGeometry(235, self.s_s_y_pos+self.s_s_y_offset*4-2, 130, 60)
+        self.reset_path_img_button.setGeometry(240, self.s_s_y_pos+self.s_s_y_offset*4-2, 130, 60)
         self.reset_path_img_button.adjustSize()
         self.reset_path_img_button.clicked.connect(lambda:self.reset_save_folder("saveimgpath"))
 
