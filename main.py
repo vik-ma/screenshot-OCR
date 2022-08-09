@@ -276,6 +276,12 @@ class MainWindow(QMainWindow):
         self.reset_path_img_button.adjustSize()
         self.reset_path_img_button.clicked.connect(lambda:self.reset_save_folder("saveimgpath"))
 
+        self.help_button = QPushButton("Help", self)
+        self.help_button.setFont(self.medium_button_font)
+        self.help_button.setGeometry(10, 200, 130, 60)
+        self.help_button.adjustSize()
+        self.help_button.clicked.connect(self.show_help)
+
     def create_checkboxes(self):
         self.save_txt_checkbox = QCheckBox("Save output as .txt", self)
         self.save_txt_checkbox.move(10, self.s_s_y_pos)
@@ -537,6 +543,13 @@ class MainWindow(QMainWindow):
         elif cfg_var == "saveimgpath":
             self.save_img_folder_label.setText(value)
             self.save_img_folder_label.adjustSize()
+
+    def show_help(self):
+        help_msg = QMessageBox()
+        help_msg.setText("")
+        help_msg.setInformativeText("")
+        help_msg.setWindowTitle("Help")
+        help_msg.exec_()
 
     def new_snippet(self, monitor):
         """
