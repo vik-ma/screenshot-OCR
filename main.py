@@ -127,6 +127,11 @@ class MainWindow(QMainWindow):
         self.read_langs_label.move(320, 402)
         self.read_langs_label.setFont(self.medium_button_font)
         
+        self.lang_combo_title_label = QLabel("Language Combinations", self)
+        self.lang_combo_title_label.move(625, 10)
+        self.lang_combo_title_label.setFont(self.medium_button_font)
+        self.lang_combo_title_label.adjustSize()
+
         self.create_buttons()
     
         self.auto_save_txt = config.getboolean("USERCONFIG", "autosavetxt")
