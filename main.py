@@ -188,19 +188,19 @@ class MainWindow(QMainWindow):
 
         self.set_default_lang_button = QPushButton("Set Default", self)
         self.set_default_lang_button.setFont(self.medium_button_font)
-        self.set_default_lang_button.setGeometry(175, 145, 130, 60)
+        self.set_default_lang_button.setGeometry(174, 145, 130, 60)
         self.set_default_lang_button.adjustSize()
         self.set_default_lang_button.clicked.connect(self.set_default_lang_main)
 
         self.add_lang_button = QPushButton("Add Language", self)
         self.add_lang_button.setFont(self.medium_button_font)
-        self.add_lang_button.setGeometry(480, 145, 130, 60)
+        self.add_lang_button.setGeometry(475, 145, 130, 60)
         self.add_lang_button.adjustSize()
         self.add_lang_button.clicked.connect(self.add_lang_param)
 
         self.remove_add_lang_button = QPushButton("Remove Language", self)
         self.remove_add_lang_button.setFont(self.medium_button_font)
-        self.remove_add_lang_button.setGeometry(320, 145, 130, 60)
+        self.remove_add_lang_button.setGeometry(319, 145, 130, 60)
         self.remove_add_lang_button.adjustSize()
         self.remove_add_lang_button.clicked.connect(self.remove_lang_param)
 
