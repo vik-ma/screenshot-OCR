@@ -50,7 +50,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Screenshot OCR")
-        self.setGeometry(0, 0, 830, 470)
+        self.setGeometry(0, 0, 830, 460)
 
         #Display window in the center of the screen
         qtRectangle = self.frameGeometry()
@@ -62,13 +62,13 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self._centralWidget)
 
         #Settings section y position
-        self.s_s_y_pos = 270
+        self.s_s_y_pos = 261
         #Settings section y offset
         self.s_s_y_offset = 21
 
         self.textbox_font = QFont("verdana", 10)
         self.dropdown_font = QFont("arial", 13, QFont.Bold)
-        self.big_button_font = QFont("arial", 20, QFont.Bold)
+        self.big_button_font = QFont("arial", 18, QFont.Bold)
         self.medium_button_font = QFont("arial", 12, QFont.Bold)
         self.small_button_font = QFont("arial", 10, QFont.Bold)
 
@@ -81,16 +81,19 @@ class MainWindow(QMainWindow):
         self.lang_combos_label.setFont(self.medium_button_font)
         self.lang_combos_label.move(625, 65)
         self.lang_combos_label.adjustSize()
+        #self.lang_combos_label.setStyleSheet("color: #05bbed;")
 
         self.saved_lang_combos_menu = QComboBox(self)
         self.saved_lang_combos_menu.setGeometry(625, 85, 190, 25)
         self.saved_lang_combos_menu.setFont(self.dropdown_font)
         self.saved_lang_combos_menu.activated.connect(self.set_lang_combo)
+        self.saved_lang_combos_menu.setStyleSheet("color: #010a8f;")
 
         self.lang_title_label = QLabel("Language", self)
         self.lang_title_label.move(175, 10)
         self.lang_title_label.setFont(self.medium_button_font)
         self.lang_title_label.adjustSize()
+        self.lang_title_label.setStyleSheet("color: #1469fc;")
 
         self.lang_listbox = QListWidget(self)
         self.lang_listbox.setGeometry(175, 31, 140, 110)
@@ -102,6 +105,7 @@ class MainWindow(QMainWindow):
         self.main_lang_label = QLabel(self)
         self.main_lang_label.move(320, 177)
         self.main_lang_label.setFont(self.medium_button_font)
+        self.main_lang_label.setStyleSheet("color: #1469fc;")
 
         self.lang_param_listbox = QListWidget(self)
         self.lang_param_listbox.setGeometry(320, 31, 140, 110)
@@ -124,8 +128,9 @@ class MainWindow(QMainWindow):
         self.update_lang()
 
         self.read_langs_label = QLabel(self)
-        self.read_langs_label.move(320, 402)
+        self.read_langs_label.move(320, 400)
         self.read_langs_label.setFont(self.medium_button_font)
+        self.read_langs_label.setStyleSheet("color: #fc143f;")
         
         self.lang_combo_title_label = QLabel("Language Combinations", self)
         self.lang_combo_title_label.move(625, 10)
@@ -144,12 +149,14 @@ class MainWindow(QMainWindow):
         self.save_txt_folder_label.move(10, self.s_s_y_pos+self.s_s_y_offset*2+3)
         self.save_txt_folder_label.setText(config.get("USERCONFIG", "savetxtpath"))
         self.save_txt_folder_label.adjustSize()
+        self.save_txt_folder_label.setStyleSheet("color: #010a8f;")
 
         self.save_img_folder_label = QLabel(self)
         self.save_img_folder_label.setFont(self.small_button_font)
         self.save_img_folder_label.move(10, self.s_s_y_pos+self.s_s_y_offset*5+3)
         self.save_img_folder_label.setText(config.get("USERCONFIG", "saveimgpath"))
         self.save_img_folder_label.adjustSize()
+        self.save_img_folder_label.setStyleSheet("color: #010a8f;")
 
         self.create_checkboxes()
         self.set_shortcuts()
@@ -205,37 +212,37 @@ class MainWindow(QMainWindow):
 
         self.save_lang_combo_default_button = QPushButton("Set Combo As Default", self)
         self.save_lang_combo_default_button.setFont(self.medium_button_font)
-        self.save_lang_combo_default_button.setGeometry(625, 120, 130, 60)
+        self.save_lang_combo_default_button.setGeometry(625, 145, 130, 60)
         self.save_lang_combo_default_button.adjustSize()
         self.save_lang_combo_default_button.clicked.connect(self.save_lang_combo_default)
 
         self.remove_lang_combo_button = QPushButton("Delete Language Combo", self)
         self.remove_lang_combo_button.setFont(self.medium_button_font)
-        self.remove_lang_combo_button.setGeometry(625, 150, 130, 60)
+        self.remove_lang_combo_button.setGeometry(625, 115, 130, 60)
         self.remove_lang_combo_button.adjustSize()
         self.remove_lang_combo_button.clicked.connect(self.remove_lang_combo)
 
         self.copy_button = QPushButton("Copy", self)
         self.copy_button.setFont(self.big_button_font)
-        self.copy_button.setGeometry(320, 423, 130, 60)
+        self.copy_button.setGeometry(320, 419, 130, 60)
         self.copy_button.adjustSize()
         self.copy_button.clicked.connect(self.copy_textbox_contents)
 
         self.edit_textbox_button = QPushButton("Edit", self)
         self.edit_textbox_button.setFont(self.big_button_font)
-        self.edit_textbox_button.setGeometry(400, 423, 130, 60)
+        self.edit_textbox_button.setGeometry(400, 419, 130, 60)
         self.edit_textbox_button.adjustSize()
         self.edit_textbox_button.clicked.connect(self.set_textbox_readonly)
 
         self.clear_button = QPushButton("Clear", self)
         self.clear_button.setFont(self.big_button_font)
-        self.clear_button.setGeometry(480, 423, 130, 60)
+        self.clear_button.setGeometry(480, 419, 130, 60)
         self.clear_button.adjustSize()
         self.clear_button.clicked.connect(self.clear_textbox)
         
         self.save_txt_button = QPushButton("Save Output", self)
         self.save_txt_button.setFont(self.big_button_font)
-        self.save_txt_button.setGeometry(650, 423, 130, 60)
+        self.save_txt_button.setGeometry(672, 419, 130, 60)
         self.save_txt_button.adjustSize()
         self.save_txt_button.clicked.connect(lambda:self.save_txt_file(self.textbox.toPlainText()))
         
