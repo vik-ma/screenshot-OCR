@@ -66,7 +66,7 @@ class MainWindow(QMainWindow):
         #Settings section y offset
         self.s_s_y_offset = 21
 
-        self.textbox_font = QFont("verdana", 10)
+        self.textbox_font = QFont("verdana", 12)
         self.dropdown_font = QFont("arial", 13, QFont.Bold)
         self.big_button_font = QFont("arial", 18, QFont.Bold)
         self.medium_button_font = QFont("arial", 12, QFont.Bold)
@@ -546,8 +546,8 @@ class MainWindow(QMainWindow):
 
     def show_help(self):
         help_msg = QMessageBox()
-        help_msg.setText("")
-        help_msg.setInformativeText("")
+        help_msg.setText("ADD TEXT")
+        help_msg.setInformativeText("ADD TEXT")
         help_msg.setWindowTitle("Help")
         help_msg.exec_()
 
@@ -562,6 +562,7 @@ class MainWindow(QMainWindow):
 
     def clear_textbox(self):
         self.textbox.clear()
+        self.read_langs_label.clear()
 
     def copy_textbox_contents(self):
         if self.textbox.toPlainText() != "":
