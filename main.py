@@ -110,13 +110,13 @@ class MainWindow(QMainWindow):
         self.saved_lang_combos_menu.setGeometry(625, 85, 190, 25)
         self.saved_lang_combos_menu.setFont(self.dropdown_font)
         self.saved_lang_combos_menu.activated.connect(self.set_lang_combo)
-        self.saved_lang_combos_menu.setStyleSheet("color: #010a8f;")
+        self.saved_lang_combos_menu.setStyleSheet("color: #020ca8;")
 
         self.lang_title_label = QLabel("Language", self)
         self.lang_title_label.move(191, 10)
         self.lang_title_label.setFont(self.title_font)
         self.lang_title_label.adjustSize()
-        self.lang_title_label.setStyleSheet("color: #1469fc;")
+        self.lang_title_label.setStyleSheet("color: #0060e6;")
 
         self.lang_listbox = QListWidget(self)
         self.lang_listbox.setGeometry(191, 31, 140, 110)
@@ -128,7 +128,7 @@ class MainWindow(QMainWindow):
         self.main_lang_label = QLabel(self)
         self.main_lang_label.move(320, 177)
         self.main_lang_label.setFont(self.title_font)
-        self.main_lang_label.setStyleSheet("color: #1469fc;")
+        self.main_lang_label.setStyleSheet("color: #0060e6;")
 
         self.lang_param_listbox = QListWidget(self)
         self.lang_param_listbox.setGeometry(334, 31, 140, 110)
@@ -151,7 +151,7 @@ class MainWindow(QMainWindow):
         self.update_lang()
 
         self.read_langs_label = QLabel(self)
-        self.read_langs_label.move(320, 401)
+        self.read_langs_label.move(321, 401)
         self.read_langs_label.setFont(self.title_font)
         self.read_langs_label.setStyleSheet("color: #e6002e;")
         
@@ -178,14 +178,14 @@ class MainWindow(QMainWindow):
         self.save_txt_folder_label.move(10, self.s_s_y_pos+self.s_s_y_offset*2+3)
         self.save_txt_folder_label.setText(config.get("USERCONFIG", "savetxtpath"))
         self.save_txt_folder_label.adjustSize()
-        self.save_txt_folder_label.setStyleSheet("color: #010a8f;")
+        self.save_txt_folder_label.setStyleSheet("color: #020ca8;")
 
         self.save_img_folder_label = QLabel(self)
         self.save_img_folder_label.setFont(self.small_bold_font)
         self.save_img_folder_label.move(10, self.s_s_y_pos+self.s_s_y_offset*5+3)
         self.save_img_folder_label.setText(config.get("USERCONFIG", "saveimgpath"))
         self.save_img_folder_label.adjustSize()
-        self.save_img_folder_label.setStyleSheet("color: #010a8f;")
+        self.save_img_folder_label.setStyleSheet("color: #020ca8;")
 
         self.create_checkboxes()
         self.set_shortcuts()
@@ -306,9 +306,9 @@ class MainWindow(QMainWindow):
         self.reset_path_img_button.clicked.connect(lambda:self.reset_save_folder("saveimgpath"))
 
         self.help_button = QPushButton("Help", self)
-        self.help_button.setFont(self.medium_bold_font)
-        self.help_button.setGeometry(200, 230, 130, 60)
-        self.help_button.adjustSize()
+        self.help_button.setFont(QFont("arial", 13, QFont.Bold))
+        self.help_button.setGeometry(249, 233, 66, 27)
+        #self.help_button.adjustSize()
         self.help_button.clicked.connect(self.show_help)
 
     def create_checkboxes(self):
