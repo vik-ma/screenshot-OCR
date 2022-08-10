@@ -77,17 +77,23 @@ class MainWindow(QMainWindow):
         self.small_bold_font = QFont("arial", 10, QFont.Bold)
         self.small_font = QFont("arial", 10)
 
+        self.ocr_label = QLabel("OCR Image", self)
+        self.ocr_label.setFont(QFont("arial", 22, QFont.Bold))
+        self.ocr_label.adjustSize()
+        self.ocr_label.move(8, 6)
+        self.ocr_label.setStyleSheet("color: #e6002e;")
+
         self.snippet_label = QLabel("OCR a snippet of any screen\n(Shortcut: 'S')", self)
         self.snippet_label.adjustSize()
-        self.snippet_label.move(10, 43)
+        self.snippet_label.move(10, 75)
 
         self.snippet_primary_label = QLabel("OCR a snippet of the primary screen\n(Shortcut: 'P')", self)
         self.snippet_primary_label.adjustSize()
-        self.snippet_primary_label.move(10, 106)
+        self.snippet_primary_label.move(10, 138)
 
         self.read_file_label = QLabel("OCR a local image file\n(Shortcut: 'F')", self)
         self.read_file_label.adjustSize()
-        self.read_file_label.move(10, 169)
+        self.read_file_label.move(10, 201)
 
         self.textbox = QPlainTextEdit(self)
         self.textbox.setFont(self.textbox_font)
@@ -147,7 +153,7 @@ class MainWindow(QMainWindow):
         self.read_langs_label = QLabel(self)
         self.read_langs_label.move(320, 401)
         self.read_langs_label.setFont(self.title_font)
-        self.read_langs_label.setStyleSheet("color: #fc143f;")
+        self.read_langs_label.setStyleSheet("color: #e6002e;")
         
         self.lang_combo_title_label = QLabel("Language Combinations", self)
         self.lang_combo_title_label.move(625, 10)
@@ -156,6 +162,12 @@ class MainWindow(QMainWindow):
 
         self.create_buttons()
     
+        self.settings_label = QLabel("Settings", self)
+        self.settings_label.setFont(self.title_font)
+        self.settings_label.adjustSize()
+        self.settings_label.move(8, 240)
+
+
         self.auto_save_txt = config.getboolean("USERCONFIG", "autosavetxt")
         self.auto_save_img = config.getboolean("USERCONFIG", "autosaveimg")
         self.auto_copy_output = config.getboolean("USERCONFIG", "autocopy")
@@ -182,24 +194,24 @@ class MainWindow(QMainWindow):
         self.test_button = QPushButton(self)
         self.test_button.setText("TEST")
         self.test_button.setFont(self.medium_bold_font)
-        self.test_button.setGeometry(170, 200, 100, 40)
+        self.test_button.setGeometry(170, 170, 100, 40)
         self.test_button.clicked.connect(self.test)
 
         self.snippet_all_button = QPushButton("Snippet Screens", self)
         self.snippet_all_button.setFont(self.big_button_font)
-        self.snippet_all_button.setGeometry(7, 10, 130, 60)
+        self.snippet_all_button.setGeometry(7, 43, 130, 60)
         self.snippet_all_button.adjustSize()
         self.snippet_all_button.clicked.connect(lambda:self.new_snippet("all"))
 
         self.snippet_primary_button = QPushButton("Primary Screen", self)
         self.snippet_primary_button.setFont(self.big_button_font)
-        self.snippet_primary_button.setGeometry(7, 73, 130, 60)
+        self.snippet_primary_button.setGeometry(7, 106, 130, 60)
         self.snippet_primary_button.adjustSize()
         self.snippet_primary_button.clicked.connect(lambda:self.new_snippet("primary"))
         
         self.read_image_file_button = QPushButton("Read File", self)
         self.read_image_file_button.setFont(self.big_button_font)
-        self.read_image_file_button.setGeometry(7, 136, 130, 60)
+        self.read_image_file_button.setGeometry(7, 169, 130, 60)
         self.read_image_file_button.adjustSize()
         self.read_image_file_button.clicked.connect(self.read_image_file)
 
@@ -295,7 +307,7 @@ class MainWindow(QMainWindow):
 
         self.help_button = QPushButton("Help", self)
         self.help_button.setFont(self.medium_bold_font)
-        self.help_button.setGeometry(10, 230, 130, 60)
+        self.help_button.setGeometry(200, 230, 130, 60)
         self.help_button.adjustSize()
         self.help_button.clicked.connect(self.show_help)
 
