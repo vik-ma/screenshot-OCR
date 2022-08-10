@@ -65,6 +65,8 @@ class MainWindow(QMainWindow):
         self.s_s_y_pos = 261
         #Settings section y offset
         self.s_s_y_offset = 21
+        #Height for buttons with small_bold_font
+        self.small_button_height = 22
 
         self.textbox_font = QFont("verdana", 12)
         self.dropdown_font = QFont("arial", 13, QFont.Bold)
@@ -251,32 +253,32 @@ class MainWindow(QMainWindow):
         
         self.restore_default_cfg_button = QPushButton("Restore Default Configuration", self)
         self.restore_default_cfg_button.setFont(self.small_bold_font)
-        self.restore_default_cfg_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*8, 130, 60)
+        self.restore_default_cfg_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*8, 210, 22)
         self.restore_default_cfg_button.adjustSize()
         self.restore_default_cfg_button.clicked.connect(self.restore_default_config)
 
-        self.set_path_txt_button = QPushButton("Save text files to specific folder", self)
+        self.set_path_txt_button = QPushButton("Save to specific folder", self)
         self.set_path_txt_button.setFont(self.small_bold_font)
-        self.set_path_txt_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*1-2, 130, 60)
-        self.set_path_txt_button.adjustSize()
+        self.set_path_txt_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*1-2, 160, 22)
+        #self.set_path_txt_button.adjustSize()
         self.set_path_txt_button.clicked.connect(lambda:self.set_save_folder("savetxtpath"))
 
-        self.set_path_img_button = QPushButton("Save images to specific folder", self)
+        self.set_path_img_button = QPushButton("Save to specific folder", self)
         self.set_path_img_button.setFont(self.small_bold_font)
-        self.set_path_img_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*4-2, 130, 60)
-        self.set_path_img_button.adjustSize()
+        self.set_path_img_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*4-2, 160, 22)
+        #self.set_path_img_button.adjustSize()
         self.set_path_img_button.clicked.connect(lambda:self.set_save_folder("saveimgpath"))
 
         self.reset_path_txt_button = QPushButton("Reset", self)
         self.reset_path_txt_button.setFont(self.small_bold_font)
-        self.reset_path_txt_button.setGeometry(240, self.s_s_y_pos+self.s_s_y_offset*1-2, 130, 60)
-        self.reset_path_txt_button.adjustSize()
+        self.reset_path_txt_button.setGeometry(266, self.s_s_y_pos+self.s_s_y_offset*1-2, 50, 22)
+        #self.reset_path_txt_button.adjustSize()
         self.reset_path_txt_button.clicked.connect(lambda:self.reset_save_folder("savetxtpath"))
 
         self.reset_path_img_button = QPushButton("Reset", self)
         self.reset_path_img_button.setFont(self.small_bold_font)
-        self.reset_path_img_button.setGeometry(240, self.s_s_y_pos+self.s_s_y_offset*4-2, 130, 60)
-        self.reset_path_img_button.adjustSize()
+        self.reset_path_img_button.setGeometry(266, self.s_s_y_pos+self.s_s_y_offset*4-2, 50, 22)
+        #self.reset_path_img_button.adjustSize()
         self.reset_path_img_button.clicked.connect(lambda:self.reset_save_folder("saveimgpath"))
 
         self.help_button = QPushButton("Help", self)
@@ -286,13 +288,13 @@ class MainWindow(QMainWindow):
         self.help_button.clicked.connect(self.show_help)
 
     def create_checkboxes(self):
-        self.save_txt_checkbox = QCheckBox("Save output as .txt", self)
+        self.save_txt_checkbox = QCheckBox("Automatically save output as .txt", self)
         self.save_txt_checkbox.move(10, self.s_s_y_pos)
         self.save_txt_checkbox.adjustSize()
         self.save_txt_checkbox.setChecked(self.auto_save_txt)
         self.save_txt_checkbox.stateChanged.connect(self.save_txt_clicked)
 
-        self.save_img_checkbox = QCheckBox("Save snippet as .png", self)
+        self.save_img_checkbox = QCheckBox("Automatically save snippet as .png", self)
         self.save_img_checkbox.move(10, self.s_s_y_pos+self.s_s_y_offset*3)
         self.save_img_checkbox.adjustSize()
         self.save_img_checkbox.setChecked(self.auto_save_img)
