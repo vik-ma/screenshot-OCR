@@ -368,6 +368,24 @@ class MainWindow(QMainWindow):
 
         self.update_all_lang_selection()
 
+    def update_all_lang_selection(self):
+        if config.getboolean("USERCONFIG", "default_is_combo") is False:
+            #If user has only set one language as default
+            main_lang = config.get("USERCONFIG", "default_lang_main")
+        else:
+            #If user has set a language combination as default
+            lang_combo = config.get("USERCONFIG", "default_lang_combo").split("+")
+            main_lang = self.avail_langs[lang_combo[0]]
+            self.saved_lang_combos_menu.setCurrentText(config.get("USERCONFIG", "default_lang_combo"))
+            self.set_lang_combo()
+        #Sets the default language as the current choice for main language
+        for index, langs in enumerate(self.avail_langs_index):
+            if langs == main_lang:
+                self.lang_listbox.setCurrentRow(index)
+                break
+        #Sets the first item in list as default choice for additional languages 
+        self.add_lang_listbox.setCurrentRow(0)
+
     def get_main_lang(self):
         return self.lang_listbox.currentItem().text()
     
@@ -461,6 +479,63 @@ class MainWindow(QMainWindow):
             config.set("USERCONFIG", "default_is_combo", str(True))
             write_config()
 
+    def reset_gui(self):
+        self.additional_lang_set.clear()
+        self.update_lang_param_listbox()
+        self.update_all_lang_selection()
+        self.selected_lang = self.get_main_lang()
+        self.update_lang()
+
+    def clear_textbox(self):
+        self.textbox.clear()
+        self.read_langs_label.clear()
+
+    def copy_textbox_contents(self):
+        if self.textbox.toPlainText() != "":
+            clipboard = QApplication.clipboard()
+            clipboard.setText(self.textbox.toPlainText())
+        
+    def set_textbox_readonly(self):
+        if self.textbox.isReadOnly() is True:
+            self.textbox.setReadOnly(False)
+        else:
+            self.textbox.setReadOnly(True)
+
+    def save_txt_file(self, output):
+        date_string = get_time_string()
+        save_path = self.get_save_folder("savetxtpath")
+        full_path = f"{save_path}{date_string}.txt"
+        if output != "":
+            with open(full_path, "w", encoding="utf-8") as file:
+                file.write(output)
+
+    def get_save_folder(self, cfg_var):
+        save_path = config.get("USERCONFIG", cfg_var)
+        if save_path != "":
+            save_path = save_path+"/"
+        return save_path
+
+    def set_save_folder(self, cfg_var):
+        folder = QFileDialog.getExistingDirectory(None, "Select Folder")
+
+        if folder != "":
+            config.set("USERCONFIG", cfg_var, folder)
+            write_config()
+            self.update_save_folder(cfg_var, folder)
+    
+    def reset_save_folder(self, cfg_var):
+        config.set("USERCONFIG", cfg_var, "")
+        write_config()
+        self.update_save_folder(cfg_var, "")
+
+    def update_save_folder(self, cfg_var, value):
+        if cfg_var == "savetxtpath":
+            self.save_txt_folder_label.setText(value)
+            self.save_txt_folder_label.adjustSize()
+        elif cfg_var == "saveimgpath":
+            self.save_img_folder_label.setText(value)
+            self.save_img_folder_label.adjustSize()
+
     def read_image_buffer(self, pixmap):
         screenshot = QImage()
         screenshot = pixmap.toImage()
@@ -513,97 +588,6 @@ class MainWindow(QMainWindow):
         self.read_langs_label.setText(f"Language Parameters: {langs}")
         self.read_langs_label.adjustSize()
 
-    def save_txt_file(self, output):
-        date_string = get_time_string()
-        save_path = self.get_save_folder("savetxtpath")
-        full_path = f"{save_path}{date_string}.txt"
-        if output != "":
-            with open(full_path, "w", encoding="utf-8") as file:
-                file.write(output)
-
-    def get_save_folder(self, cfg_var):
-        save_path = config.get("USERCONFIG", cfg_var)
-        if save_path != "":
-            save_path = save_path+"/"
-        return save_path
-
-    def set_save_folder(self, cfg_var):
-        folder = QFileDialog.getExistingDirectory(None, "Select Folder")
-
-        if folder != "":
-            config.set("USERCONFIG", cfg_var, folder)
-            write_config()
-            self.update_save_folder(cfg_var, folder)
-    
-    def reset_save_folder(self, cfg_var):
-        config.set("USERCONFIG", cfg_var, "")
-        write_config()
-        self.update_save_folder(cfg_var, "")
-
-    def update_save_folder(self, cfg_var, value):
-        if cfg_var == "savetxtpath":
-            self.save_txt_folder_label.setText(value)
-            self.save_txt_folder_label.adjustSize()
-        elif cfg_var == "saveimgpath":
-            self.save_img_folder_label.setText(value)
-            self.save_img_folder_label.adjustSize()
-
-    def show_help(self):
-        help_msg = QMessageBox()
-        help_msg.setText("ADD TEXT")
-        help_msg.setInformativeText("ADD TEXT")
-        help_msg.setWindowTitle("Help")
-        help_msg.exec_()
-
-    def new_snippet(self, monitor):
-        """
-        Create dim Splashscreen object and show dim Splashscreen.
-
-        Also responsible for tracking mouse and capturing screenshot.
-        """
-        self.snippet = CreateSnippet(monitor, self)
-        self.snippet.show()
-
-    def clear_textbox(self):
-        self.textbox.clear()
-        self.read_langs_label.clear()
-
-    def copy_textbox_contents(self):
-        if self.textbox.toPlainText() != "":
-            clipboard = QApplication.clipboard()
-            clipboard.setText(self.textbox.toPlainText())
-        
-    def set_textbox_readonly(self):
-        if self.textbox.isReadOnly() is True:
-            self.textbox.setReadOnly(False)
-        else:
-            self.textbox.setReadOnly(True)
-
-    def update_all_lang_selection(self):
-        if config.getboolean("USERCONFIG", "default_is_combo") is False:
-            #If user has only set one language as default
-            main_lang = config.get("USERCONFIG", "default_lang_main")
-        else:
-            #If user has set a language combination as default
-            lang_combo = config.get("USERCONFIG", "default_lang_combo").split("+")
-            main_lang = self.avail_langs[lang_combo[0]]
-            self.saved_lang_combos_menu.setCurrentText(config.get("USERCONFIG", "default_lang_combo"))
-            self.set_lang_combo()
-        #Sets the default language as the current choice for main language
-        for index, langs in enumerate(self.avail_langs_index):
-            if langs == main_lang:
-                self.lang_listbox.setCurrentRow(index)
-                break
-        #Sets the first item in list as default choice for additional languages 
-        self.add_lang_listbox.setCurrentRow(0)
-
-    def reset_gui(self):
-        self.additional_lang_set.clear()
-        self.update_lang_param_listbox()
-        self.update_all_lang_selection()
-        self.selected_lang = self.get_main_lang()
-        self.update_lang()
-
     def restore_default_config(self):
         """Overwrite [USERCONFIG] with [DEFAULT] in config.ini if user selects "Yes"."""
         self.confirmbox = QMessageBox().question(self, "Restore Default Configuration", "Are you sure you want to restore default configuration?\nThis can not be undone.", QMessageBox().Yes | QMessageBox().No)
@@ -613,6 +597,22 @@ class MainWindow(QMainWindow):
                 config.set("USERCONFIG", k, v)
             write_config()
             self.reset_gui()
+
+    def show_help(self):
+        help_msg = QMessageBox()
+        help_msg.setText("ADD TEXT")
+        help_msg.setInformativeText("ADD TEXT")
+        help_msg.setWindowTitle("Help")
+        help_msg.exec_()
+        
+    def new_snippet(self, monitor):
+        """
+        Create dim Splashscreen object and show dim Splashscreen.
+
+        Also responsible for tracking mouse and capturing screenshot.
+        """
+        self.snippet = CreateSnippet(monitor, self)
+        self.snippet.show()
 
 
     def test(self):
