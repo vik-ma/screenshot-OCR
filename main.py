@@ -455,8 +455,7 @@ class MainWindow(QMainWindow):
         self.reset_gui()
 
     def save_lang_combo_default(self):
-        if len(self.additional_lang_set) > 0:
-            self.save_lang_combo()
+        if len(self.saved_lang_combos_menu) > 0:
             lang_combo = self.get_lang_combo()
             config.set("USERCONFIG", "default_lang_combo", lang_combo)
             config.set("USERCONFIG", "default_is_combo", str(True))
