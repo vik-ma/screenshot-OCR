@@ -68,7 +68,7 @@ class MainWindow(QMainWindow):
         #Height for buttons with small_bold_font
         self.small_button_height = 24
 
-        self.textbox_font = QFont("verdana", 12)
+        self.textbox_font = QFont("verdana", 10)
         self.dropdown_font = QFont("arial", 13, QFont.Bold)
         self.big_button_font = QFont("arial", 16, QFont.Bold)
         self.title_font = QFont("arial", 12, QFont.Bold)
@@ -78,22 +78,22 @@ class MainWindow(QMainWindow):
         self.small_font = QFont("arial", 10)
 
         self.ocr_label = QLabel("OCR Image", self)
-        self.ocr_label.setFont(QFont("arial", 22, QFont.Bold))
+        self.ocr_label.setFont(QFont("arial", 23, QFont.Bold))
         self.ocr_label.adjustSize()
-        self.ocr_label.move(8, 6)
+        self.ocr_label.move(9, 4)
         self.ocr_label.setStyleSheet("color: #e6002e;")
 
         self.snippet_label = QLabel("OCR a snippet of any screen\n(Shortcut: 'S')", self)
         self.snippet_label.adjustSize()
-        self.snippet_label.move(10, 75)
+        self.snippet_label.move(9, 75)
 
         self.snippet_primary_label = QLabel("OCR a snippet of the primary screen\n(Shortcut: 'P')", self)
         self.snippet_primary_label.adjustSize()
-        self.snippet_primary_label.move(10, 138)
+        self.snippet_primary_label.move(9, 138)
 
         self.read_file_label = QLabel("OCR a local image file\n(Shortcut: 'F')", self)
         self.read_file_label.adjustSize()
-        self.read_file_label.move(10, 201)
+        self.read_file_label.move(9, 201)
 
         self.textbox = QPlainTextEdit(self)
         self.textbox.setFont(self.textbox_font)
@@ -156,7 +156,7 @@ class MainWindow(QMainWindow):
         self.read_langs_label.setStyleSheet("color: #e6002e;")
         
         self.lang_combo_title_label = QLabel("Language Combinations", self)
-        self.lang_combo_title_label.move(625, 10)
+        self.lang_combo_title_label.move(626, 10)
         self.lang_combo_title_label.setFont(self.title_font)
         self.lang_combo_title_label.adjustSize()
 
@@ -194,25 +194,25 @@ class MainWindow(QMainWindow):
         self.test_button = QPushButton(self)
         self.test_button.setText("TEST")
         self.test_button.setFont(self.medium_bold_font)
-        self.test_button.setGeometry(170, 170, 100, 40)
+        self.test_button.setGeometry(190, 170, 100, 40)
         self.test_button.clicked.connect(self.test)
 
         self.snippet_all_button = QPushButton("Snippet Screens", self)
         self.snippet_all_button.setFont(self.big_button_font)
-        self.snippet_all_button.setGeometry(7, 43, 130, 60)
-        self.snippet_all_button.adjustSize()
+        self.snippet_all_button.setGeometry(7, 43, 178, 32)
+        #self.snippet_all_button.adjustSize()
         self.snippet_all_button.clicked.connect(lambda:self.new_snippet("all"))
 
         self.snippet_primary_button = QPushButton("Primary Screen", self)
         self.snippet_primary_button.setFont(self.big_button_font)
-        self.snippet_primary_button.setGeometry(7, 106, 130, 60)
-        self.snippet_primary_button.adjustSize()
+        self.snippet_primary_button.setGeometry(7, 106, 178, 32)
+        #self.snippet_primary_button.adjustSize()
         self.snippet_primary_button.clicked.connect(lambda:self.new_snippet("primary"))
         
         self.read_image_file_button = QPushButton("Read File", self)
         self.read_image_file_button.setFont(self.big_button_font)
-        self.read_image_file_button.setGeometry(7, 169, 130, 60)
-        self.read_image_file_button.adjustSize()
+        self.read_image_file_button.setGeometry(7, 169, 178, 32)
+        #self.read_image_file_button.adjustSize()
         self.read_image_file_button.clicked.connect(self.read_image_file)
 
         self.set_default_lang_button = QPushButton("Set Default", self)
@@ -295,13 +295,13 @@ class MainWindow(QMainWindow):
 
         self.reset_path_txt_button = QPushButton("Reset", self)
         self.reset_path_txt_button.setFont(self.small_bold_font)
-        self.reset_path_txt_button.setGeometry(266, self.s_s_y_pos+self.s_s_y_offset*1-2, 50, self.small_button_height)
+        self.reset_path_txt_button.setGeometry(265, self.s_s_y_pos+self.s_s_y_offset*1-2, 50, self.small_button_height)
         #self.reset_path_txt_button.adjustSize()
         self.reset_path_txt_button.clicked.connect(lambda:self.reset_save_folder("savetxtpath"))
 
         self.reset_path_img_button = QPushButton("Reset", self)
         self.reset_path_img_button.setFont(self.small_bold_font)
-        self.reset_path_img_button.setGeometry(266, self.s_s_y_pos+self.s_s_y_offset*4-2, 50, self.small_button_height)
+        self.reset_path_img_button.setGeometry(265, self.s_s_y_pos+self.s_s_y_offset*4-2, 50, self.small_button_height)
         #self.reset_path_img_button.adjustSize()
         self.reset_path_img_button.clicked.connect(lambda:self.reset_save_folder("saveimgpath"))
 
