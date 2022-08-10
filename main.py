@@ -621,6 +621,8 @@ class MainWindow(QMainWindow):
                 config.set("USERCONFIG", k, v)
             write_config()
             self.reset_gui()
+            self.save_txt_folder_label.clear()
+            self.save_img_folder_label.clear()
 
     def show_help(self):
         help_msg = QMessageBox()
