@@ -281,15 +281,15 @@ class MainWindow(QMainWindow):
         self.restore_default_cfg_button.adjustSize()
         self.restore_default_cfg_button.clicked.connect(self.restore_default_config)
 
-        self.set_path_txt_button = QPushButton("Save to specific folder", self)
+        self.set_path_txt_button = QPushButton("Save text files to specific folder", self)
         self.set_path_txt_button.setFont(self.small_bold_font)
-        self.set_path_txt_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*1-2, 160, self.small_button_height)
+        self.set_path_txt_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*1-2, 210, self.small_button_height)
         #self.set_path_txt_button.adjustSize()
         self.set_path_txt_button.clicked.connect(lambda:self.set_save_folder("savetxtpath"))
 
-        self.set_path_img_button = QPushButton("Save to specific folder", self)
+        self.set_path_img_button = QPushButton("Save images to specific folder", self)
         self.set_path_img_button.setFont(self.small_bold_font)
-        self.set_path_img_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*4-2, 160, self.small_button_height)
+        self.set_path_img_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*4-2, 210, self.small_button_height)
         #self.set_path_img_button.adjustSize()
         self.set_path_img_button.clicked.connect(lambda:self.set_save_folder("saveimgpath"))
 
