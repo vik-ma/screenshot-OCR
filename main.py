@@ -77,6 +77,18 @@ class MainWindow(QMainWindow):
         self.small_bold_font = QFont("arial", 10, QFont.Bold)
         self.small_font = QFont("arial", 10)
 
+        self.snippet_label = QLabel("OCR a snippet of any screen\n(Shortcut: 'S')", self)
+        self.snippet_label.adjustSize()
+        self.snippet_label.move(10, 43)
+
+        self.snippet_primary_label = QLabel("OCR a snippet of the primary screen\n(Shortcut: 'P')", self)
+        self.snippet_primary_label.adjustSize()
+        self.snippet_primary_label.move(10, 106)
+
+        self.read_file_label = QLabel("OCR a local image file\n(Shortcut: 'F')", self)
+        self.read_file_label.adjustSize()
+        self.read_file_label.move(10, 169)
+
         self.textbox = QPlainTextEdit(self)
         self.textbox.setFont(self.textbox_font)
         self.textbox.setGeometry(320, 200, 500, 200)
@@ -95,17 +107,17 @@ class MainWindow(QMainWindow):
         self.saved_lang_combos_menu.setStyleSheet("color: #010a8f;")
 
         self.lang_title_label = QLabel("Language", self)
-        self.lang_title_label.move(175, 10)
+        self.lang_title_label.move(191, 10)
         self.lang_title_label.setFont(self.title_font)
         self.lang_title_label.adjustSize()
         self.lang_title_label.setStyleSheet("color: #1469fc;")
 
         self.lang_listbox = QListWidget(self)
-        self.lang_listbox.setGeometry(175, 31, 140, 110)
+        self.lang_listbox.setGeometry(191, 31, 140, 110)
         self.lang_listbox.itemClicked.connect(self.lang_listbox_click)
 
         self.add_lang_listbox = QListWidget(self)
-        self.add_lang_listbox.setGeometry(476, 31, 140, 110)
+        self.add_lang_listbox.setGeometry(477, 31, 140, 110)
 
         self.main_lang_label = QLabel(self)
         self.main_lang_label.move(320, 177)
@@ -113,7 +125,7 @@ class MainWindow(QMainWindow):
         self.main_lang_label.setStyleSheet("color: #1469fc;")
 
         self.lang_param_listbox = QListWidget(self)
-        self.lang_param_listbox.setGeometry(320, 31, 140, 110)
+        self.lang_param_listbox.setGeometry(334, 31, 140, 110)
 
         self.additional_lang_set = set()    #Set to store added language parameters
 
@@ -126,7 +138,7 @@ class MainWindow(QMainWindow):
         self.selected_lang = self.get_main_lang()
 
         self.lang_param_label = QLabel("Additional Languages", self)
-        self.lang_param_label.move(320, 10)
+        self.lang_param_label.move(335, 10)
         self.lang_param_label.setFont(self.title_font)
         self.lang_param_label.adjustSize()
 
@@ -173,39 +185,39 @@ class MainWindow(QMainWindow):
         self.test_button.setGeometry(170, 200, 100, 40)
         self.test_button.clicked.connect(self.test)
 
-        self.snippet_all_button = QPushButton("Snippet", self)
+        self.snippet_all_button = QPushButton("Snippet Screens", self)
         self.snippet_all_button.setFont(self.big_button_font)
-        self.snippet_all_button.setGeometry(10, 5, 130, 60)
+        self.snippet_all_button.setGeometry(7, 10, 130, 60)
         self.snippet_all_button.adjustSize()
         self.snippet_all_button.clicked.connect(lambda:self.new_snippet("all"))
 
-        self.snippet_primary_button = QPushButton("Primary", self)
+        self.snippet_primary_button = QPushButton("Primary Screen", self)
         self.snippet_primary_button.setFont(self.big_button_font)
-        self.snippet_primary_button.setGeometry(10, 45, 130, 60)
+        self.snippet_primary_button.setGeometry(7, 73, 130, 60)
         self.snippet_primary_button.adjustSize()
         self.snippet_primary_button.clicked.connect(lambda:self.new_snippet("primary"))
         
         self.read_image_file_button = QPushButton("Read File", self)
         self.read_image_file_button.setFont(self.big_button_font)
-        self.read_image_file_button.setGeometry(10, 85, 130, 60)
+        self.read_image_file_button.setGeometry(7, 136, 130, 60)
         self.read_image_file_button.adjustSize()
         self.read_image_file_button.clicked.connect(self.read_image_file)
 
         self.set_default_lang_button = QPushButton("Set Default", self)
         self.set_default_lang_button.setFont(self.small_bold_font)
-        self.set_default_lang_button.setGeometry(174, 145, 130, 60)
+        self.set_default_lang_button.setGeometry(190, 145, 130, 60)
         self.set_default_lang_button.adjustSize()
         self.set_default_lang_button.clicked.connect(self.set_default_lang_main)
 
         self.add_lang_button = QPushButton("Add Language", self)
         self.add_lang_button.setFont(self.small_bold_font)
-        self.add_lang_button.setGeometry(475, 145, 130, 60)
+        self.add_lang_button.setGeometry(476, 145, 130, 60)
         self.add_lang_button.adjustSize()
         self.add_lang_button.clicked.connect(self.add_lang_param)
 
         self.remove_add_lang_button = QPushButton("Remove Language", self)
         self.remove_add_lang_button.setFont(self.small_bold_font)
-        self.remove_add_lang_button.setGeometry(319, 145, 130, 60)
+        self.remove_add_lang_button.setGeometry(333, 145, 130, 60)
         self.remove_add_lang_button.adjustSize()
         self.remove_add_lang_button.clicked.connect(self.remove_lang_param)
 
@@ -283,7 +295,7 @@ class MainWindow(QMainWindow):
 
         self.help_button = QPushButton("Help", self)
         self.help_button.setFont(self.medium_bold_font)
-        self.help_button.setGeometry(10, 200, 130, 60)
+        self.help_button.setGeometry(10, 230, 130, 60)
         self.help_button.adjustSize()
         self.help_button.clicked.connect(self.show_help)
 
@@ -604,7 +616,7 @@ class MainWindow(QMainWindow):
         help_msg.setInformativeText("ADD TEXT")
         help_msg.setWindowTitle("Help")
         help_msg.exec_()
-        
+
     def new_snippet(self, monitor):
         """
         Create dim Splashscreen object and show dim Splashscreen.
