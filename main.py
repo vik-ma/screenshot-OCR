@@ -69,8 +69,10 @@ class MainWindow(QMainWindow):
         self.textbox_font = QFont("verdana", 12)
         self.dropdown_font = QFont("arial", 13, QFont.Bold)
         self.big_button_font = QFont("arial", 18, QFont.Bold)
-        self.medium_button_font = QFont("arial", 12, QFont.Bold)
-        self.small_button_font = QFont("arial", 10, QFont.Bold)
+        self.medium_bold_font = QFont("arial", 12, QFont.Bold)
+        self.medium_font = QFont("arial", 12)
+        self.small_bold_font = QFont("arial", 10, QFont.Bold)
+        self.small_font = QFont("arial", 10)
 
         self.textbox = QPlainTextEdit(self)
         self.textbox.setFont(self.textbox_font)
@@ -78,7 +80,7 @@ class MainWindow(QMainWindow):
         self.textbox.setReadOnly(True)
         
         self.lang_combos_label = QLabel("Saved Language Combos", self)
-        self.lang_combos_label.setFont(self.medium_button_font)
+        self.lang_combos_label.setFont(self.medium_bold_font)
         self.lang_combos_label.move(625, 65)
         self.lang_combos_label.adjustSize()
         #self.lang_combos_label.setStyleSheet("color: #05bbed;")
@@ -91,7 +93,7 @@ class MainWindow(QMainWindow):
 
         self.lang_title_label = QLabel("Language", self)
         self.lang_title_label.move(175, 10)
-        self.lang_title_label.setFont(self.medium_button_font)
+        self.lang_title_label.setFont(self.medium_bold_font)
         self.lang_title_label.adjustSize()
         self.lang_title_label.setStyleSheet("color: #1469fc;")
 
@@ -104,7 +106,7 @@ class MainWindow(QMainWindow):
 
         self.main_lang_label = QLabel(self)
         self.main_lang_label.move(320, 177)
-        self.main_lang_label.setFont(self.medium_button_font)
+        self.main_lang_label.setFont(self.medium_bold_font)
         self.main_lang_label.setStyleSheet("color: #1469fc;")
 
         self.lang_param_listbox = QListWidget(self)
@@ -122,19 +124,19 @@ class MainWindow(QMainWindow):
 
         self.lang_param_label = QLabel("Additional Languages", self)
         self.lang_param_label.move(320, 10)
-        self.lang_param_label.setFont(self.medium_button_font)
+        self.lang_param_label.setFont(self.medium_bold_font)
         self.lang_param_label.adjustSize()
 
         self.update_lang()
 
         self.read_langs_label = QLabel(self)
         self.read_langs_label.move(320, 400)
-        self.read_langs_label.setFont(self.medium_button_font)
+        self.read_langs_label.setFont(self.medium_bold_font)
         self.read_langs_label.setStyleSheet("color: #fc143f;")
         
         self.lang_combo_title_label = QLabel("Language Combinations", self)
         self.lang_combo_title_label.move(625, 10)
-        self.lang_combo_title_label.setFont(self.medium_button_font)
+        self.lang_combo_title_label.setFont(self.medium_bold_font)
         self.lang_combo_title_label.adjustSize()
 
         self.create_buttons()
@@ -145,14 +147,14 @@ class MainWindow(QMainWindow):
         self.disable_shortcuts = config.getboolean("USERCONFIG", "disable_shortcuts")
 
         self.save_txt_folder_label = QLabel(self)
-        self.save_txt_folder_label.setFont(self.small_button_font)
+        self.save_txt_folder_label.setFont(self.small_bold_font)
         self.save_txt_folder_label.move(10, self.s_s_y_pos+self.s_s_y_offset*2+3)
         self.save_txt_folder_label.setText(config.get("USERCONFIG", "savetxtpath"))
         self.save_txt_folder_label.adjustSize()
         self.save_txt_folder_label.setStyleSheet("color: #010a8f;")
 
         self.save_img_folder_label = QLabel(self)
-        self.save_img_folder_label.setFont(self.small_button_font)
+        self.save_img_folder_label.setFont(self.small_bold_font)
         self.save_img_folder_label.move(10, self.s_s_y_pos+self.s_s_y_offset*5+3)
         self.save_img_folder_label.setText(config.get("USERCONFIG", "saveimgpath"))
         self.save_img_folder_label.adjustSize()
@@ -164,7 +166,7 @@ class MainWindow(QMainWindow):
     def create_buttons(self):
         self.test_button = QPushButton(self)
         self.test_button.setText("TEST")
-        self.test_button.setFont(self.medium_button_font)
+        self.test_button.setFont(self.medium_bold_font)
         self.test_button.setGeometry(170, 200, 100, 40)
         self.test_button.clicked.connect(self.test)
 
@@ -187,37 +189,37 @@ class MainWindow(QMainWindow):
         self.read_image_file_button.clicked.connect(self.read_image_file)
 
         self.set_default_lang_button = QPushButton("Set Default", self)
-        self.set_default_lang_button.setFont(self.medium_button_font)
+        self.set_default_lang_button.setFont(self.medium_bold_font)
         self.set_default_lang_button.setGeometry(174, 145, 130, 60)
         self.set_default_lang_button.adjustSize()
         self.set_default_lang_button.clicked.connect(self.set_default_lang_main)
 
         self.add_lang_button = QPushButton("Add Language", self)
-        self.add_lang_button.setFont(self.medium_button_font)
+        self.add_lang_button.setFont(self.medium_bold_font)
         self.add_lang_button.setGeometry(475, 145, 130, 60)
         self.add_lang_button.adjustSize()
         self.add_lang_button.clicked.connect(self.add_lang_param)
 
         self.remove_add_lang_button = QPushButton("Remove Language", self)
-        self.remove_add_lang_button.setFont(self.medium_button_font)
+        self.remove_add_lang_button.setFont(self.medium_bold_font)
         self.remove_add_lang_button.setGeometry(319, 145, 130, 60)
         self.remove_add_lang_button.adjustSize()
         self.remove_add_lang_button.clicked.connect(self.remove_lang_param)
 
         self.save_lang_combo_button = QPushButton("Save Language Combo", self)
-        self.save_lang_combo_button.setFont(self.medium_button_font)
+        self.save_lang_combo_button.setFont(self.medium_bold_font)
         self.save_lang_combo_button.setGeometry(625, 31, 130, 60)
         self.save_lang_combo_button.adjustSize()
         self.save_lang_combo_button.clicked.connect(self.save_lang_combo)
 
         self.save_lang_combo_default_button = QPushButton("Set Combo As Default", self)
-        self.save_lang_combo_default_button.setFont(self.medium_button_font)
+        self.save_lang_combo_default_button.setFont(self.medium_bold_font)
         self.save_lang_combo_default_button.setGeometry(625, 145, 130, 60)
         self.save_lang_combo_default_button.adjustSize()
         self.save_lang_combo_default_button.clicked.connect(self.save_lang_combo_default)
 
         self.remove_lang_combo_button = QPushButton("Delete Language Combo", self)
-        self.remove_lang_combo_button.setFont(self.medium_button_font)
+        self.remove_lang_combo_button.setFont(self.medium_bold_font)
         self.remove_lang_combo_button.setGeometry(625, 115, 130, 60)
         self.remove_lang_combo_button.adjustSize()
         self.remove_lang_combo_button.clicked.connect(self.remove_lang_combo)
@@ -247,37 +249,37 @@ class MainWindow(QMainWindow):
         self.save_txt_button.clicked.connect(lambda:self.save_txt_file(self.textbox.toPlainText()))
         
         self.restore_default_cfg_button = QPushButton("Restore Default Configuration", self)
-        self.restore_default_cfg_button.setFont(self.medium_button_font)
+        self.restore_default_cfg_button.setFont(self.medium_bold_font)
         self.restore_default_cfg_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*8, 130, 60)
         self.restore_default_cfg_button.adjustSize()
         self.restore_default_cfg_button.clicked.connect(self.restore_default_config)
 
         self.set_path_txt_button = QPushButton("Save text files to specific folder", self)
-        self.set_path_txt_button.setFont(self.small_button_font)
+        self.set_path_txt_button.setFont(self.small_bold_font)
         self.set_path_txt_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*1-2, 130, 60)
         self.set_path_txt_button.adjustSize()
         self.set_path_txt_button.clicked.connect(lambda:self.set_save_folder("savetxtpath"))
 
         self.set_path_img_button = QPushButton("Save images to specific folder", self)
-        self.set_path_img_button.setFont(self.small_button_font)
+        self.set_path_img_button.setFont(self.small_bold_font)
         self.set_path_img_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*4-2, 130, 60)
         self.set_path_img_button.adjustSize()
         self.set_path_img_button.clicked.connect(lambda:self.set_save_folder("saveimgpath"))
 
         self.reset_path_txt_button = QPushButton("Reset", self)
-        self.reset_path_txt_button.setFont(self.small_button_font)
+        self.reset_path_txt_button.setFont(self.small_bold_font)
         self.reset_path_txt_button.setGeometry(240, self.s_s_y_pos+self.s_s_y_offset*1-2, 130, 60)
         self.reset_path_txt_button.adjustSize()
         self.reset_path_txt_button.clicked.connect(lambda:self.reset_save_folder("savetxtpath"))
 
         self.reset_path_img_button = QPushButton("Reset", self)
-        self.reset_path_img_button.setFont(self.small_button_font)
+        self.reset_path_img_button.setFont(self.small_bold_font)
         self.reset_path_img_button.setGeometry(240, self.s_s_y_pos+self.s_s_y_offset*4-2, 130, 60)
         self.reset_path_img_button.adjustSize()
         self.reset_path_img_button.clicked.connect(lambda:self.reset_save_folder("saveimgpath"))
 
         self.help_button = QPushButton("Help", self)
-        self.help_button.setFont(self.medium_button_font)
+        self.help_button.setFont(self.medium_bold_font)
         self.help_button.setGeometry(10, 200, 130, 60)
         self.help_button.adjustSize()
         self.help_button.clicked.connect(self.show_help)
