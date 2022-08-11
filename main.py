@@ -96,7 +96,8 @@ class MainWindow(QMainWindow):
 
         self.read_file_label = QLabel("OCR a local image file\n(Shortcut: 'F')", self)
         self.read_file_label.adjustSize()
-        self.read_file_label.move(9, 201)
+        self.read_file_label.move(9, 138)
+        #self.read_file_label.move(9, 201)  OLD
 
         self.textbox = QPlainTextEdit(self)
         self.textbox.setFont(self.textbox_font)
@@ -215,7 +216,8 @@ class MainWindow(QMainWindow):
         
         self.read_image_file_button = QPushButton("Read File", self)
         self.read_image_file_button.setFont(self.big_button_font)
-        self.read_image_file_button.setGeometry(7, 169, 178, 32)
+        self.read_image_file_button.setGeometry(7, 106, 178, 32)
+        #self.read_image_file_button.setGeometry(7, 169, 178, 32)       OLD
         self.read_image_file_button.clicked.connect(self.read_image_file)
 
         self.set_default_lang_button = QPushButton("Set Default", self)
