@@ -961,7 +961,7 @@ def unexpected_error(exception):
     unexpected_error_msg = QMessageBox()
     unexpected_error_msg.setIcon(QMessageBox.Critical)
     unexpected_error_msg.setText("Unexpected Error!")
-    unexpected_error_msg.setInformativeText(exception)
+    unexpected_error_msg.setInformativeText(f"Error Message:\n'{exception}'\n\nTry deleting 'config.ini' file.")
     unexpected_error_msg.setWindowTitle("Error")
     sys.exit(unexpected_error_msg.exec_())
 
