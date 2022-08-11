@@ -87,9 +87,12 @@ class MainWindow(QMainWindow):
         self.snippet_label.adjustSize()
         self.snippet_label.move(9, 75)
 
+        """
+        DELETE LABEL IF UNUSED
         self.snippet_primary_label = QLabel("OCR a snippet of the primary screen\n(Shortcut: 'P')", self)
         self.snippet_primary_label.adjustSize()
         self.snippet_primary_label.move(9, 138)
+        """
 
         self.read_file_label = QLabel("OCR a local image file\n(Shortcut: 'F')", self)
         self.read_file_label.adjustSize()
@@ -197,15 +200,18 @@ class MainWindow(QMainWindow):
         self.test_button.setGeometry(190, 170, 100, 40)
         self.test_button.clicked.connect(self.test)
 
-        self.snippet_all_button = QPushButton("Snippet Screens", self)
+        self.snippet_all_button = QPushButton("Take Snippet", self)
         self.snippet_all_button.setFont(self.big_button_font)
         self.snippet_all_button.setGeometry(7, 43, 178, 32)
         self.snippet_all_button.clicked.connect(lambda:self.new_snippet("all"))
-
+        
+        """
+        DELETE BUTTON IF UNUSED
         self.snippet_primary_button = QPushButton("Primary Screen", self)
         self.snippet_primary_button.setFont(self.big_button_font)
         self.snippet_primary_button.setGeometry(7, 106, 178, 32)
         self.snippet_primary_button.clicked.connect(lambda:self.new_snippet("primary"))
+        """
         
         self.read_image_file_button = QPushButton("Read File", self)
         self.read_image_file_button.setFont(self.big_button_font)
@@ -328,11 +334,11 @@ class MainWindow(QMainWindow):
     def set_shortcuts(self):
         if self.disable_shortcuts:
             self.snippet_all_button.setShortcut("")
-            self.snippet_primary_button.setShortcut("")
+            #self.snippet_primary_button.setShortcut("") #DELETE IF UNUSED
             self.read_image_file_button.setShortcut("")
         else:
             self.snippet_all_button.setShortcut("S")
-            self.snippet_primary_button.setShortcut("P")
+            #self.snippet_primary_button.setShortcut("P") #DELETE IF UNUSED
             self.read_image_file_button.setShortcut("F")
 
     def save_txt_clicked(self):
@@ -657,6 +663,7 @@ class CreateSnippet(QSplashScreen):
         elif monitor == "primary":
             self.dim_screen_primary()
 
+    #DELETE IF UNUSED
     def dim_screen_primary(self):
         """Fill splashScreen with black color and reduce the widget opacity to create dim screen effect on only the primary screen."""
 
