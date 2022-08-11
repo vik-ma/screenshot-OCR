@@ -200,19 +200,16 @@ class MainWindow(QMainWindow):
         self.snippet_all_button = QPushButton("Snippet Screens", self)
         self.snippet_all_button.setFont(self.big_button_font)
         self.snippet_all_button.setGeometry(7, 43, 178, 32)
-        #self.snippet_all_button.adjustSize()
         self.snippet_all_button.clicked.connect(lambda:self.new_snippet("all"))
 
         self.snippet_primary_button = QPushButton("Primary Screen", self)
         self.snippet_primary_button.setFont(self.big_button_font)
         self.snippet_primary_button.setGeometry(7, 106, 178, 32)
-        #self.snippet_primary_button.adjustSize()
         self.snippet_primary_button.clicked.connect(lambda:self.new_snippet("primary"))
         
         self.read_image_file_button = QPushButton("Read File", self)
         self.read_image_file_button.setFont(self.big_button_font)
         self.read_image_file_button.setGeometry(7, 169, 178, 32)
-        #self.read_image_file_button.adjustSize()
         self.read_image_file_button.clicked.connect(self.read_image_file)
 
         self.set_default_lang_button = QPushButton("Set Default", self)
@@ -236,19 +233,16 @@ class MainWindow(QMainWindow):
         self.save_lang_combo_button = QPushButton("Save Language Combo", self)
         self.save_lang_combo_button.setFont(self.small_bold_font)
         self.save_lang_combo_button.setGeometry(625, 31, 190, self.small_button_height)
-        #self.save_lang_combo_button.adjustSize()
         self.save_lang_combo_button.clicked.connect(self.save_lang_combo)
 
         self.save_lang_combo_default_button = QPushButton("Set Combo As Default", self)
         self.save_lang_combo_default_button.setFont(self.small_bold_font)
         self.save_lang_combo_default_button.setGeometry(625, 145, 190, self.small_button_height)
-        #self.save_lang_combo_default_button.adjustSize()
         self.save_lang_combo_default_button.clicked.connect(self.save_lang_combo_default)
 
         self.remove_lang_combo_button = QPushButton("Delete Language Combo", self)
         self.remove_lang_combo_button.setFont(self.small_bold_font)
         self.remove_lang_combo_button.setGeometry(625, 118, 190, self.small_button_height)
-        #self.remove_lang_combo_button.adjustSize()
         self.remove_lang_combo_button.clicked.connect(self.remove_lang_combo)
 
         self.copy_button = QPushButton("Copy", self)
@@ -284,31 +278,26 @@ class MainWindow(QMainWindow):
         self.set_path_txt_button = QPushButton("Save text files to specific folder", self)
         self.set_path_txt_button.setFont(self.small_bold_font)
         self.set_path_txt_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*1-2, 210, self.small_button_height)
-        #self.set_path_txt_button.adjustSize()
         self.set_path_txt_button.clicked.connect(lambda:self.set_save_folder("savetxtpath"))
 
         self.set_path_img_button = QPushButton("Save images to specific folder", self)
         self.set_path_img_button.setFont(self.small_bold_font)
         self.set_path_img_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*4-2, 210, self.small_button_height)
-        #self.set_path_img_button.adjustSize()
         self.set_path_img_button.clicked.connect(lambda:self.set_save_folder("saveimgpath"))
 
         self.reset_path_txt_button = QPushButton("Reset", self)
         self.reset_path_txt_button.setFont(self.small_bold_font)
         self.reset_path_txt_button.setGeometry(265, self.s_s_y_pos+self.s_s_y_offset*1-2, 50, self.small_button_height)
-        #self.reset_path_txt_button.adjustSize()
         self.reset_path_txt_button.clicked.connect(lambda:self.reset_save_folder("savetxtpath"))
 
         self.reset_path_img_button = QPushButton("Reset", self)
         self.reset_path_img_button.setFont(self.small_bold_font)
         self.reset_path_img_button.setGeometry(265, self.s_s_y_pos+self.s_s_y_offset*4-2, 50, self.small_button_height)
-        #self.reset_path_img_button.adjustSize()
         self.reset_path_img_button.clicked.connect(lambda:self.reset_save_folder("saveimgpath"))
 
         self.help_button = QPushButton("Help", self)
         self.help_button.setFont(QFont("arial", 13, QFont.Bold))
         self.help_button.setGeometry(249, 233, 66, 27)
-        #self.help_button.adjustSize()
         self.help_button.clicked.connect(self.show_help)
 
     def create_checkboxes(self):
@@ -626,8 +615,9 @@ class MainWindow(QMainWindow):
 
     def show_help(self):
         help_msg = QMessageBox()
-        help_msg.setText("ADD TEXT")
-        help_msg.setInformativeText("ADD TEXT")
+        help_msg.setIcon(QMessageBox.Information)
+        help_msg.setText("Derive text from an image using Tesseract OCR by either taking a screenshot snippet with the application or by selecting a locally saved image file.")
+        #help_msg.setInformativeText("ADD TEXT")
         help_msg.setWindowTitle("Help")
         help_msg.exec_()
 
