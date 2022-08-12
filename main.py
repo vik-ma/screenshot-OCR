@@ -164,14 +164,21 @@ class MainWindow(QMainWindow):
         self.main_lang_label.setFont(self.title_font)
         self.main_lang_label.setStyleSheet("color: #0060e6;")
 
+        #Set to store added language parameters
+        self.additional_lang_set = set()
 
-        self.additional_lang_set = set()    #Set to store added language parameters
-        self.avail_langs = {}               #Dictionary of available languages in Tesseract installation (k = Tesseract langcode, v = Full language name)
-        self.avail_langs_swapped = {}       #Dictionary of available languages in Tesseract installation (k = Full language name, v = Tesseract langcode)
-        self.avail_langs_index = []         #Indexed list of alphabetically sorted available full language names
+        #Dictionary of available languages in Tesseract installation (k = Tesseract langcode, v = Full language name)
+        self.avail_langs = {}
+
+        #Dictionary of available languages in Tesseract installation (k = Full language name, v = Tesseract langcode)            
+        self.avail_langs_swapped = {}
+
+        #Indexed list of alphabetically sorted available full language names   
+        self.avail_langs_index = []
         
         #Loads saved language combinations in saved_lang_combos_menu dropdown list
         self.load_lang_combos()
+
         #Loads all available languages in Tesseract-installation into lang_listbox and add_lang_listbox as their full names
         #Also selects the saved default language or language combination
         self.load_langs()                   
