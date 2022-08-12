@@ -629,8 +629,7 @@ class MainWindow(QMainWindow):
     def show_help(self):
         help_msg = QMessageBox()
         help_msg.setIcon(QMessageBox.Information)
-        help_msg.setText("Derive text from an image using Tesseract OCR by either taking a screenshot snippet with the application or by selecting a locally saved image file.")
-        #help_msg.setInformativeText("ADD TEXT")
+        help_msg.setText("Extract text from an image using TesseractOCR by either taking a screenshot snippet from your screens with the application or by selecting a locally saved image file.\n\nTo change which language to read, select the language from the list of languages with the blue text. If the language you are looking for is not in the list, it is either not supported by TesseractOCR or you have not installed the language in Tesseract.\n\nIf you want to read multiple languages you can add them from the list of available languages under 'Additional Languages' (rightmost listbox). If you want to use the language combination another time, you can save the current language combination. Language combinations are saved to the 'config.ini' file.")
         help_msg.setWindowTitle("Help")
         help_msg.exec_()
 
