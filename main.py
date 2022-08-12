@@ -63,17 +63,19 @@ class MainWindow(QMainWindow):
         self._centralWidget = QWidget(self)
         self.setCentralWidget(self._centralWidget)
 
-        #Settings section y position
+        #Settings section top-most y-position
         self.s_s_y_pos = 261
-        #Settings section y offset
+        #Settings section y-offset between items
         self.s_s_y_offset = 21
+
         #Height for buttons with small_bold_font
         self.small_button_height = 24
 
+        #Create font templates
         self.textbox_font = QFont("verdana", 10)
         self.dropdown_font = QFont("arial", 13, QFont.Bold)
-        self.big_button_font = QFont("arial", 16, QFont.Bold)
         self.title_font = QFont("arial", 12, QFont.Bold)
+        self.big_button_font = QFont("arial", 16, QFont.Bold)
         self.medium_bold_font = QFont("arial", 11, QFont.Bold)
         self.medium_font = QFont("arial", 12)
         self.small_bold_font = QFont("arial", 10, QFont.Bold)
@@ -85,7 +87,7 @@ class MainWindow(QMainWindow):
         self.ocr_label.move(9, 4)
         self.ocr_label.setStyleSheet("color: #e6002e;")
 
-        self.snippet_label = QLabel("OCR a snippet of any screen\n(Shortcut: 'S')", self)
+        self.snippet_label = QLabel("OCR a snippet of any screen.\nMay not cover all screens if\nmonitor resolutions and positions\ndiffer wildly from each other.\n(Shortcut: 'S')", self)
         self.snippet_label.adjustSize()
         self.snippet_label.move(9, 75)
 
@@ -96,10 +98,9 @@ class MainWindow(QMainWindow):
         self.snippet_primary_label.move(9, 138)
         """
 
-        self.read_file_label = QLabel("OCR a local image file\n(Shortcut: 'F')", self)
+        self.read_file_label = QLabel("OCR a local image file.\n(Shortcut: 'F')", self)
         self.read_file_label.adjustSize()
-        self.read_file_label.move(9, 138)
-        #self.read_file_label.move(9, 201)  OLD
+        self.read_file_label.move(9, 179)
 
         self.textbox = QPlainTextEdit(self)
         self.textbox.setFont(self.textbox_font)
@@ -218,8 +219,7 @@ class MainWindow(QMainWindow):
         
         self.read_image_file_button = QPushButton("Read File", self)
         self.read_image_file_button.setFont(self.big_button_font)
-        self.read_image_file_button.setGeometry(7, 106, 178, 32)
-        #self.read_image_file_button.setGeometry(7, 169, 178, 32)       OLD
+        self.read_image_file_button.setGeometry(7, 147, 178, 32)
         self.read_image_file_button.clicked.connect(self.read_image_file)
 
         self.set_default_lang_button = QPushButton("Set Default", self)
