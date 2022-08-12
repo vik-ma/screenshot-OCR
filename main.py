@@ -206,7 +206,7 @@ class MainWindow(QMainWindow):
         self.test_button.setGeometry(190, 170, 100, 40)
         self.test_button.clicked.connect(self.test)
         """
-        
+
         self.snippet_all_button = QPushButton("Take Snippet", self)
         self.snippet_all_button.setFont(self.big_button_font)
         self.snippet_all_button.setGeometry(7, 43, 178, 32)
@@ -310,7 +310,7 @@ class MainWindow(QMainWindow):
 
         self.help_button = QPushButton("Help", self)
         self.help_button.setFont(QFont("arial", 13, QFont.Bold))
-        self.help_button.setGeometry(249, 233, 66, 27)
+        self.help_button.setGeometry(7, 210, 66, 27)
         self.help_button.clicked.connect(self.show_help)
 
     def create_checkboxes(self):
