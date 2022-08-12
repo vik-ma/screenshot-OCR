@@ -490,7 +490,7 @@ class MainWindow(QMainWindow):
         return self.lang_listbox.currentRow()
 
     def lang_listbox_click(self):
-        "Update selected_lang label when new item is selected in lang_listbox."
+        """Update selected_lang label when new item is selected in lang_listbox."""
         self.selected_lang = self.get_main_lang()
         self.update_lang()
 
@@ -499,16 +499,19 @@ class MainWindow(QMainWindow):
         return self.add_lang_listbox.currentRow()
 
     def set_default_lang_main(self):
+        """Save default language (single) to config.ini."""
         config.set("USERCONFIG", "default_lang_main", self.selected_lang)
         config.set("USERCONFIG", "default_is_combo", str(False))
         config.set("USERCONFIG", "default_lang_combo", "")
         write_config()
 
     def update_lang(self):
+        """Update text of main_lang_label."""
         self.main_lang_label.setText(f"Selected Language: {self.selected_lang}")
         self.main_lang_label.adjustSize()
 
     def add_lang_param(self):
+        """Add selected language from add_lang_listbox to additional_lang_set and lang_param_listbox."""
         new_lang = self.avail_langs_index[self.get_additional_lang_index()]
         if new_lang != self.get_main_lang():
             #Doesn't add language to parameters if it is already the selected main language
@@ -521,6 +524,7 @@ class MainWindow(QMainWindow):
                     break
 
     def remove_lang_param(self):
+        """Remove selected language from lang_param_listbox."""
         row = self.lang_param_listbox.currentRow()
         if row >= 0:
             #Does nothing if no item in listbox is currently selected
@@ -529,10 +533,13 @@ class MainWindow(QMainWindow):
             self.update_lang_param_listbox()
 
     def update_lang_param_listbox(self):
+        """Update the items of lang_param_listbox from additional_lang_set."""
         self.lang_param_listbox.clear()
         self.lang_param_listbox.addItems(self.additional_lang_set)
 
-    def get_lang_combo(self):
+    def get_lang_combo(self) -> str:
+        """Return a formatted language parameter string from selected_lang and additional_lang_set."""
+        #Gets the language parameter from the language name
         lang_param = self.avail_langs_swapped[self.selected_lang]
         #Checks if there are any added languages
         for lang in self.additional_lang_set:
