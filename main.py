@@ -368,24 +368,28 @@ class MainWindow(QMainWindow):
         self.help_button.clicked.connect(self.show_help)
 
     def create_checkboxes(self):
+        #Checkbox that will automatically create a txt file of the read output when checked
         self.save_txt_checkbox = QCheckBox("Automatically save output as .txt", self)
         self.save_txt_checkbox.move(10, self.s_s_y_pos)
         self.save_txt_checkbox.adjustSize()
         self.save_txt_checkbox.setChecked(self.auto_save_txt)
         self.save_txt_checkbox.stateChanged.connect(self.save_txt_clicked)
 
+        #Checkbox that will automatically create a png file of the selected screenshot snippet when checked
         self.save_img_checkbox = QCheckBox("Automatically save snippet as .png", self)
         self.save_img_checkbox.move(10, self.s_s_y_pos+self.s_s_y_offset*3)
         self.save_img_checkbox.adjustSize()
         self.save_img_checkbox.setChecked(self.auto_save_img)
         self.save_img_checkbox.stateChanged.connect(self.save_img_clicked)
 
+        #Checkbox that will automatically copy the text of a read image to the user's clipboard when checked
         self.auto_copy_checkbox = QCheckBox("Automatically copy output to clipboard", self)
         self.auto_copy_checkbox.move(10, self.s_s_y_pos+self.s_s_y_offset*6)
         self.auto_copy_checkbox.adjustSize()
         self.auto_copy_checkbox.setChecked(self.auto_copy_output)
         self.auto_copy_checkbox.stateChanged.connect(self.auto_copy_clicked)
 
+        #Checkbox that will turn off all keyboard shortcuts when checked
         self.disable_shortcuts_checkbox = QCheckBox("Disable keyboard shortcuts", self)
         self.disable_shortcuts_checkbox.move(10, self.s_s_y_pos+self.s_s_y_offset*7)
         self.disable_shortcuts_checkbox.adjustSize()
