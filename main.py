@@ -439,10 +439,12 @@ class MainWindow(QMainWindow):
         self.set_shortcuts()
 
     def load_lang_combos(self):
+        """Add all items from 'SAVED_LANG_COMBOS' section in config.ini to saved_lang_combos_menu dropdown list."""
         for item in config['SAVED_LANG_COMBOS']:
             self.saved_lang_combos_menu.addItem(item)
 
     def load_langs(self):
+        """Add all available languages in Tesseract installation in indexed list, dictionaries and listboxes."""
         languages = ocr.get_languages()
         for lang in languages:
             #Adds the full language name from value in lang_codes_dict if key exists, otherwise adds the langcode's key as value in new dictionary
@@ -454,12 +456,14 @@ class MainWindow(QMainWindow):
         #Swaps the 'self.avail_langs' values with it's keys
         self.avail_langs_swapped = dict([(value, key) for key, value in self.avail_langs.items()])
         
+        #Adds all available languages to lang_listbox and add_lang_listbox
         self.lang_listbox.insertItems(0, self.avail_langs_index)
         self.add_lang_listbox.insertItems(0, self.avail_langs_index)
-
+        #Updates the GUI based on user config
         self.update_all_lang_selection()
 
     def update_all_lang_selection(self):
+        """Set language selections from saved user config."""
         if config.getboolean("USERCONFIG", "default_is_combo") is False:
             #If user has only set one language as default
             main_lang = config.get("USERCONFIG", "default_lang_main")
@@ -477,18 +481,22 @@ class MainWindow(QMainWindow):
         #Sets the first item in list as default choice for additional languages 
         self.add_lang_listbox.setCurrentRow(0)
 
-    def get_main_lang(self):
+    def get_main_lang(self) -> str:
+        """Return the text of currently selected index in lang_listbox."""
         return self.lang_listbox.currentItem().text()
     
-    def get_additional_lang_index(self):
-        return self.add_lang_listbox.currentRow()
-
-    def get_lang_index(self):
+    def get_lang_index(self) -> int:
+        """Return the index of currently selected item in lang_listbox."""
         return self.lang_listbox.currentRow()
 
     def lang_listbox_click(self):
+        "Update selected_lang label when new item is selected in lang_listbox."
         self.selected_lang = self.get_main_lang()
         self.update_lang()
+
+    def get_additional_lang_index(self) -> int:
+        """Return the index of currently selected item in add_lang_listbox."""
+        return self.add_lang_listbox.currentRow()
 
     def set_default_lang_main(self):
         config.set("USERCONFIG", "default_lang_main", self.selected_lang)
