@@ -397,34 +397,41 @@ class MainWindow(QMainWindow):
         self.disable_shortcuts_checkbox.stateChanged.connect(self.disable_shortcuts_clicked)
 
     def set_shortcuts(self):
+        """Enable or disable keyboard shortcut depending on user setting."""
         if self.disable_shortcuts:
+            #If user has checked the checkbox to disable shortcuts
             self.snippet_button.setShortcut("")
             #self.snippet_primary_button.setShortcut("") #DELETE IF UNUSED
             self.read_image_file_button.setShortcut("")
         else:
+            #If user has not checked the checkbox to disable shortcuts
             self.snippet_button.setShortcut("S")
             #self.snippet_primary_button.setShortcut("P") #DELETE IF UNUSED
             self.read_image_file_button.setShortcut("F")
 
     def save_txt_clicked(self):
+        """Change value of auto_save_txt and save value to config.ini."""
         state = self.save_txt_checkbox.isChecked()
         self.auto_save_txt = state
         config.set("USERCONFIG", "autosavetxt", str(state))
         write_config()
 
     def save_img_clicked(self):
+        """Change value of auto_save_img and save value to config.ini."""
         state = self.save_img_checkbox.isChecked()
         self.auto_save_img = state
         config.set("USERCONFIG", "autosaveimg", str(state))
         write_config()
     
     def auto_copy_clicked(self):
+        """Change value of auto_copy_output and save value to config.ini."""
         state = self.auto_copy_checkbox.isChecked()
         self.auto_copy_output = state
         config.set("USERCONFIG", "autocopy", str(state))
         write_config()
 
     def disable_shortcuts_clicked(self):
+        """Change value of disable shortcuts and save value to config.ini."""
         state = self.disable_shortcuts_checkbox.isChecked()
         self.disable_shortcuts = state
         config.set("USERCONFIG", "disable_shortcuts", str(state))
