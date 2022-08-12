@@ -20,11 +20,13 @@ def write_config():
     with open("config.ini", "w") as configfile:
         config.write(configfile)
 
-def get_time_string():
+def get_time_string() -> str:
+    """Generate a string based on current date and time."""
     date_string = datetime.now().strftime("SSOCR-%Y%m%d-%H%M%S-%f")
     return date_string
 
 if has_config:
+    #Changes variables to saved settings in config.ini
     config.read("config.ini")
     ocr.pytesseract.tesseract_cmd = config.get("USERCONFIG", "tesseract_path")
 else:
@@ -923,6 +925,7 @@ class ErrorWindow(QWidget):
         super().__init__()
         #Error message if no installation of Tesseract is found in set path
         self.no_inst_error_msg = QMessageBox().question(self, "TesseractOCR Not Found", "Tesseract installation not found!\n\nManually add path?", QMessageBox().Yes | QMessageBox().No)
+        
         #Error message if file user selected is not a valid tesseract.exe
         self.file_error_msg = QMessageBox()
         self.file_error_msg.setIcon(QMessageBox.Critical)
@@ -938,6 +941,7 @@ class ErrorWindow(QWidget):
             sys.exit()
 
     def set_tesseract_path(self):
+        """Make user set path to TesseractOCR.exe."""
         file, check = QFileDialog.getOpenFileName(None, "Select File",
                                                   "C:/", "Executable files (*.exe);;All Files (*)")
         if check:
@@ -949,15 +953,17 @@ class ErrorWindow(QWidget):
                 mw = MainWindow()
                 mw.show()
             except ocr.TesseractNotFoundError:
-                #Display error message and then close  application
+                #Display file_error_msg and then close application if file selected is not valid
                 sys.exit(self.file_error_msg.exec_())
             except Exception as e:
+                #Display error in messagebox and then close application if unexpected error has occured
                 unexpected_error(str(e))
         else:
             #Close application if user cancels filedialog
             sys.exit()
         
 def unexpected_error(exception):
+    """Show messagebox displaying error message."""
     unexpected_error_msg = QMessageBox()
     unexpected_error_msg.setIcon(QMessageBox.Critical)
     unexpected_error_msg.setText("Unexpected Error!")
