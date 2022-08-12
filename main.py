@@ -81,12 +81,14 @@ class MainWindow(QMainWindow):
         self.small_bold_font = QFont("arial", 10, QFont.Bold)
         self.small_font = QFont("arial", 10)
 
+        #Title label for the application in red text
         self.ocr_label = QLabel("OCR Image", self)
         self.ocr_label.setFont(QFont("arial", 23, QFont.Bold))
         self.ocr_label.adjustSize()
         self.ocr_label.move(9, 4)
         self.ocr_label.setStyleSheet("color: #e6002e;")
 
+        #Label underneath snippet_button describing it's function
         self.snippet_label = QLabel("OCR a snippet of any screen.\nMay not cover all screens if\nmonitor resolutions and positions\ndiffer wildly from each other.\n(Shortcut: 'S')", self)
         self.snippet_label.adjustSize()
         self.snippet_label.move(9, 75)
@@ -97,89 +99,112 @@ class MainWindow(QMainWindow):
         self.snippet_primary_label.adjustSize()
         self.snippet_primary_label.move(9, 138)
         """
-
+        #Label underneath read_image_file_button describing it's function
         self.read_file_label = QLabel("OCR a local image file.\n(Shortcut: 'F')", self)
         self.read_file_label.adjustSize()
         self.read_file_label.move(9, 179)
 
+        #The textbox where the read text gets outputted
         self.textbox = QPlainTextEdit(self)
         self.textbox.setFont(self.textbox_font)
         self.textbox.setGeometry(320, 200, 500, 200)
         self.textbox.setReadOnly(True)
         
-        self.lang_combos_label = QLabel("Saved Language Combos", self)
-        self.lang_combos_label.setFont(self.title_font)
-        self.lang_combos_label.move(625, 65)
-        self.lang_combos_label.adjustSize()
-        #self.lang_combos_label.setStyleSheet("color: #05bbed;")
-
-        self.saved_lang_combos_menu = QComboBox(self)
-        self.saved_lang_combos_menu.setGeometry(625, 85, 190, 25)
-        self.saved_lang_combos_menu.setFont(self.dropdown_font)
-        self.saved_lang_combos_menu.activated.connect(self.set_lang_combo)
-        self.saved_lang_combos_menu.setStyleSheet("color: #020ca8;")
-
+        #Title for lang_listbox in blue text
         self.lang_title_label = QLabel("Language", self)
         self.lang_title_label.move(191, 10)
         self.lang_title_label.setFont(self.title_font)
         self.lang_title_label.adjustSize()
         self.lang_title_label.setStyleSheet("color: #0060e6;")
 
+        #Listbox where the main language being read is selected
+        #All available languages in Tesseract-installation will be listed here as their full names (if they have one)
         self.lang_listbox = QListWidget(self)
         self.lang_listbox.setGeometry(191, 31, 140, 110)
         self.lang_listbox.itemClicked.connect(self.lang_listbox_click)
 
-        self.add_lang_listbox = QListWidget(self)
-        self.add_lang_listbox.setGeometry(477, 31, 140, 110)
-
-        self.main_lang_label = QLabel(self)
-        self.main_lang_label.move(320, 177)
-        self.main_lang_label.setFont(self.title_font)
-        self.main_lang_label.setStyleSheet("color: #0060e6;")
-
-        self.lang_param_listbox = QListWidget(self)
-        self.lang_param_listbox.setGeometry(334, 31, 140, 110)
-
-        self.additional_lang_set = set()    #Set to store added language parameters
-
-        self.avail_langs = {}           #Dictionary of available languages in Tesseract installation (k = Tesseract langcode, v = Full language name)
-        self.avail_langs_swapped = {}   #Dictionary of available languages in Tesseract installation (k = Full language name, v = Tesseract langcode)
-        self.avail_langs_index = []     #Indexed list of alphabetically sorted available full language names
-        self.load_lang_combos()
-        self.load_langs()
-
-        self.selected_lang = self.get_main_lang()
-
+        #Title for lang_param_listbox and add_lang_listbox 
         self.lang_param_label = QLabel("Additional Languages", self)
         self.lang_param_label.move(335, 10)
         self.lang_param_label.setFont(self.title_font)
         self.lang_param_label.adjustSize()
 
-        self.update_lang()
+        #Listbox where user selected additional language parameters are shown
+        self.lang_param_listbox = QListWidget(self)
+        self.lang_param_listbox.setGeometry(334, 31, 140, 110)
 
-        self.read_langs_label = QLabel(self)
-        self.read_langs_label.move(321, 401)
-        self.read_langs_label.setFont(self.title_font)
-        self.read_langs_label.setStyleSheet("color: #e6002e;")
-        
+        #Listbox where additional language parameters can be selected from
+        #This box lists all the same languages as lang_listbox
+        self.add_lang_listbox = QListWidget(self)
+        self.add_lang_listbox.setGeometry(477, 31, 140, 110)
+
+        #Title for Language Combination section
         self.lang_combo_title_label = QLabel("Language Combinations", self)
         self.lang_combo_title_label.move(626, 10)
         self.lang_combo_title_label.setFont(self.title_font)
         self.lang_combo_title_label.adjustSize()
 
+        #Title for saved_lang_combos_menu
+        self.lang_combos_label = QLabel("Saved Language Combos", self)
+        self.lang_combos_label.setFont(self.title_font)
+        self.lang_combos_label.move(625, 65)
+        self.lang_combos_label.adjustSize()
+        #self.lang_combos_label.setStyleSheet("color: #05bbed;") #DELETE IF UNUSED
+
+        #Dropdown menu where all saved language combinations are listed
+        self.saved_lang_combos_menu = QComboBox(self)
+        self.saved_lang_combos_menu.setGeometry(625, 85, 190, 25)
+        self.saved_lang_combos_menu.setFont(self.dropdown_font)
+        self.saved_lang_combos_menu.activated.connect(self.set_lang_combo)
+        self.saved_lang_combos_menu.setStyleSheet("color: #020ca8;")
+
+        #Label where the selected main language is displayed in blue text
+        self.main_lang_label = QLabel(self)
+        self.main_lang_label.move(320, 177)
+        self.main_lang_label.setFont(self.title_font)
+        self.main_lang_label.setStyleSheet("color: #0060e6;")
+
+
+        self.additional_lang_set = set()    #Set to store added language parameters
+        self.avail_langs = {}               #Dictionary of available languages in Tesseract installation (k = Tesseract langcode, v = Full language name)
+        self.avail_langs_swapped = {}       #Dictionary of available languages in Tesseract installation (k = Full language name, v = Tesseract langcode)
+        self.avail_langs_index = []         #Indexed list of alphabetically sorted available full language names
+        
+        #Loads saved language combinations in saved_lang_combos_menu dropdown list
+        self.load_lang_combos()
+        #Loads all available languages in Tesseract-installation into lang_listbox and add_lang_listbox as their full names
+        #Also selects the saved default language or language combination
+        self.load_langs()                   
+
+        #String to store the currently selected language
+        self.selected_lang = self.get_main_lang()
+
+        #Updates main_lang_label
+        self.update_lang()
+
+        #Label that lists the the language parameters used on an image after it's been read
+        self.read_langs_label = QLabel(self)
+        self.read_langs_label.move(321, 401)
+        self.read_langs_label.setFont(self.title_font)
+        self.read_langs_label.setStyleSheet("color: #e6002e;")
+        
+        #Creates all buttons in the applications
         self.create_buttons()
     
+        #Title for section relating to user settings
         self.settings_label = QLabel("Settings", self)
         self.settings_label.setFont(self.title_font)
         self.settings_label.adjustSize()
         self.settings_label.move(8, 240)
 
-
+        #Booleans storing the value of different user settings
         self.auto_save_txt = config.getboolean("USERCONFIG", "autosavetxt")
         self.auto_save_img = config.getboolean("USERCONFIG", "autosaveimg")
         self.auto_copy_output = config.getboolean("USERCONFIG", "autocopy")
         self.disable_shortcuts = config.getboolean("USERCONFIG", "disable_shortcuts")
 
+        #Label that shows the folder that text files created by the applications will be saved to
+        #Will show nothing if user has not specified a folder 
         self.save_txt_folder_label = QLabel(self)
         self.save_txt_folder_label.setFont(self.small_bold_font)
         self.save_txt_folder_label.move(10, self.s_s_y_pos+self.s_s_y_offset*2+3)
@@ -187,6 +212,8 @@ class MainWindow(QMainWindow):
         self.save_txt_folder_label.adjustSize()
         self.save_txt_folder_label.setStyleSheet("color: #020ca8;")
 
+        #Label that shows the folder that images created by the applications will be saved to
+        #Will show nothing if user has not specified a folder 
         self.save_img_folder_label = QLabel(self)
         self.save_img_folder_label.setFont(self.small_bold_font)
         self.save_img_folder_label.move(10, self.s_s_y_pos+self.s_s_y_offset*5+3)
@@ -194,7 +221,9 @@ class MainWindow(QMainWindow):
         self.save_img_folder_label.adjustSize()
         self.save_img_folder_label.setStyleSheet("color: #020ca8;")
 
+        #Creates all checkboxes in applications and assigns their saved values
         self.create_checkboxes()
+        #Sets keyboard shortcuts
         self.set_shortcuts()
 
     def create_buttons(self):
@@ -207,10 +236,10 @@ class MainWindow(QMainWindow):
         self.test_button.clicked.connect(self.test)
         """
 
-        self.snippet_all_button = QPushButton("Take Snippet", self)
-        self.snippet_all_button.setFont(self.big_button_font)
-        self.snippet_all_button.setGeometry(7, 43, 178, 32)
-        self.snippet_all_button.clicked.connect(lambda:self.new_snippet("all"))
+        self.snippet_button = QPushButton("Take Snippet", self)
+        self.snippet_button.setFont(self.big_button_font)
+        self.snippet_button.setGeometry(7, 43, 178, 32)
+        self.snippet_button.clicked.connect(lambda:self.new_snippet("all"))
         
         """
         DELETE BUTTON IF UNUSED
@@ -340,11 +369,11 @@ class MainWindow(QMainWindow):
 
     def set_shortcuts(self):
         if self.disable_shortcuts:
-            self.snippet_all_button.setShortcut("")
+            self.snippet_button.setShortcut("")
             #self.snippet_primary_button.setShortcut("") #DELETE IF UNUSED
             self.read_image_file_button.setShortcut("")
         else:
-            self.snippet_all_button.setShortcut("S")
+            self.snippet_button.setShortcut("S")
             #self.snippet_primary_button.setShortcut("P") #DELETE IF UNUSED
             self.read_image_file_button.setShortcut("F")
 
