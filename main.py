@@ -198,12 +198,15 @@ class MainWindow(QMainWindow):
         self.set_shortcuts()
 
     def create_buttons(self):
+        """ 
+        DELETE BUTTON IF UNUSED
         self.test_button = QPushButton(self)
         self.test_button.setText("TEST")
         self.test_button.setFont(self.medium_bold_font)
         self.test_button.setGeometry(190, 170, 100, 40)
         self.test_button.clicked.connect(self.test)
-
+        """
+        
         self.snippet_all_button = QPushButton("Take Snippet", self)
         self.snippet_all_button.setFont(self.big_button_font)
         self.snippet_all_button.setGeometry(7, 43, 178, 32)
