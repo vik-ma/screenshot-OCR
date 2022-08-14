@@ -630,8 +630,8 @@ class MainWindow(QMainWindow):
             filetype = "text files"
         elif cfg_var == "saveimgpath":
             filetype = "images"
-        self.confirmbox = QMessageBox().question(self, "Reset Save Folder", f"Are you sure you want reset save folder for {filetype}?", QMessageBox().Yes | QMessageBox().No)
-        if self.confirmbox == QMessageBox.Yes:
+        confirmbox = QMessageBox().question(self, "Reset Save Folder", f"Are you sure you want reset save folder for {filetype}?", QMessageBox().Yes | QMessageBox().No)
+        if confirmbox == QMessageBox.Yes:
             config.set("USERCONFIG", cfg_var, "")
             write_config()
             self.update_save_folder(cfg_var, "")
@@ -707,8 +707,8 @@ class MainWindow(QMainWindow):
 
     def restore_default_config(self):
         """Overwrite [USERCONFIG] with [DEFAULT] in config.ini if user selects "Yes"."""
-        self.confirmbox = QMessageBox().question(self, "Restore Default Configuration", "Are you sure you want to restore default configuration?\nThis can not be undone.", QMessageBox().Yes | QMessageBox().No)
-        if self.confirmbox == QMessageBox.Yes:
+        confirmbox = QMessageBox().question(self, "Restore Default Configuration", "Are you sure you want to restore default configuration?\nThis can not be undone.", QMessageBox().Yes | QMessageBox().No)
+        if confirmbox == QMessageBox.Yes:
             default_config = config.items("DEFAULT")
             for k, v in default_config:
                 config.set("USERCONFIG", k, v)
