@@ -94,12 +94,6 @@ class MainWindow(QMainWindow):
         self.snippet_label.adjustSize()
         self.snippet_label.move(9, 85)
 
-        """
-        DELETE LABEL IF UNUSED
-        self.snippet_primary_label = QLabel("OCR a snippet of the primary screen\n(Shortcut: 'P')", self)
-        self.snippet_primary_label.adjustSize()
-        self.snippet_primary_label.move(9, 138)
-        """
         #Label underneath read_image_file_button describing it's function
         self.read_file_label = QLabel("OCR a local image file.\n(Shortcut: 'F')", self)
         self.read_file_label.adjustSize()
@@ -150,7 +144,6 @@ class MainWindow(QMainWindow):
         self.lang_combos_label.setFont(self.title_font)
         self.lang_combos_label.move(625, 65)
         self.lang_combos_label.adjustSize()
-        #self.lang_combos_label.setStyleSheet("color: #05bbed;") #DELETE IF UNUSED
 
         #Dropdown menu where all saved language combinations are listed
         self.saved_lang_combos_menu = QComboBox(self)
@@ -235,15 +228,6 @@ class MainWindow(QMainWindow):
         self.set_shortcuts()
 
     def create_buttons(self):
-        """ 
-        DELETE BUTTON IF UNUSED
-        self.test_button = QPushButton(self)
-        self.test_button.setText("TEST")
-        self.test_button.setFont(self.medium_bold_font)
-        self.test_button.setGeometry(190, 170, 100, 40)
-        self.test_button.clicked.connect(self.test)
-        """
-
         #Button which lets user take a screenshot snippet of any part of the screens to extract text from
         self.snippet_button = QPushButton("Take Snippet", self)
         self.snippet_button.setFont(self.big_button_font)
@@ -394,12 +378,10 @@ class MainWindow(QMainWindow):
         if self.disable_shortcuts:
             #If user has checked the checkbox to disable shortcuts
             self.snippet_button.setShortcut("")
-            #self.snippet_primary_button.setShortcut("") #DELETE IF UNUSED
             self.read_image_file_button.setShortcut("")
         else:
             #If user has not checked the checkbox to disable shortcuts
             self.snippet_button.setShortcut("S")
-            #self.snippet_primary_button.setShortcut("P") #DELETE IF UNUSED
             self.read_image_file_button.setShortcut("F")
 
     def save_txt_clicked(self):
@@ -749,10 +731,6 @@ class MainWindow(QMainWindow):
         """
         self.snippet = CreateSnippet(self)
         self.snippet.show()
-
-
-    def test(self):
-        self.set_shortcuts()
 
 
 class CreateSnippet(QSplashScreen):
