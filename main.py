@@ -896,7 +896,7 @@ class CreateSnippet(QSplashScreen):
             #Return to MainWindow
             self.mainwindow.show()
 
-#Stores the full language names as values for corresponding language code key
+#Dictionary to convert TesseractOCR language codes to their full names
 lang_codes_dict = {
     "afr": "Afrikaans",
     "amh": "Amharic",
@@ -1073,8 +1073,10 @@ def unexpected_error(exception):
     unexpected_error_msg = QMessageBox()
     unexpected_error_msg.setIcon(QMessageBox.Critical)
     unexpected_error_msg.setText("Unexpected Error!")
+    #Print the error message(exception parameter) to messagebox
     unexpected_error_msg.setInformativeText(f"Error Message:\n'{exception}'\n\nTry deleting 'config.ini' file.")
     unexpected_error_msg.setWindowTitle("Error")
+    #Close application after messagebox is closed
     sys.exit(unexpected_error_msg.exec_())
 
 def main():
