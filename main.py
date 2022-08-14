@@ -548,32 +548,42 @@ class MainWindow(QMainWindow):
         return lang_param
     
     def set_lang_combo(self):
+        """Set saved language combination as the selected language with it's additional language parameters added."""
         if len(self.saved_lang_combos_menu) > 0:
+            #Do nothing if menu is empty
             langs = self.saved_lang_combos_menu.currentText().split("+")
+            #Set langs[0] as the main language
             self.selected_lang = self.avail_langs[langs[0]]
             self.additional_lang_set.clear()
             for lang in langs[1::]:
+                #Set every item after index 0 as an additional language
                 self.additional_lang_set.add(self.avail_langs[lang])
             self.update_lang()
             self.update_lang_param_listbox()
 
     def save_lang_combo(self):
+        """Save current language combination to config.ini."""
         if len(self.additional_lang_set) > 0:
+            #Do nothing if no additional languages has been added
             lang_combo = self.get_lang_combo()
             config.set("SAVED_LANG_COMBOS", lang_combo)
             write_config()
+            #Adds the new index to the dropdown menu of saved language combination
             self.saved_lang_combos_menu.clear()
             self.load_lang_combos()
             #Automatically selects the newly added language combo (Last index in list)
             self.saved_lang_combos_menu.setCurrentIndex(self.saved_lang_combos_menu.count()-1)
 
     def remove_lang_combo(self):
+        """Delete saved language combination from config.ini."""
         option = self.saved_lang_combos_menu.currentText()
         config.remove_option("SAVED_LANG_COMBOS", option)
         write_config()
+        #Update the dropdown menu
         self.saved_lang_combos_menu.clear()
         self.load_lang_combos()
         if len(self.saved_lang_combos_menu) == 0 and config.getboolean("USERCONFIG", "default_is_combo") is True:
+            #If there is no items left in dropdown menu, set the saved default language as default without any additional languages
             self.set_default_lang_main()
             self.additional_lang_set.clear()
         self.reset_gui()
