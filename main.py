@@ -707,10 +707,10 @@ class MainWindow(QMainWindow):
         #Paste output string to textbox without trailing whitespaces
         self.textbox.setPlainText(img_text)
         if self.auto_copy_output:
-            #If auto_copy_checkbox is checked
+            #Copy output to user clipboard if auto_copy_checkbox is checked
             self.copy_textbox_contents()
         if self.auto_save_txt:
-            #If auto
+            #Save output as txt file if save_txt_checkbox is checked
             self.save_txt_file(img_text)
         self.print_read_langs()
 
@@ -758,18 +758,22 @@ class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
     def __init__(self, mainwindow):
         super().__init__()
+        #Reference to MainWindow object
         self.mainwindow = mainwindow
 
+        #Start and end variables for snippet function
         self.origin = QPoint(0,0)
         self.end = QPoint(0,0)
 
+        #The box that shows when holding mouse down
         self.rubberband = QRubberBand(QRubberBand.Rectangle, self)
         
-        #The leftmost x-value, might be negative
+        #The leftmost x-coordinate of all monitors geometry, might be negative
         self.x_min = 0
-        #The topmost y-value, might be negative
+        #The topmost y-coordinate of all monitors geometry, might be negative
         self.y_min = 0
 
+        #Function to capture snippet
         self.dim_screen()
 
     def dim_screen(self):
@@ -778,20 +782,21 @@ class CreateSnippet(QSplashScreen):
 
         This will not work for very weird multiple-monitor positions or when difference in resolutions between monitors are too varied.
         """
-
-        screen_geometry = QGuiApplication.primaryScreen().virtualGeometry()     #Get the combined geometry of all monitors
+        #Get the combined geometry of all monitors
+        screen_geometry = QGuiApplication.primaryScreen().virtualGeometry()     
         all_screens = QGuiApplication.screens()
 
         x_values = []
         y_values = []
+        #Loop through all screens to set coordinates that matches monitor positions
         for screen in all_screens:
-            #Updates the leftmost and topmost values
+            #Updates the leftmost and topmost coordinates
             if self.x_min > screen.geometry().left():
                 self.x_min = screen.geometry().left()
             if self.y_min > screen.geometry().top():
                 self.y_min = screen.geometry().top()
 
-            #Create a list based on maximum coordinates for every monitor
+            #Create a list based on maximum x and y coordinates for every monitor
             x_values.append(screen.geometry().right())
             y_values.append(screen.geometry().bottom())
         
@@ -813,6 +818,7 @@ class CreateSnippet(QSplashScreen):
             width = screen_geometry.width()
             height = screen_geometry.height()
 
+        #Fill all screens with black color
         screen_pixelmap = QPixmap(width, height)
         screen_pixelmap.fill(QColor(0,0,0))
 
@@ -822,7 +828,9 @@ class CreateSnippet(QSplashScreen):
         self.move(avg_x, avg_y)
 
         self.setPixmap(screen_pixelmap)
+        #Minimize MainWindow so user can snippet what's behind it
         self.mainwindow.hide()
+        #Set opacity of black color to 40%
         self.setWindowOpacity(0.4)
     
     def keyPressEvent(self, event):
@@ -835,8 +843,8 @@ class CreateSnippet(QSplashScreen):
     def mousePressEvent(self, event):
         """Show rectangle at mouse position when left-clicked."""
         if event.button() == Qt.LeftButton:
+            #Get start coordinates
             self.origin = event.pos()
-
             self.rubberband.setGeometry(QRect(self.origin, QSize()))
             self.rubberband.show()
 
@@ -847,8 +855,9 @@ class CreateSnippet(QSplashScreen):
     def mouseReleaseEvent(self, event):
         """Upon mouse released, ask the main desktop's QScreen to capture screen on defined area."""
         if event.button() == Qt.LeftButton:
+            #Get end coordinates
             self.end = event.pos()
-
+            #Hide QSplashScreen
             self.rubberband.hide()
             self.hide()
 
@@ -874,14 +883,17 @@ class CreateSnippet(QSplashScreen):
             screen = QGuiApplication.primaryScreen()
             #Corrects grabWindow to the right coordinates if x_min or y_min are negative
             selected_pixel_map = screen.grabWindow(0, x_pos+self.x_min, y_pos+self.y_min, width, height)
+            #Convert QPixmap to PIL Image and OCR image
             self.mainwindow.read_image_buffer(selected_pixel_map)
             
             if self.mainwindow.auto_save_img:
+                #Save screenshot snippet as png file if save_img_textbox is checked
                 date_string = get_time_string()
                 save_path = self.mainwindow.get_save_folder("saveimgpath")
                 full_path = f"{save_path}{date_string}.png"
                 selected_pixel_map.save(full_path, "png")
 
+            #Return to MainWindow
             self.mainwindow.show()
 
 #Stores the full language names as values for corresponding language code key
