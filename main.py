@@ -669,27 +669,37 @@ class MainWindow(QMainWindow):
             self.save_img_folder_label.adjustSize()
 
     def read_image_buffer(self, pixmap):
+        """Convert QPixmap image to PIL Image and send converted image to OCR function."""
+        #Convert QPixmap to QImage
         screenshot = QImage()
         screenshot = pixmap.toImage()
         buffer = QBuffer()
         buffer.open(QBuffer.ReadWrite)
+        #Convert QImage to PIL Image
         screenshot.save(buffer, "PNG")
         newimg = Image.open(io.BytesIO(buffer.data()))
         buffer.close()
+        #Send image to OCR function
         self.ocr_image(newimg)
 
     def read_image_file(self):
+        """Send user selected image file to OCR function."""
+        #Sets the default directory to directory of last selected file (stored in config.ini)
         lastdir = config.get("USERCONFIG", "lastdir")
         file, check = QFileDialog.getOpenFileName(None, "Select File",
                                                   lastdir, "All Files (*)")
         if check:
+            #If file was selected
             get_dir = file.rsplit("/",1)[0]
+            #Save file's directory in config.ini
             config.set("USERCONFIG", "lastdir", get_dir)
             write_config()
             try:
+                #Send image to OCR function if file is a valid image
                 img = Image.open(file)
                 self.ocr_image(img)
             except:
+                #Show error message if file is not valid
                 error_msg = QMessageBox()
                 error_msg.setIcon(QMessageBox.Critical)
                 error_msg.setText("Error reading file!")
@@ -698,24 +708,22 @@ class MainWindow(QMainWindow):
                 error_msg.exec_()
 
     def ocr_image(self, image):
+        """Use TesseractOCR to extract text from image."""
+        #Set chosen language parameters
         lang_param = self.get_lang_combo()
-        print(lang_param)
         img_text = ocr.image_to_string(image, lang=lang_param).strip()
+        #Paste output string to textbox without trailing whitespaces
         self.textbox.setPlainText(img_text)
         if self.auto_copy_output:
+            #If auto_copy_checkbox is checked
             self.copy_textbox_contents()
         if self.auto_save_txt:
+            #If auto
             self.save_txt_file(img_text)
         self.print_read_langs()
 
     def print_read_langs(self):
-        #List read languages by their full name
-        #langs = self.selected_lang
-        #for lang in self.additional_lang_set:
-        #    langs += f", {lang}"
-        #self.read_langs_label.setText(f"Read Languages: {langs}")
-        
-        #List read language parameters by the parameter code
+        """Show language parameters used in OCR function in GUI."""
         langs = self.get_lang_combo()
         self.read_langs_label.setText(f"Language Parameters: {langs}")
         self.read_langs_label.adjustSize()
@@ -733,6 +741,7 @@ class MainWindow(QMainWindow):
             self.save_img_folder_label.clear()
 
     def show_help(self):
+        """Show help messagebox."""
         help_msg = QMessageBox()
         help_msg.setIcon(QMessageBox.Information)
         help_msg.setText("Extract text from an image using TesseractOCR by either taking a screenshot snippet from your screens with the application or by selecting a locally saved image file. The snippet tool may not cover all screens if monitor resolutions and positions differ wildly from each other.\n\nTo change which language to read, select the language from the list of languages with the blue text. If the language you are looking for is not in the list, it is either not supported by TesseractOCR or you have not installed the language in Tesseract.\n\nIf you want to read multiple languages you can add them from the list of available languages under 'Additional Languages' (rightmost listbox). If you want to use the language combination another time, you can save the current language combination. Language combinations are saved to the 'config.ini' file.")
