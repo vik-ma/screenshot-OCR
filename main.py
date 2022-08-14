@@ -85,13 +85,13 @@ class MainWindow(QMainWindow):
         self.ocr_label = QLabel("OCR Image", self)
         self.ocr_label.setFont(QFont("arial", 23, QFont.Bold))
         self.ocr_label.adjustSize()
-        self.ocr_label.move(9, 4)
+        self.ocr_label.move(9, 7)
         self.ocr_label.setStyleSheet("color: #e6002e;")
 
         #Label underneath snippet_button describing it's function
-        self.snippet_label = QLabel("OCR a snippet of any screen.\nMay not cover all screens if\nmonitor resolutions and positions\ndiffer wildly from each other.\n(Shortcut: 'S')", self)
+        self.snippet_label = QLabel("OCR a snippet of any screen.\n(Shortcut: 'S')", self)
         self.snippet_label.adjustSize()
-        self.snippet_label.move(9, 75)
+        self.snippet_label.move(9, 85)
 
         """
         DELETE LABEL IF UNUSED
@@ -102,7 +102,7 @@ class MainWindow(QMainWindow):
         #Label underneath read_image_file_button describing it's function
         self.read_file_label = QLabel("OCR a local image file.\n(Shortcut: 'F')", self)
         self.read_file_label.adjustSize()
-        self.read_file_label.move(9, 179)
+        self.read_file_label.move(9, 159)
 
         #The textbox where the read text gets outputted
         self.textbox = QPlainTextEdit(self)
@@ -246,7 +246,7 @@ class MainWindow(QMainWindow):
         #Button which lets user take a screenshot snippet of any part of the screens to extract text from
         self.snippet_button = QPushButton("Take Snippet", self)
         self.snippet_button.setFont(self.big_button_font)
-        self.snippet_button.setGeometry(7, 43, 178, 32)
+        self.snippet_button.setGeometry(7, 53, 178, 32)
         self.snippet_button.clicked.connect(lambda:self.new_snippet("all"))
         
         """
@@ -260,7 +260,7 @@ class MainWindow(QMainWindow):
         #Button which lets user extract text from a locally saved image file
         self.read_image_file_button = QPushButton("Read File", self)
         self.read_image_file_button.setFont(self.big_button_font)
-        self.read_image_file_button.setGeometry(7, 147, 178, 32)
+        self.read_image_file_button.setGeometry(7, 127, 178, 32)
         self.read_image_file_button.clicked.connect(self.read_image_file)
 
         #Button which lets user set the selected language as the default language to be selected when application starts up (without any additional language parameters)
