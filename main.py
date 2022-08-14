@@ -247,15 +247,7 @@ class MainWindow(QMainWindow):
         self.snippet_button = QPushButton("Take Snippet", self)
         self.snippet_button.setFont(self.big_button_font)
         self.snippet_button.setGeometry(7, 53, 178, 32)
-        self.snippet_button.clicked.connect(lambda:self.new_snippet("all"))
-        
-        """
-        DELETE BUTTON IF UNUSED
-        self.snippet_primary_button = QPushButton("Primary Screen", self)
-        self.snippet_primary_button.setFont(self.big_button_font)
-        self.snippet_primary_button.setGeometry(7, 106, 178, 32)
-        self.snippet_primary_button.clicked.connect(lambda:self.new_snippet("primary"))
-        """
+        self.snippet_button.clicked.connect(self.new_snippet)
         
         #Button which lets user extract text from a locally saved image file
         self.read_image_file_button = QPushButton("Read File", self)
@@ -748,13 +740,13 @@ class MainWindow(QMainWindow):
         help_msg.setWindowTitle("Help")
         help_msg.exec_()
 
-    def new_snippet(self, monitor):
+    def new_snippet(self):
         """
         Create dim Splashscreen object and show dim Splashscreen.
 
         Also responsible for tracking mouse and capturing screenshot.
         """
-        self.snippet = CreateSnippet(monitor, self)
+        self.snippet = CreateSnippet(self)
         self.snippet.show()
 
 
@@ -764,7 +756,7 @@ class MainWindow(QMainWindow):
 
 class CreateSnippet(QSplashScreen):
     """QSplashScreen, that track mouse event for capturing screenshot."""
-    def __init__(self, monitor, mainwindow):
+    def __init__(self, mainwindow):
         super().__init__()
         self.mainwindow = mainwindow
 
@@ -778,28 +770,13 @@ class CreateSnippet(QSplashScreen):
         #The topmost y-value, might be negative
         self.y_min = 0
 
-        #Variable 'monitor' specifies which screens(s) to draw Splashscreen on
-        if monitor == "all":
-            self.dim_screen_all()
-        elif monitor == "primary":
-            self.dim_screen_primary()
+        self.dim_screen()
 
-    #DELETE IF UNUSED
-    def dim_screen_primary(self):
-        """Fill splashScreen with black color and reduce the widget opacity to create dim screen effect on only the primary screen."""
-
-        screen_geometry = QGuiApplication.primaryScreen().geometry()
-        screen_pixelmap = QPixmap(screen_geometry.width(), screen_geometry.height())
-        screen_pixelmap.fill(QColor(0,0,0))
-        self.setPixmap(screen_pixelmap)
-        self.mainwindow.hide()
-        self.setWindowOpacity(0.4)
-
-    def dim_screen_all(self):
+    def dim_screen(self):
         """
         Fill splashScreen with black color and reduce the widget opacity to create dim screen effect on all screens.
 
-        This will not work for very weird multiple-monitor positions or difference in resolutions between monitors.
+        This will not work for very weird multiple-monitor positions or when difference in resolutions between monitors are too varied.
         """
 
         screen_geometry = QGuiApplication.primaryScreen().virtualGeometry()     #Get the combined geometry of all monitors
