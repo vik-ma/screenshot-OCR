@@ -294,7 +294,7 @@ class MainWindow(QMainWindow):
         self.save_lang_combo_default_button = QPushButton("Set Combo As Default", self)
         self.save_lang_combo_default_button.setFont(self.small_bold_font)
         self.save_lang_combo_default_button.setGeometry(625, 145, 190, self.small_button_height)
-        self.save_lang_combo_default_button.clicked.connect(self.save_lang_combo_default)
+        self.save_lang_combo_default_button.clicked.connect(self.set_lang_combo_default)
 
         #Button which deletes a saved language combination from config.ini
         self.remove_lang_combo_button = QPushButton("Delete Language Combo", self)
@@ -588,11 +588,13 @@ class MainWindow(QMainWindow):
             self.additional_lang_set.clear()
         self.reset_gui()
 
-    def save_lang_combo_default(self):
+    def set_lang_combo_default(self):
+        """Set selected language combination as default selection in config.ini."""
         if len(self.saved_lang_combos_menu) > 0:
             lang_combo = self.get_lang_combo()
-            config.set("USERCONFIG", "default_lang_combo", lang_combo)
+            #Change boolean to load additional languages to true and save the language combination
             config.set("USERCONFIG", "default_is_combo", str(True))
+            config.set("USERCONFIG", "default_lang_combo", lang_combo)
             write_config()
 
     def reset_gui(self):
