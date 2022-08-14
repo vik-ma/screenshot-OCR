@@ -68,7 +68,6 @@ class MainWindow(QMainWindow):
         self.s_s_y_pos = 261
         #Settings section y-offset between items
         self.s_s_y_offset = 21
-
         #Height for buttons with small_bold_font
         self.small_button_height = 24
 
@@ -160,13 +159,10 @@ class MainWindow(QMainWindow):
 
         #Set to store added language parameters
         self.additional_lang_set = set()
-
         #Dictionary of available languages in Tesseract installation (k = Tesseract langcode, v = Full language name)
         self.avail_langs = {}
-
         #Dictionary of available languages in Tesseract installation (k = Full language name, v = Tesseract langcode)            
         self.avail_langs_swapped = {}
-
         #Indexed list of alphabetically sorted available full language names   
         self.avail_langs_index = []
         
@@ -189,7 +185,7 @@ class MainWindow(QMainWindow):
         self.read_langs_label.setFont(self.title_font)
         self.read_langs_label.setStyleSheet("color: #e6002e;")
         
-        #Creates all buttons in the applications
+        #Creates all buttons in the application
         self.create_buttons()
     
         #Title for section relating to user settings
@@ -629,10 +625,16 @@ class MainWindow(QMainWindow):
             self.update_save_folder(cfg_var, folder)
     
     def reset_save_folder(self, cfg_var):
-        """Delete value for specified savefolder variable in config.ini."""
-        config.set("USERCONFIG", cfg_var, "")
-        write_config()
-        self.update_save_folder(cfg_var, "")
+        """Delete value for specified savefolder variable in config.ini if user selects Yes."""
+        if cfg_var == "savetxtpath":
+            filetype = "text files"
+        elif cfg_var == "saveimgpath":
+            filetype = "images"
+        self.confirmbox = QMessageBox().question(self, "Reset Save Folder", f"Are you sure you want reset save folder for {filetype}?", QMessageBox().Yes | QMessageBox().No)
+        if self.confirmbox == QMessageBox.Yes:
+            config.set("USERCONFIG", cfg_var, "")
+            write_config()
+            self.update_save_folder(cfg_var, "")
 
     def update_save_folder(self, cfg_var, value):
         """Update GUI label associated with specified savefolder variable."""
