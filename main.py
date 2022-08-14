@@ -49,6 +49,7 @@ else:
     write_config()
 
 class MainWindow(QMainWindow):
+    """Construct the GUI for the application."""
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Screenshot OCR")
@@ -1027,6 +1028,11 @@ lang_codes_dict = {
 }
 
 class ErrorWindow(QWidget):
+    """
+    Window to show error if path to TesseractOCR.exe is not valid.
+    
+    Lets user specify path to TesseractOCR.exe via QFileDialog.
+    """
     def __init__(self):
         super().__init__()
         #Error message if no installation of Tesseract is found in set path
