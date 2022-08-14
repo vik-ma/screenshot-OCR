@@ -598,6 +598,7 @@ class MainWindow(QMainWindow):
             write_config()
 
     def reset_gui(self):
+        """Update all language related components in GUI to the saved default values in config.ini."""
         self.additional_lang_set.clear()
         self.update_lang_param_listbox()
         self.update_all_lang_selection()
@@ -605,48 +606,61 @@ class MainWindow(QMainWindow):
         self.update_lang()
 
     def clear_textbox(self):
+        """Empty textbox and read_langs_label."""
         self.textbox.clear()
         self.read_langs_label.clear()
 
     def copy_textbox_contents(self):
+        """Copy contents of textbox to user clipboard."""
         if self.textbox.toPlainText() != "":
+            #Do nothing if textbox is empty
             clipboard = QApplication.clipboard()
             clipboard.setText(self.textbox.toPlainText())
         
     def set_textbox_readonly(self):
+        """Enable or disable ReadOnly for textbox."""
         if self.textbox.isReadOnly() is True:
             self.textbox.setReadOnly(False)
         else:
             self.textbox.setReadOnly(True)
 
     def save_txt_file(self, output):
+        """Save contents of textbox to txt file."""
+        #Name txt file after current datetime
         date_string = get_time_string()
+        #Set savepath based on user specified save folder
         save_path = self.get_save_folder("savetxtpath")
         full_path = f"{save_path}{date_string}.txt"
         if output != "":
+            #Don't save if textbox is empty
             with open(full_path, "w", encoding="utf-8") as file:
                 file.write(output)
 
-    def get_save_folder(self, cfg_var):
+    def get_save_folder(self, cfg_var) -> str:
+        """Return formatted savepath for specified savefolder variable in config.ini."""
         save_path = config.get("USERCONFIG", cfg_var)
         if save_path != "":
+            #Append forward-slash if user have specified custom save folder
             save_path = save_path+"/"
         return save_path
 
     def set_save_folder(self, cfg_var):
+        """Save user selected folder to specified savefolder variable in config.ini."""
         folder = QFileDialog.getExistingDirectory(None, "Select Folder")
-
         if folder != "":
+            #Do nothing if user cancels filedialog
             config.set("USERCONFIG", cfg_var, folder)
             write_config()
             self.update_save_folder(cfg_var, folder)
     
     def reset_save_folder(self, cfg_var):
+        """Delete value for specified savefolder variable in config.ini."""
         config.set("USERCONFIG", cfg_var, "")
         write_config()
         self.update_save_folder(cfg_var, "")
 
     def update_save_folder(self, cfg_var, value):
+        """Update GUI label associated with specified savefolder variable."""
         if cfg_var == "savetxtpath":
             self.save_txt_folder_label.setText(value)
             self.save_txt_folder_label.adjustSize()
