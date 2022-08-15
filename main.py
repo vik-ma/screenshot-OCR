@@ -626,15 +626,17 @@ class MainWindow(QMainWindow):
     
     def reset_save_folder(self, cfg_var):
         """Delete value for specified savefolder variable in config.ini if user selects Yes."""
-        if cfg_var == "savetxtpath":
-            filetype = "text files"
-        elif cfg_var == "saveimgpath":
-            filetype = "images"
-        confirmbox = QMessageBox().question(self, "Reset Save Folder", f"Are you sure you want reset save folder for {filetype}?", QMessageBox().Yes | QMessageBox().No)
-        if confirmbox == QMessageBox.Yes:
-            config.set("USERCONFIG", cfg_var, "")
-            write_config()
-            self.update_save_folder(cfg_var, "")
+        if config.get("USERCONFIG", cfg_var) != "":
+            #Do nothing if custom save folder has not been set
+            if cfg_var == "savetxtpath":
+                filetype = "text files"
+            elif cfg_var == "saveimgpath":
+                filetype = "images"
+            confirmbox = QMessageBox().question(self, "Reset Save Folder", f"Are you sure you want reset save folder for {filetype}?", QMessageBox().Yes | QMessageBox().No)
+            if confirmbox == QMessageBox.Yes:
+                config.set("USERCONFIG", cfg_var, "")
+                write_config()
+                self.update_save_folder(cfg_var, "")
 
     def update_save_folder(self, cfg_var, value):
         """Update GUI label associated with specified savefolder variable."""
