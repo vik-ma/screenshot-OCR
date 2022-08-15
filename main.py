@@ -97,12 +97,6 @@ class MainWindow(QMainWindow):
         self.read_file_label = QLabel("OCR a local image file.\n(Shortcut: 'F')", self)
         self.read_file_label.adjustSize()
         self.read_file_label.move(9, 159)
-
-        #The textbox where the read text gets outputted
-        self.textbox = QPlainTextEdit(self)
-        self.textbox.setFont(self.textbox_font)
-        self.textbox.setGeometry(320, 200, 500, 200)
-        self.textbox.setReadOnly(True)
         
         #Title for lang_listbox in blue text
         self.lang_title_label = QLabel("Language", self)
@@ -222,6 +216,12 @@ class MainWindow(QMainWindow):
         self.create_checkboxes()
         #Sets keyboard shortcuts
         self.set_shortcuts()
+
+        #The textbox where the read text gets outputted
+        self.textbox = QPlainTextEdit(self)
+        self.textbox.setFont(self.textbox_font)
+        self.textbox.setGeometry(320, 200, 500, 200)
+        self.textbox.setReadOnly(True)
 
     def create_buttons(self):
         #Button which lets user take a screenshot snippet of any part of the screens to extract text from
