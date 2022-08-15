@@ -611,7 +611,10 @@ class MainWindow(QMainWindow):
         """Return formatted savepath for specified savefolder variable in config.ini."""
         save_path = config.get("USERCONFIG", cfg_var)
         if save_path != "":
-            #Append forward-slash if user have specified custom save folder
+            if pathlib.Path(save_path).exists() is False:
+                #Create directory if it doesn't exist
+                pathlib.Path(save_path).mkdir(parents=True)
+            #Append forward-slash if user has specified custom save folder
             save_path = save_path+"/"
         return save_path
 
