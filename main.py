@@ -88,12 +88,12 @@ class MainWindow(QMainWindow):
         self.ocr_label.move(9, 7)
         self.ocr_label.setStyleSheet("color: #e6002e;")
 
-        #Label underneath snippet_button describing it's function
+        #Label underneath snippet_button describing its function
         self.snippet_label = QLabel("OCR a snippet of any screen.\n(Shortcut: 'S')", self)
         self.snippet_label.adjustSize()
         self.snippet_label.move(9, 85)
 
-        #Label underneath read_image_file_button describing it's function
+        #Label underneath read_image_file_button describing its function
         self.read_file_label = QLabel("OCR a local image file.\n(Shortcut: 'F')", self)
         self.read_file_label.adjustSize()
         self.read_file_label.move(9, 159)
@@ -173,7 +173,7 @@ class MainWindow(QMainWindow):
         #Updates main_lang_label
         self.update_lang()
 
-        #Label that lists the the language parameters used on an image after it's been read
+        #Label that lists the the language parameters used on an image after its been read
         self.read_langs_label = QLabel(self)
         self.read_langs_label.move(321, 401)
         self.read_langs_label.setFont(self.title_font)
@@ -424,7 +424,7 @@ class MainWindow(QMainWindow):
             self.avail_langs_index.append(self.avail_langs[lang])
         #Sorts the language names alphabetically
         self.avail_langs_index.sort(key=str.casefold)
-        #Swaps the 'self.avail_langs' values with it's keys
+        #Swaps the 'self.avail_langs' values with its keys
         self.avail_langs_swapped = dict([(value, key) for key, value in self.avail_langs.items()])
         
         #Adds all available languages to lang_listbox and add_lang_listbox
@@ -519,7 +519,7 @@ class MainWindow(QMainWindow):
         return lang_param
     
     def set_lang_combo(self):
-        """Set saved language combination as the selected language with it's additional language parameters added."""
+        """Set saved language combination as the selected language with its additional language parameters added."""
         if len(self.saved_lang_combos_menu) > 0:
             #Do nothing if menu is empty
             langs = self.saved_lang_combos_menu.currentText().split("+")
