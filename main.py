@@ -1,6 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QGridLayout, QLineEdit, QPlainTextEdit, QListWidget, QMessageBox, QErrorMessage, QFileDialog, QComboBox, QStatusBar, QCheckBox
-from PyQt5.QtGui import QFont, QPixmap, QColor, QWindow, QMouseEvent, QGuiApplication, QClipboard, QImage
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QPlainTextEdit, QListWidget, QMessageBox, QFileDialog, QComboBox, QCheckBox
+from PyQt5.QtGui import QFont, QPixmap, QColor, QGuiApplication, QImage
 from PyQt5.QtCore import QPoint, Qt, QRect, QSize, QBuffer
 from PIL import Image
 import pytesseract as ocr
