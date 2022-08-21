@@ -82,7 +82,7 @@ class MainWindow(QMainWindow):
         self.small_font = QFont("arial", 10)
 
         #Title label for the application in red text
-        self.ocr_label = QLabel("OCR Image", self)
+        self.ocr_label = QLabel("Image OCR", self)
         self.ocr_label.setFont(QFont("arial", 23, QFont.Bold))
         self.ocr_label.adjustSize()
         self.ocr_label.move(9, 7)
