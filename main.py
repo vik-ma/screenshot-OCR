@@ -34,16 +34,27 @@ else:
     config.add_section("DEFAULT")
     config.add_section("USERCONFIG")
     for section in config.sections():
+        #Path to TesseractOCR.exe
         config.set(section, "tesseract_path", str(ocr.pytesseract.tesseract_cmd))
+        #Language to be automatically selected on application launch if default_is_combo is False
         config.set(section, "default_lang_main", "English")
+        #Setting to load saved language combination instead of just one language if True
         config.set(section, "default_is_combo", str(False))
+        #Language combination to be automatically selected on application launch if default_is_combo is True
         config.set(section, "default_lang_combo", "")
+        #Last directory of file selected from read_image_file function
         config.set(section, "lastdir", str(DESKTOP))
+        #Setting to automatically save OCR output as txt file if True
         config.set(section, "autosavetxt", str(False))
+        #Setting to save screenshot snippet as png file if True
         config.set(section, "autosaveimg", str(False))
+        #Setting to automatically copy OCR output to user clipboard if True
         config.set(section, "autocopy", str(False))
+        #Setting to disable all keyboard shortcut in application if True
         config.set(section, "disable_shortcuts", str(False))
+        #Custom save folder for saved txt files (Default is root folder of application)
         config.set(section, "savetxtpath", "")
+        #Custom save folder for saved image files (Default is root folder of application)
         config.set(section, "saveimgpath", "")
     config.add_section("SAVED_LANG_COMBOS")
     write_config()
