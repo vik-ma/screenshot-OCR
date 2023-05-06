@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QPlainTextEdit, QListWidget, QMessageBox, QFileDialog, QComboBox, QCheckBox
-from PyQt5.QtGui import QFont, QPixmap, QColor, QGuiApplication, QImage
+from PyQt5.QtGui import QFont, QPixmap, QColor, QGuiApplication, QImage, QIcon
 from PyQt5.QtCore import QPoint, Qt, QRect, QSize, QBuffer
 from PIL import Image
 import pytesseract as ocr
@@ -63,6 +63,7 @@ class MainWindow(QMainWindow):
     """Construct the GUI for the application."""
     def __init__(self):
         super().__init__()
+        self.setWindowIcon(QIcon('screenshot_ocr-icon.png'))
         self.setWindowTitle("Screenshot OCR")
         self.setGeometry(0, 0, 830, 460)
 

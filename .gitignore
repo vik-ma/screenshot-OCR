@@ -4,3 +4,4 @@ lang-codes.txt
 config.ini
 *.png
 *.txt
+!screenshot_ocr-icon.png
