@@ -98,15 +98,15 @@ class MainWindow(QMainWindow):
         self.ocr_label.setFont(QFont("arial", 23, QFont.Bold))
         self.ocr_label.adjustSize()
         self.ocr_label.move(9, 7)
-        self.ocr_label.setStyleSheet("color: #e6002e;")
+        self.ocr_label.setStyleSheet("color: #fa0032;")
 
         #Label underneath snippet_button describing its function
-        self.snippet_label = QLabel("OCR a snippet of any screen.\n(Shortcut: 'S')", self)
+        self.snippet_label = QLabel("OCR from a snippet of any screen\n(Shortcut: 'S')", self)
         self.snippet_label.adjustSize()
         self.snippet_label.move(9, 85)
 
         #Label underneath read_image_file_button describing its function
-        self.read_file_label = QLabel("OCR a local image file.\n(Shortcut: 'F')", self)
+        self.read_file_label = QLabel("OCR from a local image file\n(Shortcut: 'F')", self)
         self.read_file_label.adjustSize()
         self.read_file_label.move(9, 159)
         
@@ -155,7 +155,7 @@ class MainWindow(QMainWindow):
         self.saved_lang_combos_menu.setGeometry(625, 85, 190, 25)
         self.saved_lang_combos_menu.setFont(self.dropdown_font)
         self.saved_lang_combos_menu.activated.connect(self.set_lang_combo)
-        self.saved_lang_combos_menu.setStyleSheet("color: #020ca8;")
+        self.saved_lang_combos_menu.setStyleSheet("color: #0032bd;")
 
         #Label where the selected main language is displayed in blue text
         self.main_lang_label = QLabel(self)
@@ -213,7 +213,7 @@ class MainWindow(QMainWindow):
         self.save_txt_folder_label.move(10, self.s_s_y_pos+self.s_s_y_offset*2+3)
         self.save_txt_folder_label.setText(config.get("USERCONFIG", "savetxtpath"))
         self.save_txt_folder_label.adjustSize()
-        self.save_txt_folder_label.setStyleSheet("color: #020ca8;")
+        self.save_txt_folder_label.setStyleSheet("color: #0032bd;")
 
         #Label that shows the folder that images created by the applications will be saved to
         #Will show nothing if user has not specified a folder 
@@ -222,7 +222,7 @@ class MainWindow(QMainWindow):
         self.save_img_folder_label.move(10, self.s_s_y_pos+self.s_s_y_offset*5+3)
         self.save_img_folder_label.setText(config.get("USERCONFIG", "saveimgpath"))
         self.save_img_folder_label.adjustSize()
-        self.save_img_folder_label.setStyleSheet("color: #020ca8;")
+        self.save_img_folder_label.setStyleSheet("color: #0032bd;")
 
         #Creates all checkboxes in applications and assigns their saved values
         self.create_checkboxes()
