@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QDesktopWidget, QPushButton, QSplashScreen, QRubberBand, QPlainTextEdit, QListWidget, QMessageBox, QFileDialog, QComboBox, QCheckBox
-from PyQt5.QtGui import QFont, QPixmap, QColor, QGuiApplication, QImage, QIcon
+from PyQt5.QtGui import QFont, QPixmap, QColor, QGuiApplication, QImage, QIcon, QCursor
 from PyQt5.QtCore import QPoint, Qt, QRect, QSize, QBuffer
 from PIL import Image
 import pytesseract as ocr
@@ -240,12 +240,14 @@ class MainWindow(QMainWindow):
         self.snippet_button = QPushButton("Take Snippet", self)
         self.snippet_button.setFont(self.big_button_font)
         self.snippet_button.setGeometry(7, 53, 178, 32)
+        self.snippet_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.snippet_button.clicked.connect(self.new_snippet)
         
         #Button which lets user extract text from a locally saved image file
         self.read_image_file_button = QPushButton("Read File", self)
         self.read_image_file_button.setFont(self.big_button_font)
         self.read_image_file_button.setGeometry(7, 127, 178, 32)
+        self.read_image_file_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.read_image_file_button.clicked.connect(self.read_image_file)
 
         #Button which lets user set the selected language as the default language to be selected when application starts up (without any additional language parameters)
@@ -253,6 +255,7 @@ class MainWindow(QMainWindow):
         self.set_default_lang_button.setFont(self.small_bold_font)
         self.set_default_lang_button.setGeometry(190, 145, 130, 60)
         self.set_default_lang_button.adjustSize()
+        self.set_default_lang_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.set_default_lang_button.clicked.connect(self.set_default_lang_main)
 
         #Button which lets user add a different language as a parameter
@@ -260,6 +263,7 @@ class MainWindow(QMainWindow):
         self.add_lang_button.setFont(self.small_bold_font)
         self.add_lang_button.setGeometry(476, 145, 130, 60)
         self.add_lang_button.adjustSize()
+        self.add_lang_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.add_lang_button.clicked.connect(self.add_lang_param)
 
         #Button which lets user remove a previously added language parameter
@@ -267,24 +271,28 @@ class MainWindow(QMainWindow):
         self.remove_add_lang_button.setFont(self.small_bold_font)
         self.remove_add_lang_button.setGeometry(333, 145, 130, 60)
         self.remove_add_lang_button.adjustSize()
+        self.remove_add_lang_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.remove_add_lang_button.clicked.connect(self.remove_lang_param)
 
         #Button which lets user save a combination of language parameters in config.ini
         self.save_lang_combo_button = QPushButton("Save Language Combo", self)
         self.save_lang_combo_button.setFont(self.small_bold_font)
         self.save_lang_combo_button.setGeometry(625, 31, 190, self.small_button_height)
+        self.save_lang_combo_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.save_lang_combo_button.clicked.connect(self.save_lang_combo)
 
         #Button which lets user set a saved language combination as default selection when application is launched
         self.save_lang_combo_default_button = QPushButton("Set Combo As Default", self)
         self.save_lang_combo_default_button.setFont(self.small_bold_font)
         self.save_lang_combo_default_button.setGeometry(625, 145, 190, self.small_button_height)
+        self.save_lang_combo_default_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.save_lang_combo_default_button.clicked.connect(self.set_lang_combo_default)
 
         #Button which deletes a saved language combination from config.ini
         self.remove_lang_combo_button = QPushButton("Delete Language Combo", self)
         self.remove_lang_combo_button.setFont(self.small_bold_font)
         self.remove_lang_combo_button.setGeometry(625, 118, 190, self.small_button_height)
+        self.remove_lang_combo_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.remove_lang_combo_button.clicked.connect(self.remove_lang_combo)
 
         #Button which copies the contents of textbox to user's clipboard
@@ -292,6 +300,7 @@ class MainWindow(QMainWindow):
         self.copy_button.setFont(self.big_button_font)
         self.copy_button.setGeometry(320, 422, 130, 60)
         self.copy_button.adjustSize()
+        self.copy_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.copy_button.clicked.connect(self.copy_textbox_contents)
 
         #Button turns read-only on or off for textbox
@@ -299,6 +308,7 @@ class MainWindow(QMainWindow):
         self.edit_textbox_button.setFont(self.big_button_font)
         self.edit_textbox_button.setGeometry(400, 422, 130, 60)
         self.edit_textbox_button.adjustSize()
+        self.edit_textbox_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.edit_textbox_button.clicked.connect(self.set_textbox_readonly)
 
         #Button that clears the textbox and read_langs label
@@ -306,6 +316,7 @@ class MainWindow(QMainWindow):
         self.clear_button.setFont(self.big_button_font)
         self.clear_button.setGeometry(480, 422, 130, 60)
         self.clear_button.adjustSize()
+        self.clear_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.clear_button.clicked.connect(self.clear_textbox)
         
         #Button that  prints out the output of the textbox to a txt-file
@@ -313,6 +324,7 @@ class MainWindow(QMainWindow):
         self.save_txt_button.setFont(self.big_button_font)
         self.save_txt_button.setGeometry(632, 422, 130, 60)
         self.save_txt_button.adjustSize()
+        self.save_txt_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.save_txt_button.clicked.connect(lambda:self.save_txt_file(self.textbox.toPlainText()))
         
         #Button that restores all user settings to their default values
@@ -320,30 +332,35 @@ class MainWindow(QMainWindow):
         self.restore_default_cfg_button.setFont(self.small_bold_font)
         self.restore_default_cfg_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*8, 210, 22)
         self.restore_default_cfg_button.adjustSize()
+        self.restore_default_cfg_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.restore_default_cfg_button.clicked.connect(self.restore_default_config)
 
         #Button which lets user specify the folder that all text files created by the application are saved to
         self.set_path_txt_button = QPushButton("Save text files to specific folder", self)
         self.set_path_txt_button.setFont(self.small_bold_font)
         self.set_path_txt_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*1-2, 210, self.small_button_height)
+        self.set_path_txt_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.set_path_txt_button.clicked.connect(lambda:self.set_save_folder("savetxtpath"))
 
         #Button which lets user specify the folder that all images created by the application are saved to
         self.set_path_img_button = QPushButton("Save images to specific folder", self)
         self.set_path_img_button.setFont(self.small_bold_font)
         self.set_path_img_button.setGeometry(8, self.s_s_y_pos+self.s_s_y_offset*4-2, 210, self.small_button_height)
+        self.set_path_img_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.set_path_img_button.clicked.connect(lambda:self.set_save_folder("saveimgpath"))
 
         #Button that resets specified folder to save text files in to default
         self.reset_path_txt_button = QPushButton("Reset", self)
         self.reset_path_txt_button.setFont(self.small_bold_font)
         self.reset_path_txt_button.setGeometry(265, self.s_s_y_pos+self.s_s_y_offset*1-2, 50, self.small_button_height)
+        self.reset_path_txt_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.reset_path_txt_button.clicked.connect(lambda:self.reset_save_folder("savetxtpath"))
 
         #Button that resets specified folder to save images in to default
         self.reset_path_img_button = QPushButton("Reset", self)
         self.reset_path_img_button.setFont(self.small_bold_font)
         self.reset_path_img_button.setGeometry(265, self.s_s_y_pos+self.s_s_y_offset*4-2, 50, self.small_button_height)
+        self.reset_path_img_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.reset_path_img_button.clicked.connect(lambda:self.reset_save_folder("saveimgpath"))
 
         #Button that shows a help-message
