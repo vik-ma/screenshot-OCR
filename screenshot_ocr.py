@@ -807,6 +807,9 @@ class CreateSnippet(QSplashScreen):
         screen_geometry = QGuiApplication.primaryScreen().virtualGeometry()     
         all_screens = QGuiApplication.screens()
 
+        #Change cursor to cross when inside snippet functionality
+        self.setCursor(QCursor(Qt.CrossCursor))
+        
         x_values = []
         y_values = []
         #Loop through all screens to set coordinates that matches monitor positions
