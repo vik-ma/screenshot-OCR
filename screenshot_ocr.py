@@ -154,6 +154,7 @@ class MainWindow(QMainWindow):
         self.saved_lang_combos_menu = QComboBox(self)
         self.saved_lang_combos_menu.setGeometry(625, 85, 190, 25)
         self.saved_lang_combos_menu.setFont(self.dropdown_font)
+        self.saved_lang_combos_menu.setCursor(QCursor(Qt.PointingHandCursor))
         self.saved_lang_combos_menu.activated.connect(self.set_lang_combo)
         self.saved_lang_combos_menu.setStyleSheet("color: #0032bd;")
 
@@ -367,6 +368,7 @@ class MainWindow(QMainWindow):
         self.help_button = QPushButton("Help", self)
         self.help_button.setFont(QFont("arial", 13, QFont.Bold))
         self.help_button.setGeometry(7, 210, 66, 27)
+        self.help_button.setCursor(QCursor(Qt.WhatsThisCursor))
         self.help_button.clicked.connect(self.show_help)
 
     def create_checkboxes(self):
@@ -375,6 +377,7 @@ class MainWindow(QMainWindow):
         self.save_txt_checkbox.move(10, self.s_s_y_pos)
         self.save_txt_checkbox.adjustSize()
         self.save_txt_checkbox.setChecked(self.auto_save_txt)
+        self.save_txt_checkbox.setCursor(QCursor(Qt.PointingHandCursor))
         self.save_txt_checkbox.stateChanged.connect(self.save_txt_clicked)
 
         #Checkbox that will automatically create a png file of the selected screenshot snippet when checked
@@ -382,6 +385,7 @@ class MainWindow(QMainWindow):
         self.save_img_checkbox.move(10, self.s_s_y_pos+self.s_s_y_offset*3)
         self.save_img_checkbox.adjustSize()
         self.save_img_checkbox.setChecked(self.auto_save_img)
+        self.save_img_checkbox.setCursor(QCursor(Qt.PointingHandCursor))
         self.save_img_checkbox.stateChanged.connect(self.save_img_clicked)
 
         #Checkbox that will automatically copy the text of a read image to the user's clipboard when checked
@@ -389,6 +393,7 @@ class MainWindow(QMainWindow):
         self.auto_copy_checkbox.move(10, self.s_s_y_pos+self.s_s_y_offset*6)
         self.auto_copy_checkbox.adjustSize()
         self.auto_copy_checkbox.setChecked(self.auto_copy_output)
+        self.auto_copy_checkbox.setCursor(QCursor(Qt.PointingHandCursor))
         self.auto_copy_checkbox.stateChanged.connect(self.auto_copy_clicked)
 
         #Checkbox that will turn off all keyboard shortcuts when checked
@@ -396,6 +401,7 @@ class MainWindow(QMainWindow):
         self.disable_shortcuts_checkbox.move(10, self.s_s_y_pos+self.s_s_y_offset*7)
         self.disable_shortcuts_checkbox.adjustSize()
         self.disable_shortcuts_checkbox.setChecked(self.disable_shortcuts)
+        self.disable_shortcuts_checkbox.setCursor(QCursor(Qt.PointingHandCursor))
         self.disable_shortcuts_checkbox.stateChanged.connect(self.disable_shortcuts_clicked)
 
     def set_shortcuts(self):
