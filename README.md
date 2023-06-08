@@ -2,6 +2,8 @@
 
 **Screenshot OCR** is a desktop GUI frontend for Tesseract OCR Engine made for Windows. The application allows the user to select a snippet of their screen, automatically execute Tesseract and extract the text from the snippet.
 
+![Screenshot OCR Preview](screenshot-ocr-preview.gif)
+
 ## **Features**
 
 - **Select a snippet of your screen to perform OCR on, without needing to save or load an image**
